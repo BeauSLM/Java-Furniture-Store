@@ -7,43 +7,79 @@ import java.util.*;
  * Class for main, handles input and output using the terminal.
  */
 public class Program {
+    private DatabaseAccess database;
+    private String category;
+    private String type;
+    private int numOfItems;
+
     /**
      * The entry point of application.
      *
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        Manufacturer manufacturers[] = null;
-        Desk desks[] = null;
-        Lamp lamps[] = null;
-        Chair chairs[] = null;
+        System.out.println("When prompted to enter, enter the necessary information, then press return.");
+        Program testRun = new Program();
+        testRun.accessSQL();
+        testRun.userInput();
+        testRun.calculateCheapestOption();
+    }
 
-        String username;
-        String password;
-        String URL;
+    //default constructor - unused atm
+    public Program(){
+    }
 
-        System.out.println("When prompted to enter, enter the necessary informatiion, then press return.");
-
+    public void accessSQL(){
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter your username: ");
-        username = scanner.nextLine().strip();
+        String username = scanner.nextLine().strip();
+
         System.out.println("Enter your password: ");
-        password = scanner.nextLine().strip();
-        System.out.println("Enter your db URL, or press return ONCE for the default: ");
+        String password = scanner.nextLine().strip();
+
+        System.out.println("Enter your database URL, or press return ONCE for the default: ");
         String tmp = scanner.nextLine().strip();
+        String url;
         if (tmp.equals("")) {
-            URL = "jdbc:mysql://localhost/inventory";
+            url = "jdbc:mysql://localhost/inventory";
         } else {
-            URL = new String(tmp);
+            url = new String(tmp);
+        }
+        scanner.close();
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
+        System.out.println("Url: " + url);
+
+        System.out.println("\nAccessing database...");
+        database = new DatabaseAccess(username, password, url);
+        System.out.println("Program successfully accessed database.");
+    }
+
+    public void userInput(){
+        Scanner scanner = new Scanner(System.in);
+        while(true) {
+            System.out.println("Enter the furniture category: (Chair, Desk, Lamp, Filing)");
+            category = scanner.nextLine().strip();
+            if(category.equals("Chair") || category.equals("Desk") ||
+                    category.equals("Lamp") || category.equals("Filing")) {
+                break;
+            }
         }
 
+        System.out.println("Enter the type of " + category + ": ");
+        type = scanner.nextLine().strip();
+
+        System.out.println("Enter the number of items:");
+        numOfItems = Integer.parseInt(scanner.nextLine().strip());
+
         scanner.close();
+        System.out.println("Category: " + category);
+        System.out.println("Type: " + type);
+        System.out.println("Number of Items: " + numOfItems);
+    }
 
-        System.out.println("username: " + username);
-        System.out.println("password: " + password);
-        System.out.println("Url is: " + URL);
+    public void calculateCheapestOption(){
 
-        DatabaseAccess dBConnect = new DatabaseAccess(username, password, URL);
     }
 }
