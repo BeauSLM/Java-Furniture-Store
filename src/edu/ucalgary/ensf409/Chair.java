@@ -13,7 +13,7 @@ public class Chair extends Furniture {
 
     /**
      * Constructor for the Child Class Chair.
-     * @param ID        ID of the Chair.
+     * @param id        ID of the Chair.
      * @param type      Type of the Chair.
      * @param price     Price tag of the Chair.
      * @param manuID    Manufacturer ID of the Chair.
@@ -22,10 +22,10 @@ public class Chair extends Furniture {
      * @param seat      Boolean that indicates if the seat of the Chair is usable.
      * @param cushion   Boolean that indicates if the cushion of the Chair is usable.
      */
-    public Chair(String ID, String type, int price, String manuID, boolean legs, boolean arms,
+    public Chair(String id, String type, int price, String manuID, boolean legs, boolean arms,
                  boolean seat, boolean cushion) {
 
-        super(ID, type, price, manuID);
+        super(id, type, price, manuID);
         this.legs = legs;
         this.arms = arms;
         this.seat = seat;

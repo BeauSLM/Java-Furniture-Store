@@ -11,7 +11,7 @@ public class Filing extends Furniture {
 
     /**
      * Constructor for the Child Class Filing
-     * @param ID        ID of the Filing Cabinet
+     * @param id        ID of the Filing Cabinet
      * @param type      Type of the Filing Cabinet
      * @param price     Price of the Filing Cabinet
      * @param manuID    Manufacturer ID of the Filing Cabinet
@@ -19,9 +19,9 @@ public class Filing extends Furniture {
      * @param drawers   Boolean that is used to indicate if the drawers are usable
      * @param cabinet   Boolean that is used to indicate if the cabinet is usable
      */
-    public Filing(String ID, String type, int price, String manuID, boolean rails, boolean drawers,
+    public Filing(String id, String type, int price, String manuID, boolean rails, boolean drawers,
                  boolean cabinet) {
-        super(ID, type, price, manuID);
+        super(id, type, price, manuID);
         this.rails = rails;
         this.drawers = drawers;
         this.cabinet = cabinet;

@@ -12,7 +12,7 @@ public class Desk extends Furniture {
 
     /**
      * Constructor for Child Class Desk
-     * @param ID        ID of the Desk
+     * @param id        ID of the Desk
      * @param type      Type of the Desk
      * @param price     Price tag of the Desk
      * @param manuID    Manufacturer ID of the Desk
@@ -20,8 +20,8 @@ public class Desk extends Furniture {
      * @param top       Boolean that indicates if the Top is usable
      * @param drawer    Boolean that indicates if the Drawers are usable
      */
-    public Desk(String ID, String type, int price, String manuID, boolean legs, boolean top, boolean drawer) {
-        super(ID, type, price, manuID);
+    public Desk(String id, String type, int price, String manuID, boolean legs, boolean top, boolean drawer) {
+        super(id, type, price, manuID);
         this.legs = legs;
         this.top = top;
         this.drawer = drawer;
