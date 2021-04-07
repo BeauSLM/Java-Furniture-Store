@@ -7,9 +7,10 @@ import java.sql.*;
 public class DatabaseAccess {
     private Connection dbConnect;
     private ResultSet results;
-    String username;
-    String password;
-    String URL;
+
+    private String username;
+    private String password;
+    private String URL;
 
     public DatabaseAccess(String username, String password, String URL) {
         this.username = username;
@@ -25,7 +26,32 @@ public class DatabaseAccess {
         }
     }
 
-    public void selectFurniture() {
+    public Manufacturer[] retrieveManufacturers() {
+        Manufacturer[] result = null;
+        String Query = "SELECT * FROM MANUFACTURER";
+        try {
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery(Query);
+            while(results.next()) {
 
+            }
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+    }
+
+    public Chair[] retrieveChairs() {
+        Chair[] result = null;
+        return result;
+    }
+    public Desk[] retrieveDesks() {
+        Desk[] result = null;
+        return result;
+    }
+
+    public Lamp[] retrieveLamps() {
+        Lamp[] result = null;
+        return result;
     }
 }
