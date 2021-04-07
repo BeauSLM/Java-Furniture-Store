@@ -1,12 +1,12 @@
 package edu.ucalgary.ensf409;
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Class used to access the inventory database.
  */
 public class DatabaseAccess {
     private Connection dbConnect;
-    private ResultSet results;
 
     private String username;
     private String password;
@@ -26,15 +26,19 @@ public class DatabaseAccess {
         }
     }
 
-    public Manufacturer[] retrieveManufacturers() {
-        Manufacturer[] result = null;
+    public ArrayList<Manufacturer> retrieveManufacturers() {
+        ArrayList<Manufacturer> result = new ArrayList<>();
         String Query = "SELECT * FROM MANUFACTURER";
+        ResultSet results;
         try {
-            Statement myStmt = dbConnect.createStatement();
-            results = myStmt.executeQuery(Query);
+            Statement manuStatement = dbConnect.createStatement();
+            results = manuStatement.executeQuery(Query);
             while(results.next()) {
-
+                result.add(new Manufacturer(results.getString("ManuID"),results.getString("name"),
+                            results.getString("Phone"),results.getString("Province")));
             }
+            manuStatement.close();
+            results.close();
         } catch(SQLException ex) {
             ex.printStackTrace();
         }
@@ -53,5 +57,12 @@ public class DatabaseAccess {
     public Lamp[] retrieveLamps() {
         Lamp[] result = null;
         return result;
+    }
+    public void closeConnection() {
+        try {
+            dbConnect.close();
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }
