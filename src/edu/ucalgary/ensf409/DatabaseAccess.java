@@ -8,91 +8,126 @@ import java.util.ArrayList;
 public class DatabaseAccess {
     private Connection dbConnect;
 
-    private String username;
-    private String password;
-    private String URL;
+    private final String USERNAME;
+    private final String PASSWORD;
+    private final String URL;
 
-    public DatabaseAccess(String username, String password, String URL) {
-        this.username = username;
-        this.password = password;
-        this.URL = URL;
+    private ArrayList<Manufacturer> manuList;
+    private ArrayList<Chair> chairList;
+    private ArrayList<Desk> deskList;
+    private ArrayList<Lamp> lampList; //ropes, bombs
+
+    public DatabaseAccess(String username, String password, String url) {
+        this.USERNAME = username;
+        this.PASSWORD = password;
+        this.URL = url;
     }
 
-    public void createConnection(String username, String password, String URL) {
+    public void getDatabase() {
+        createConnection();
+        retrieveManufacturers();
+        retrieveChairs();
+        retrieveDesks();
+        retrieveLamps();
+        closeConnection();
+    }
+
+    public void createConnection() {
         try {
-            dbConnect = DriverManager.getConnection(URL, username, password);
+            dbConnect = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public ArrayList<Manufacturer> retrieveManufacturers() {
-        ArrayList<Manufacturer> result = new ArrayList<>();
-        String Query = "SELECT * FROM MANUFACTURER";
+    public void retrieveManufacturers() {
+        ArrayList<Manufacturer> resultList = new ArrayList<>();
+        String Query = "SELECT * FROM Manufacturer";
         ResultSet results;
         try {
-            Statement manuStatement = dbConnect.createStatement();
-            results = manuStatement.executeQuery(Query);
+            Statement selectAllManus = dbConnect.createStatement();
+            results = selectAllManus.executeQuery(Query);
             while(results.next()) {
-                result.add(new Manufacturer(results.getString("ManuID"),results.getString("name"),
+                resultList.add(new Manufacturer(results.getString("ManuID"),results.getString("name"),
                             results.getString("Phone"),results.getString("Province")));
             }
-            manuStatement.close();
+            selectAllManus.close();
             results.close();
         } catch(SQLException ex) {
             ex.printStackTrace();
         }
-        return result;
+        manuList = resultList;
     }
 
-    public Chair[] retrieveChairs() {
-        Chair[] result = null;
-        return result;
-    }
-    public ArrayList<Desk> retrieveDesks() {
-        ArrayList<Desk> result = new ArrayList<>();
-        String Query = "SELECT * FROM Desk";
-        ResultSet results;
+    public void retrieveChairs() {
+        ArrayList<Chair> resultList = new ArrayList<>();
+        String query = "SELECT * FROM Chair";
         try {
-            Statement manuStatement = dbConnect.createStatement();
-            results = manuStatement.executeQuery(Query);
-            boolean usableLegs = false;
-            boolean usableTop = false;
-            boolean usableDrawer = false;
+            Statement selectAllChairs = dbConnect.createStatement();
+            ResultSet results = selectAllChairs.executeQuery(query);
+
+            while (results.next()) {
+                boolean hasLegs = false, hasArms = false, hasSeat = false, hasCushion = false;
+                if (results.getString("Leg").equals("Y")) {
+                    hasLegs = true;
+                }
+                if (results.getString("Arms").equals("Y")) {
+                    hasArms = true;
+                }
+                if (results.getString("Seat").equals("Y")) {
+                    hasSeat = true;
+                }
+                if (results.getString("Cushion").equals("Y")) {
+                    hasCushion = true;
+                }
+                resultList.add(new Chair(results.getString("ID"), results.getString("Type"),
+                        results.getInt("Price"), results.getString("ManuID"),
+                        hasLegs, hasArms, hasSeat, hasCushion));
+            }
+            selectAllChairs.close();
+            results.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        chairList = resultList;
+    }
+
+    public void retrieveDesks() {
+        ArrayList<Desk> resultList = new ArrayList<>();
+        String Query = "SELECT * FROM Desk";
+        try {
+            Statement selectAllDesks = dbConnect.createStatement();
+            ResultSet results = selectAllDesks.executeQuery(Query);
+
             while(results.next()) {
+                boolean usableLegs = false, usableTop = false, usableDrawer = false;
                 if(results.getString("Legs").equals("Y")) {
                     usableLegs = true;
-                } else {
-                    usableLegs = false;
                 }
                 if(results.getString("Top").equals("Y")) {
                     usableTop = true;
-                } else {
-                    usableTop = false;
                 }
                 if(results.getString("Drawer").equals("Y")) {
                     usableDrawer = true;
-                } else {
-                    usableDrawer = false;
                 }
-                result.add(new Desk(results.getString("ID"),results.getString("Type"),
-                        results.getInt("Price"),results.getString("ManuID"), usableLegs, usableTop, usableDrawer));
+                resultList.add(new Desk(results.getString("ID"),results.getString("Type"),
+                        results.getInt("Price"),results.getString("ManuID"),
+                        usableLegs, usableTop, usableDrawer));
             }
-            manuStatement.close();
+            selectAllDesks.close();
             results.close();
         } catch(SQLException ex) {
             ex.printStackTrace();
         }
-        return result;
+        deskList = resultList;
     }
 
-    public ArrayList<Lamp> retrieveLamps() {
-        ArrayList<Lamp> result = new ArrayList<>();
+    public void retrieveLamps() {
+        ArrayList<Lamp> resultList = new ArrayList<>();
         String Query = "SELECT * FROM LAMP";
-        ResultSet results;
         try {
             Statement manuStatement = dbConnect.createStatement();
-            results = manuStatement.executeQuery(Query);
+            ResultSet results = manuStatement.executeQuery(Query);
             boolean usableBase = false;
             boolean usableBulb = false;
             while(results.next()) {
@@ -106,7 +141,7 @@ public class DatabaseAccess {
                 } else {
                     usableBulb = false;
                 }
-                result.add(new Lamp(results.getString("ID"),results.getString("Type"),
+                resultList.add(new Lamp(results.getString("ID"),results.getString("Type"),
                         results.getInt("Price"),results.getString("manuID"), usableBase, usableBulb));
             }
             manuStatement.close();
@@ -114,7 +149,7 @@ public class DatabaseAccess {
         } catch(SQLException ex) {
             ex.printStackTrace();
         }
-        return result;
+        lampList = resultList;
     }
     public void closeConnection() {
         try {
