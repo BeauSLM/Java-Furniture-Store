@@ -17,6 +17,7 @@ public class DatabaseAccess {
     private ArrayList<Chair> chairList;
     private ArrayList<Desk> deskList;
     private ArrayList<Lamp> lampList; //ropes, bombs
+    private ArrayList<Filing> filingList;
 
     /**
      * Instantiates a new Database access and calls a function to retrieve its data.
@@ -42,6 +43,7 @@ public class DatabaseAccess {
         retrieveChairs();
         retrieveDesks();
         retrieveLamps();
+        retrieveFilings();
         closeConnection();
     }
 
@@ -61,7 +63,7 @@ public class DatabaseAccess {
      */
     public void retrieveManufacturers() {
         ArrayList<Manufacturer> resultList = new ArrayList<>();
-        String Query = "SELECT * FROM Manufacturer";
+        String Query = "SELECT * FROM MANUFACTURER";
         ResultSet results;
         try {
             Statement selectAllManus = dbConnect.createStatement();
@@ -85,7 +87,7 @@ public class DatabaseAccess {
      */
     public void retrieveChairs() {
         ArrayList<Chair> resultList = new ArrayList<>();
-        String query = "SELECT * FROM Chair";
+        String query = "SELECT * FROM CHAIR";
         try {
             Statement selectAllChairs = dbConnect.createStatement();
             ResultSet results = selectAllChairs.executeQuery(query); //query returned by this point
@@ -124,27 +126,27 @@ public class DatabaseAccess {
      */
     public void retrieveDesks() {
         ArrayList<Desk> resultList = new ArrayList<>();
-        String query = "SELECT * FROM Desk";
+        String query = "SELECT * FROM DESK";
         try {
             Statement selectAllDesks = dbConnect.createStatement();
             ResultSet results = selectAllDesks.executeQuery(query); //query returned at this point
 
             while(results.next()) { //for each result:
                 //converts "Y"/"N" to boolean
-                boolean usableLegs = false, usableTop = false, usableDrawer = false;
+                boolean hasLegs = false, hasTop = false, hasDrawer = false;
                 if(results.getString("Legs").equals("Y")) {
-                    usableLegs = true;
+                    hasLegs = true;
                 }
                 if(results.getString("Top").equals("Y")) {
-                    usableTop = true;
+                    hasTop = true;
                 }
                 if(results.getString("Drawer").equals("Y")) {
-                    usableDrawer = true;
+                    hasDrawer = true;
                 }
                 //creates Desk object and adds to list
                 resultList.add(new Desk(results.getString("ID"), results.getString("Type"),
                         results.getInt("Price"), results.getString("ManuID"),
-                        usableLegs, usableTop, usableDrawer));
+                        hasLegs, hasTop, hasDrawer));
             }
             //close em up!
             selectAllDesks.close();
@@ -160,23 +162,23 @@ public class DatabaseAccess {
      */
     public void retrieveLamps() {
         ArrayList<Lamp> resultList = new ArrayList<>();
-        String query = "SELECT * FROM Lamp";
+        String query = "SELECT * FROM LAMP";
         try {
             Statement selectAllLamps = dbConnect.createStatement();
             ResultSet results = selectAllLamps.executeQuery(query); //query returned at this point
             while(results.next()) { //for each result:
                 //converts "Y"/"N" to boolean
-                boolean usableBase = false, usableBulb = false;
+                boolean hasBase = false, hasBulb = false;
                 if(results.getString("Base").equals("Y")) {
-                    usableBase = true;
+                    hasBase = true;
                 }
                 if(results.getString("Bulb").equals("Y")) {
-                    usableBulb = true;
+                    hasBulb = true;
                 }
                 //create and add Lamp object to the list
                 resultList.add(new Lamp(results.getString("ID"), results.getString("Type"),
                         results.getInt("Price"), results.getString("manuID"),
-                        usableBase, usableBulb));
+                        hasBase, hasBulb));
             }
             //close stuff out!
             selectAllLamps.close();
@@ -185,6 +187,41 @@ public class DatabaseAccess {
             ex.printStackTrace();
         }
         lampList = resultList; //updates field
+    }
+
+    /**
+     * Creates an ArrayList of Lamps with data from the SQL database.
+     */
+    public void retrieveFilings() {
+        ArrayList<Filing> resultList = new ArrayList<>();
+        String query = "SELECT * FROM FILING";
+        try {
+            Statement selectAllFiling = dbConnect.createStatement();
+            ResultSet results = selectAllFiling.executeQuery(query); //query returned at this point
+            while(results.next()) { //for each result:
+                //converts "Y"/"N" to boolean
+                boolean hasRails = false, hasDrawers = false, hasCabinet = false;
+                if(results.getString("Rails").equals("Y")) {
+                    hasRails = true;
+                }
+                if(results.getString("Drawers").equals("Y")) {
+                    hasDrawers = true;
+                }
+                if(results.getString("Cabinet").equals("Y")) {
+                    hasCabinet = true;
+                }
+                //create and add Lamp object to the list
+                resultList.add(new Filing(results.getString("ID"), results.getString("Type"),
+                        results.getInt("Price"), results.getString("manuID"),
+                        hasRails, hasDrawers, hasCabinet));
+            }
+            //close stuff out!
+            selectAllFiling.close();
+            results.close();
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+        filingList = resultList; //updates field
     }
 
     /**
