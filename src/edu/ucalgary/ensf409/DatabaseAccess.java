@@ -49,8 +49,41 @@ public class DatabaseAccess {
         Chair[] result = null;
         return result;
     }
-    public Desk[] retrieveDesks() {
-        Desk[] result = null;
+    public ArrayList<Desk> retrieveDesks() {
+        ArrayList<Desk> result = new ArrayList<>();
+        String Query = "SELECT * FROM Desk";
+        ResultSet results;
+        try {
+            Statement manuStatement = dbConnect.createStatement();
+            results = manuStatement.executeQuery(Query);
+            boolean usableLegs = false;
+            boolean usableTop = false;
+            boolean usableDrawer = false;
+            while(results.next()) {
+                if(results.getString("Legs").equals("Y")) {
+                    usableLegs = true;
+                } else {
+                    usableLegs = false;
+                }
+                if(results.getString("Top").equals("Y")) {
+                    usableTop = true;
+                } else {
+                    usableTop = false;
+                }
+                if(results.getString("Drawer").equals("Y")) {
+                    usableDrawer = true;
+                } else {
+                    usableDrawer = false;
+                }
+                result.add(new Desk(results.getString("ID"),results.getString("Type"),
+                        results.getInt("Price"),results.getString("ManuID"), usableLegs, usableTop, usableDrawer));
+            }
+            manuStatement.close();
+            results.close();
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
+        ResultSet results;
         return result;
     }
 
