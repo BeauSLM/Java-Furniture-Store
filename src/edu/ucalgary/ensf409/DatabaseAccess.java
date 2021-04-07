@@ -48,8 +48,8 @@ public class DatabaseAccess {
             Statement selectAllManus = dbConnect.createStatement();
             results = selectAllManus.executeQuery(Query);
             while(results.next()) {
-                resultList.add(new Manufacturer(results.getString("ManuID"),results.getString("name"),
-                            results.getString("Phone"),results.getString("Province")));
+                resultList.add(new Manufacturer(results.getString("ManuID"), results.getString("name"),
+                            results.getString("Phone"), results.getString("Province")));
             }
             selectAllManus.close();
             results.close();
@@ -110,8 +110,8 @@ public class DatabaseAccess {
                 if(results.getString("Drawer").equals("Y")) {
                     usableDrawer = true;
                 }
-                resultList.add(new Desk(results.getString("ID"),results.getString("Type"),
-                        results.getInt("Price"),results.getString("ManuID"),
+                resultList.add(new Desk(results.getString("ID"), results.getString("Type"),
+                        results.getInt("Price"), results.getString("ManuID"),
                         usableLegs, usableTop, usableDrawer));
             }
             selectAllDesks.close();
@@ -126,25 +126,21 @@ public class DatabaseAccess {
         ArrayList<Lamp> resultList = new ArrayList<>();
         String Query = "SELECT * FROM LAMP";
         try {
-            Statement manuStatement = dbConnect.createStatement();
-            ResultSet results = manuStatement.executeQuery(Query);
-            boolean usableBase = false;
-            boolean usableBulb = false;
+            Statement selectAllLamps = dbConnect.createStatement();
+            ResultSet results = selectAllLamps.executeQuery(Query);
             while(results.next()) {
+                boolean usableBase = false, usableBulb = false;
                 if(results.getString("Base").equals("Y")) {
                     usableBase = true;
-                } else {
-                    usableBase = false;
                 }
                 if(results.getString("Bulb").equals("Y")) {
                     usableBulb = true;
-                } else {
-                    usableBulb = false;
                 }
-                resultList.add(new Lamp(results.getString("ID"),results.getString("Type"),
-                        results.getInt("Price"),results.getString("manuID"), usableBase, usableBulb));
+                resultList.add(new Lamp(results.getString("ID"), results.getString("Type"),
+                        results.getInt("Price"), results.getString("manuID"),
+                        usableBase, usableBulb));
             }
-            manuStatement.close();
+            selectAllLamps.close();
             results.close();
         } catch(SQLException ex) {
             ex.printStackTrace();
