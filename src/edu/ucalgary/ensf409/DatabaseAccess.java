@@ -54,8 +54,34 @@ public class DatabaseAccess {
         return result;
     }
 
-    public Lamp[] retrieveLamps() {
-        Lamp[] result = null;
+    public ArrayList<Lamp> retrieveLamps() {
+        ArrayList<Lamp> result = new ArrayList<>();
+        String Query = "SELECT * FROM LAMP";
+        ResultSet results;
+        try {
+            Statement manuStatement = dbConnect.createStatement();
+            results = manuStatement.executeQuery(Query);
+            boolean usableBase = false;
+            boolean usableBulb = false;
+            while(results.next()) {
+                if(results.getString("Base").equals("Y")) {
+                    usableBase = true;
+                } else {
+                    usableBase = false;
+                }
+                if(results.getString("Bulb").equals("Y")) {
+                    usableBulb = true;
+                } else {
+                    usableBulb = false;
+                }
+                result.add(new Lamp(results.getString("ID"),results.getString("Type"),
+                        results.getInt("Price"),results.getString("manuID"), usableBase, usableBulb));
+            }
+            manuStatement.close();
+            results.close();
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
         return result;
     }
     public void closeConnection() {
