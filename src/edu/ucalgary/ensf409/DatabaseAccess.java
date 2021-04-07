@@ -83,7 +83,6 @@ public class DatabaseAccess {
         } catch(SQLException ex) {
             ex.printStackTrace();
         }
-        ResultSet results;
         return result;
     }
 
