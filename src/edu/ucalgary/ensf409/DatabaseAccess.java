@@ -2,7 +2,7 @@ package edu.ucalgary.ensf409;
 import java.sql.*;
 
 /**
- * Class to access the inventory db.
+ * Class used to access the inventory database.
  */
 public class DatabaseAccess {
     private Connection dbConnect;
