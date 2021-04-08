@@ -11,6 +11,7 @@ public class DatabaseAccess {
     private final String PASSWORD;
     private final String URL;
     private Connection dbConnect;
+    private boolean isSuccessful;
 
     //ArrayLists that store the Database info
     private ArrayList<Manufacturer> manuList;
@@ -51,7 +52,9 @@ public class DatabaseAccess {
     public void createConnection() {
         try {
             dbConnect = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            isSuccessful = true;
         } catch (SQLException e) {
+            isSuccessful = false;
             e.printStackTrace();
         }
     }
@@ -242,8 +245,14 @@ public class DatabaseAccess {
     public ArrayList<Desk> getDeskList() { return this.deskList; }
     public ArrayList<Lamp> getLampList() { return this.lampList; }
     public ArrayList<Filing> getFilingList() { return this.filingList; }
+
     public Connection getDbConnect() {
         return this.dbConnect;
     }
+
+    public boolean getIsSuccessful() {
+        return isSuccessful;
+    }
+
 }
 

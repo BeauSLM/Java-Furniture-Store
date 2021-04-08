@@ -8,6 +8,7 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.xml.crypto.Data;
 import java.awt.*;
 
@@ -270,7 +271,7 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     public GUIAccessSQL() {
         super("Connect to Database.");
         setupGUI();
-        setSize(400,400);
+        setSize(600,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -293,12 +294,19 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
         connectButton.addActionListener(this);
 
         //JPanels instantiation
-
+        JPanel mainContainer = new JPanel();
+        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.PAGE_AXIS));
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new FlowLayout());
 
-        JPanel clientPanel = new JPanel();
-        clientPanel.setLayout(new FlowLayout());
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.setLayout(new FlowLayout());
+
+        JPanel passwordPanel = new JPanel();
+        passwordPanel.setLayout(new FlowLayout());
+
+        JPanel urlPanel = new JPanel();
+        urlPanel.setLayout(new FlowLayout());
 
         JPanel connectPanel = new JPanel();
         connectPanel.setLayout(new FlowLayout());
@@ -307,18 +315,21 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
 
         headerPanel.add(generalMessage1);
         headerPanel.add(generalMessage2);
-        clientPanel.add(usernameLabel);
-        clientPanel.add(usernameTextField);
-        clientPanel.add(passwordLabel);
-        clientPanel.add(passwordTextField);
-        clientPanel.add(urlLabel);
-        clientPanel.add(urlTextField);
-        connectPanel.add(connectButton);
 
+        usernamePanel.add(usernameLabel);
+        usernamePanel.add(usernameTextField);
+        passwordPanel.add(passwordLabel);
+        passwordPanel.add(passwordTextField);
+        urlPanel.add(urlLabel);
+        urlPanel.add(urlTextField);
+        connectPanel.add(connectButton);
         //add Panels to the Frame
-        this.add(headerPanel,BorderLayout.NORTH);
-        this.add(clientPanel, BorderLayout.CENTER);
-        this.add(connectPanel, BorderLayout.PAGE_END);
+        mainContainer.add(headerPanel);
+        mainContainer.add(usernamePanel);
+        mainContainer.add(passwordPanel);
+        mainContainer.add(urlPanel);
+        mainContainer.add(connectPanel);
+        this.add(mainContainer);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -327,9 +338,12 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
         password = passwordTextField.getText();
         url = urlTextField.getText();
         if(validAccess(username,password, url)) {
-            JOptionPane.showMessageDialog(null, "You tried to connect. with username : "
-                    + username + " and password : "+ password);
+            JOptionPane.showMessageDialog(null, "You successfully connected to the database with username : "
+                    + username + " and password : "+ password+"and url : " + url);
 
+        }else {
+            JOptionPane.showMessageDialog(null, "There was an error connecting to the database with username : "
+                    + username + " and password : "+ password+"and url : " + url);
         }
     }
 
@@ -364,14 +378,15 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
 
     }
 
+    /**
+     * Attempts to create a databaseAccess object through info gained from the GUIAccessSQL object
+     * @param username  Database username
+     * @param password  Database password
+     * @param url       URL for the database inventory.
+     * @return boolean  Returns the status of the attempted connection
+     */
     public boolean validAccess(String username, String password, String url)  {
         database = new DatabaseAccess(username, password, url);
-        boolean validConnection = false;
-            try {
-                validConnection = database.getDbConnect().isValid(100);
-            } catch(SQLException ex) {
-                ex.printStackTrace();
-            }
-            return validConnection;
+        return database.getIsSuccessful();
     }
 }
