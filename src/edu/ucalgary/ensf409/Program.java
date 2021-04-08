@@ -161,4 +161,36 @@ public class Program {
     public void setNumOfItems(int numOfItems) {
         this.numOfItems = numOfItems;
     }
+
+    public void generateOrderForm() { // output if order can be fulfilled
+        try {
+            BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("lib/orderform.txt"));
+    
+            StringBuilder orderForm = new StringBuilder();
+            orderForm.append("Furniture Order Form\n");
+            orderForm.append("\n");
+    
+            orderForm.append("Faculty Name:");
+            orderForm.append("Contact:");
+            orderForm.append("Date:\n");
+    
+            orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems + 
+                "\n");
+    
+            orderForm.append("Items Ordered");
+            //System.out.println("ID: " + items we need); needs to output each type of furniture to be bought to make certain item
+    
+            orderForm.append("Total Price: ");
+    
+            String form = orderForm.toString();
+            orderFormWriter.write(form); 
+            orderFormWriter.close();
+        }
+    
+        catch (IOException e) {
+            System.err.println("IO Error.");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 }
