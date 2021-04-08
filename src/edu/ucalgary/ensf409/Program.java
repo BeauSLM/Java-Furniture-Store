@@ -193,6 +193,18 @@ public class Program {
 
         //this should get you a list of manufacturer names. now you just need to output it. ^^
 
+                // code under this outputs recommended manufacturers
+        StringBuilder manuList = new StringBuilder();
+        for (int i = 0; i < (recommendedManus.size() - 1); i++) {
+            manuList.append(recommendedManus.get(i));
+            manuList.append(", ");
+        }
+
+        manuList.append("and ");
+        manuList.append(recommendedManus.get(recommendedManus.size() - 1));
+        manuList.append(".");
+
+        System.out.println("Order cannot be fulfilled based on current inventory. Suggested manufacturers are " + manuList);
     }
 
     /**
