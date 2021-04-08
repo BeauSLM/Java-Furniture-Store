@@ -1,9 +1,6 @@
 package edu.ucalgary.ensf409;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
@@ -340,7 +337,15 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
         if(validAccess(username,password, url)) {
             JOptionPane.showMessageDialog(null, "You successfully connected to the database with username : "
                     + username + " and password : "+ password+"and url : " + url);
-
+            database.retrieveAll();
+            /*WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+            Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);*/
+            GUIUserInput userInputFrame = new GUIUserInput();
+            this.setVisible(false);
+            EventQueue.invokeLater(() -> {
+                sqlFrame.setVisible(true);
+            });
+            //this.dispose();
         }else {
             JOptionPane.showMessageDialog(null, "There was an error connecting to the database with username : "
                     + username + " and password : "+ password+"and url : " + url);

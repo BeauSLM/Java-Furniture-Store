@@ -96,7 +96,7 @@ public class DatabaseAccess {
             while (results.next()) { //for each result:
                 //converts "Y"/"N" to boolean
                 boolean hasLegs = false, hasArms = false, hasSeat = false, hasCushion = false;
-                if (results.getString("Leg").equals("Y")) {
+                if (results.getString("Legs").equals("Y")) {
                     hasLegs = true;
                 }
                 if (results.getString("Arms").equals("Y")) {
