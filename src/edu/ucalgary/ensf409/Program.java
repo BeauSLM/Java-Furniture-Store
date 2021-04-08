@@ -22,7 +22,6 @@ public class Program {
         Program testRun = new Program();
         testRun.accessSQL();
         testRun.userInput();
-        testRun.calculateCheapestOption();
     }
 
     public void accessSQL(){
@@ -112,9 +111,5 @@ public class Program {
 
     public void setNumOfItems(int numOfItems) {
         this.numOfItems = numOfItems;
-    }
-
-    public void calculateCheapestOption(){
-
     }
 }
