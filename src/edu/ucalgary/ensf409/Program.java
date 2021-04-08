@@ -113,8 +113,4 @@ public class Program {
     public void setNumOfItems(int numOfItems) {
         this.numOfItems = numOfItems;
     }
-
-    public void calculateCheapestOption(){
-
-    }
 }
