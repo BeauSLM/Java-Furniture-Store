@@ -174,25 +174,33 @@ public class Program {
         this.numOfItems = numOfItems;
     }
 
+    /**
+     * Outputs a message in terminal if an order  be fulfilled based
+     * on current inventory
+     * 
+     */
     public void generateOrderForm() { // output if order can be fulfilled
         try {
+            // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.
             BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("lib/orderform.txt"));
     
             StringBuilder orderForm = new StringBuilder();
             orderForm.append("Furniture Order Form\n");
             orderForm.append("\n");
     
-            orderForm.append("Faculty Name:");
-            orderForm.append("Contact:");
-            orderForm.append("Date:\n");
+            orderForm.append("Faculty Name: \n");
+            orderForm.append("Contact: \n");
+            orderForm.append("Date: \n");
+            orderForm.append("\n");
     
             orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems + 
                 "\n");
+            orderForm.append("\n");
     
             orderForm.append("Items Ordered");
-            //System.out.println("ID: " + items we need); needs to output each type of furniture to be bought to make certain item
+            // orderForm.append("ID: " + items we need); needs to output each type of furniture to be bought to make certain item
     
-            orderForm.append("Total Price: ");
+            orderForm.append("Total Price: " /* + getPrice method here */); //needs 
     
             String form = orderForm.toString();
             orderFormWriter.write(form); 
@@ -204,5 +212,14 @@ public class Program {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    /**
+     * Outputs a message in terminal if an order cannot be fulfilled based
+     * on current inventory
+     */
+    public void generateOrderFormUnfulfilled() { // method if order CANNOT be fulfilled
+        String cannotFulfillOrderMessage = "Order cannot be fulfilled based on current inventory. Suggested manufacturers are Office Furnishings, Chairs R Us, Furniture Goods, and Fine Office Supplies.";
+        System.out.println(cannotFulfillOrderMessage);
     }
 }
