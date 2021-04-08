@@ -234,4 +234,10 @@ public class DatabaseAccess {
             ex.printStackTrace();
         }
     }
+
+    public ArrayList<Manufacturer> getManuList() { return manuList; }
+    public ArrayList<Chair> getChairList() { return chairList; }
+    public ArrayList<Desk> getDeskList() { return deskList; }
+    public ArrayList<Lamp> getLampList() { return lampList; }
+    public ArrayList<Filing> getFilingList() { return filingList; }
 }
