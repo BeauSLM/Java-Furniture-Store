@@ -182,6 +182,8 @@ public class Program {
     /**
      * Outputs a message in terminal if an order cannot be fulfilled based
      * on current inventory
+     * 
+     * @param objectList list of manufacturers that sell components of the item that was ordered
      */
     public void recommendManufacturers(ArrayList<? extends Furniture> objectList) { // method if order CANNOT be fulfilled
         ArrayList<String> recommendedManus = new ArrayList<>();
