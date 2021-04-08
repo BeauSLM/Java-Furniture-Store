@@ -2,6 +2,8 @@ package edu.ucalgary.ensf409;
 
 import java.io.*;
 import java.util.*;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Class for main, handles input and output using the terminal.
@@ -28,6 +30,16 @@ public class Program {
      * Access sql.
      */
     public void accessSQL(){
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new JFrame("Connect to Database.");
+            frame.setSize(400,400);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel connectButtonPanel = new JPanel();
+            JButton connectButton = new JButton("Connect");
+            connectButtonPanel.add(connectButton);
+            frame.getContentPane().add(BorderLayout.NORTH, connectButtonPanel);
+            frame.setVisible(true);
+        });
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter your username: ");
