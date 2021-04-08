@@ -24,6 +24,9 @@ public class Program {
         testRun.userInput();
     }
 
+    /**
+     * Access sql.
+     */
     public void accessSQL(){
         Scanner scanner = new Scanner(System.in);
 
@@ -51,6 +54,9 @@ public class Program {
         System.out.println("Program successfully accessed database.");
     }
 
+    /**
+     * User input.
+     */
     public void userInput() {
         Scanner scanner = new Scanner(System.in);
         while(true) {
@@ -77,38 +83,81 @@ public class Program {
         System.out.println("Number of Items: " + numOfItems);
     }
 
-    //default constructor - unused atm
+    /**
+     * Instantiates a new Program.
+     */
+//default constructor - unused atm
     public Program(){
     }
 
+    /**
+     * Gets database.
+     *
+     * @return the database
+     */
     public DatabaseAccess getDatabase() {
         return database;
     }
 
+    /**
+     * Sets database.
+     *
+     * @param database the database
+     */
     public void setDatabase(DatabaseAccess database) {
         this.database = database;
     }
 
+    /**
+     * Gets category.
+     *
+     * @return the category
+     */
     public String getCategory() {
         return category;
     }
 
+    /**
+     * Sets category.
+     *
+     * @param category the category
+     */
     public void setCategory(String category) {
         this.category = category;
     }
 
+    /**
+     * Gets type.
+     *
+     * @return the type
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Sets type.
+     *
+     * @param type the type
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Gets num of items.
+     *
+     * @return the num of items
+     */
     public int getNumOfItems() {
         return numOfItems;
     }
 
+    /**
+     * Sets num of items.
+     *
+     * @param numOfItems the num of items
+     */
     public void setNumOfItems(int numOfItems) {
         this.numOfItems = numOfItems;
     }
