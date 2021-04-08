@@ -1,5 +1,8 @@
 package edu.ucalgary.ensf409;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -34,26 +37,19 @@ public class Program {
     public static void main(String[] args) {
         System.out.println("When prompted to enter, enter the necessary information, then press return.");
         Program testRun = new Program();
-        testRun.accessSQL();
-        testRun.userInput();
-        testRun.runProgram();
-        testRun.close();
+        EventQueue.invokeLater(() -> {
+            new GUIAccessSQL().setVisible(true);
+        });
+        //testRun.accessSQL();
+        //testRun.userInput();
+        //testRun.runProgram();
+        //testRun.close();
     }
 
     /**
      * Access sql.
      */
     public void accessSQL() {
-        EventQueue.invokeLater(() -> {
-            JFrame frame = new JFrame("Connect to Database.");
-            frame.setSize(400, 400);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JPanel connectButtonPanel = new JPanel();
-            JButton connectButton = new JButton("Connect");
-            connectButtonPanel.add(connectButton);
-            frame.getContentPane().add(BorderLayout.NORTH, connectButtonPanel);
-            frame.setVisible(true);
-        });
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter your username: ");
@@ -249,5 +245,77 @@ public class Program {
      */
     public void setNumOfItems(int numOfItems) {
         this.numOfItems = numOfItems;
+    }
+}
+class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
+    private String username;
+    private String password;
+    private String url;
+
+    private JLabel generalMessage1;
+    private JLabel generalMessage2;
+    private JLabel usernameLabel;
+    private JLabel passwordLabel;
+    private JLabel urlLabel;
+    private JTextField usernameTextField;
+    private JTextField passwordTextField;
+    private JTextField urlTextField;
+
+    public GUIAccessSQL() {
+        super("Connect to Database.");
+        setupGUI();
+        setSize(400,400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void setupGUI() {
+        //Let's set up our Labels and TextFields and messages for the form.
+        generalMessage1 = new JLabel("Welcome to the University of Calgary");
+        generalMessage2 = new JLabel("Supply Chain Management Software v2.5.");
+        usernameLabel = new JLabel("Username :");
+        passwordLabel = new JLabel("Password :");
+        urlLabel = new JLabel("URL      :");
+        usernameTextField = new JTextField("e.g. MyUsername", 18);
+        passwordTextField = new JTextField("e.g. MyPaswword", 18);
+        urlTextField = new JTextField("e.g. http://localhost/", 30);
+
+        usernameTextField.addMouseListener(this);
+        passwordTextField.addMouseListener(this);
+        urlTextField.addMouseListener(this);
+
+        JButton connectButton = new JButton("Connect");
+        connectButton.addActionListener(this);
+
+        //JPanels instantiation
+
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new FlowLayout());
+
+        JPanel clientPanel = new JPanel();
+        clientPanel.setLayout(new FlowLayout());
+
+        JPanel connectPanel = new JPanel();
+        connectPanel.setLayout(new FlowLayout());
+
+        //add components to their Panels
+
+        headerPanel.add(generalMessage1);
+        headerPanel.add(generalMessage2);
+        clientPanel.add(usernameLabel);
+        clientPanel.add(usernameTextField);
+        clientPanel.add(passwordLabel);
+        clientPanel.add(passwordTextField);
+        clientPanel.add(urlLabel);
+        clientPanel.add(urlTextField);
+        connectPanel.add(connectButton);
+
+        //add Panels to the Frame
+        this.add(headerPanel,BorderLayout.NORTH);
+        this.add(clientPanel, BorderLayout.CENTER);
+        this.add(connectPanel, BorderLayout.PAGE_END);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        JOptionPane.showMessageDialog(null, "You tried to connect.");
     }
 }
