@@ -242,4 +242,8 @@ public class DatabaseAccess {
     public ArrayList<Desk> getDeskList() { return this.deskList; }
     public ArrayList<Lamp> getLampList() { return this.lampList; }
     public ArrayList<Filing> getFilingList() { return this.filingList; }
+    public Connection getDbConnect() {
+        return this.dbConnect;
+    }
 }
+

@@ -2,10 +2,13 @@ package edu.ucalgary.ensf409;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.*;
 
 /**
@@ -28,6 +31,7 @@ public class Program {
     private String category;
     private String type;
     private int numOfItems;
+    private static GUIAccessSQL sqlFrame;
 
     /**
      * The entry point of application.
@@ -37,8 +41,9 @@ public class Program {
     public static void main(String[] args) {
         System.out.println("When prompted to enter, enter the necessary information, then press return.");
         Program testRun = new Program();
+        sqlFrame = new GUIAccessSQL();
         EventQueue.invokeLater(() -> {
-            new GUIAccessSQL().setVisible(true);
+            sqlFrame.setVisible(true);
         });
         //testRun.accessSQL();
         //testRun.userInput();
@@ -248,6 +253,7 @@ public class Program {
     }
 }
 class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
+    private DatabaseAccess database;
     private String username;
     private String password;
     private String url;
@@ -316,6 +322,56 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, "You tried to connect.");
+
+        username = usernameTextField.getText();
+        password = passwordTextField.getText();
+        url = urlTextField.getText();
+        if(validAccess(username,password, url)) {
+            JOptionPane.showMessageDialog(null, "You tried to connect. with username : "
+                    + username + " and password : "+ password);
+
+        }
+    }
+
+    public void mouseEntered(MouseEvent event) {
+
+    }
+
+    public void mouseClicked(MouseEvent event) {
+
+        if(event.getSource().equals(usernameTextField)) {
+            usernameTextField.setText("");
+        }
+
+        if(event.getSource().equals(passwordTextField)) {
+            passwordTextField.setText("");
+        }
+
+        if(event.getSource().equals(urlTextField)) {
+            urlTextField.setText("");
+        }
+    }
+
+    public void mouseExited(MouseEvent event) {
+
+    }
+
+    public void mousePressed(MouseEvent event) {
+
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public boolean validAccess(String username, String password, String url)  {
+        database = new DatabaseAccess(username, password, url);
+        boolean validConnection = false;
+            try {
+                validConnection = database.getDbConnect().isValid(100);
+            } catch(SQLException ex) {
+                ex.printStackTrace();
+            }
+            return validConnection;
     }
 }
