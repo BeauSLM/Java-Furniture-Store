@@ -30,21 +30,19 @@ public class DatabaseAccess {
         this.USERNAME = username;
         this.PASSWORD = password;
         this.URL = url;
-        updateDatabaseAccess();
+        createConnection();
     }
 
     /**
      * Creates connection to sql DB, fills the class lists with the database's data.
      * This calls all the other functions.
      */
-    public void updateDatabaseAccess() {
-        createConnection();
+    public void retrieveAll() {
         retrieveManufacturers();
         retrieveChairs();
         retrieveDesks();
         retrieveLamps();
         retrieveFilings();
-        closeConnection();
     }
 
     /**
@@ -95,7 +93,7 @@ public class DatabaseAccess {
             while (results.next()) { //for each result:
                 //converts "Y"/"N" to boolean
                 boolean hasLegs = false, hasArms = false, hasSeat = false, hasCushion = false;
-                if (results.getString("Legs").equals("Y")) {
+                if (results.getString("Leg").equals("Y")) {
                     hasLegs = true;
                 }
                 if (results.getString("Arms").equals("Y")) {
@@ -224,6 +222,10 @@ public class DatabaseAccess {
         filingList = resultList; //updates field
     }
 
+    public void deleteItem(String type, String id){
+
+    }
+
     /**
      * Closes the sql connection.
      */
@@ -235,9 +237,9 @@ public class DatabaseAccess {
         }
     }
 
-    public ArrayList<Manufacturer> getManuList() { return manuList; }
-    public ArrayList<Chair> getChairList() { return chairList; }
-    public ArrayList<Desk> getDeskList() { return deskList; }
-    public ArrayList<Lamp> getLampList() { return lampList; }
-    public ArrayList<Filing> getFilingList() { return filingList; }
+    public ArrayList<Manufacturer> getManuList() { return this.manuList; }
+    public ArrayList<Chair> getChairList() { return this.chairList; }
+    public ArrayList<Desk> getDeskList() { return this.deskList; }
+    public ArrayList<Lamp> getLampList() { return this.lampList; }
+    public ArrayList<Filing> getFilingList() { return this.filingList; }
 }

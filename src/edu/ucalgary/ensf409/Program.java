@@ -24,15 +24,17 @@ public class Program {
         Program testRun = new Program();
         testRun.accessSQL();
         testRun.userInput();
+        testRun.runProgram();
+        testRun.close();
     }
 
     /**
      * Access sql.
      */
-    public void accessSQL(){
+    public void accessSQL() {
         EventQueue.invokeLater(() -> {
             JFrame frame = new JFrame("Connect to Database.");
-            frame.setSize(400,400);
+            frame.setSize(400, 400);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             JPanel connectButtonPanel = new JPanel();
             JButton connectButton = new JButton("Connect");
@@ -71,14 +73,13 @@ public class Program {
      */
     public void userInput() {
         Scanner scanner = new Scanner(System.in);
-        while(true) {
+        while (true) {
             System.out.println("Enter the furniture category: (Chair, Desk, Lamp, Filing)");
             setCategory(scanner.nextLine().strip());
-            if(category.equals("Chair") || category.equals("Desk") ||
+            if (category.equals("Chair") || category.equals("Desk") ||
                     category.equals("Lamp") || category.equals("Filing")) {
                 break;
-            }
-            else {
+            } else {
                 System.out.println("Invalid category");
             }
         }
@@ -95,20 +96,91 @@ public class Program {
         System.out.println("Number of Items: " + numOfItems);
     }
 
-    /**
-     * Instantiates a new Program.
-     */
-//default constructor - unused atm
-    public Program(){
+    public void runProgram() {
+        OptionCalculation orderCalc = new OptionCalculation(category, type, numOfItems, database);
+        boolean canOrder = orderCalc.calculateCheapestPrice();
+        if (canOrder) {
+            generateOrderForm(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice());
+        } else {
+            switch (category) {
+                case "CHAIR":
+                    recommendManufacturers(database.getChairList());
+                    break;
+                case "DESK":
+                    recommendManufacturers(database.getDeskList());
+                    break;
+                case "LAMP":
+                    recommendManufacturers(database.getLampList());
+                    break;
+                case "FILING":
+                    recommendManufacturers(database.getFilingList());
+                    break;
+            }
+        }
+    }
+
+    public void close() {
+        database.closeConnection();
     }
 
     /**
-     * Gets database.
-     *
-     * @return the database
+     * Outputs a message in terminal if an order be fulfilled based
+     * on current inventory
      */
-    public DatabaseAccess getDatabase() {
-        return database;
+    public void generateOrderForm(ArrayList<String> itemIDs, int price) { // output if order can be fulfilled
+        try {
+            // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.
+            BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("lib/orderform.txt"));
+
+            StringBuilder orderForm = new StringBuilder();
+            orderForm.append("Furniture Order Form\n");
+            orderForm.append("\n");
+
+            orderForm.append("Faculty Name: \n");
+            orderForm.append("Contact: \n");
+            orderForm.append("Date: \n");
+            orderForm.append("\n");
+
+            orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems +
+                    "\n");
+            orderForm.append("\n");
+
+            orderForm.append("Items Ordered");
+            // orderForm.append("ID: " + items we need); needs to output each type of furniture to be bought to make certain item
+            //iterate this please
+
+            orderForm.append("Total Price: " + price);
+
+            String form = orderForm.toString();
+            orderFormWriter.write(form);
+            orderFormWriter.close();
+        } catch (IOException e) {
+            System.err.println("IO Error.");
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    /**
+     * Outputs a message in terminal if an order cannot be fulfilled based
+     * on current inventory
+     */
+    public void recommendManufacturers(ArrayList<? extends Furniture> objectList) { // method if order CANNOT be fulfilled
+        ArrayList<String> recommendedManus = new ArrayList<>();
+        for (int i = 0; i < objectList.size(); i++) {
+            //finds the connection between the objectList's manuID to a manufacturer from the list
+            //yet another friendly reminder that optimization is not graded
+            for (Manufacturer manu : database.getManuList()) {
+                //if the object's manufacturer ID
+                if (objectList.get(i).getManuID().equals(manu.getManuID()) && recommendedManus.indexOf(manu.getManuID()) == -1) {
+                    recommendedManus.add(manu.getName());
+                    break;
+                }
+            }
+        }
+
+        //this should get you a list of manufacturer names. now you just need to output it. ^^
+
     }
 
     /**
@@ -121,30 +193,12 @@ public class Program {
     }
 
     /**
-     * Gets category.
-     *
-     * @return the category
-     */
-    public String getCategory() {
-        return category;
-    }
-
-    /**
      * Sets category.
      *
      * @param category the category
      */
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    /**
-     * Gets type.
-     *
-     * @return the type
-     */
-    public String getType() {
-        return type;
     }
 
     /**
@@ -157,69 +211,11 @@ public class Program {
     }
 
     /**
-     * Gets num of items.
-     *
-     * @return the num of items
-     */
-    public int getNumOfItems() {
-        return numOfItems;
-    }
-
-    /**
      * Sets num of items.
      *
      * @param numOfItems the num of items
      */
     public void setNumOfItems(int numOfItems) {
         this.numOfItems = numOfItems;
-    }
-
-    /**
-     * Outputs a message in terminal if an order  be fulfilled based
-     * on current inventory
-     * 
-     */
-    public void generateOrderForm() { // output if order can be fulfilled
-        try {
-            // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.
-            BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("lib/orderform.txt"));
-    
-            StringBuilder orderForm = new StringBuilder();
-            orderForm.append("Furniture Order Form\n");
-            orderForm.append("\n");
-    
-            orderForm.append("Faculty Name: \n");
-            orderForm.append("Contact: \n");
-            orderForm.append("Date: \n");
-            orderForm.append("\n");
-    
-            orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems + 
-                "\n");
-            orderForm.append("\n");
-    
-            orderForm.append("Items Ordered");
-            // orderForm.append("ID: " + items we need); needs to output each type of furniture to be bought to make certain item
-    
-            orderForm.append("Total Price: " /* + getPrice method here */); //needs 
-    
-            String form = orderForm.toString();
-            orderFormWriter.write(form); 
-            orderFormWriter.close();
-        }
-    
-        catch (IOException e) {
-            System.err.println("IO Error.");
-            e.printStackTrace();
-            System.exit(1);
-        }
-    }
-
-    /**
-     * Outputs a message in terminal if an order cannot be fulfilled based
-     * on current inventory
-     */
-    public void generateOrderFormUnfulfilled() { // method if order CANNOT be fulfilled
-        String cannotFulfillOrderMessage = "Order cannot be fulfilled based on current inventory. Suggested manufacturers are Office Furnishings, Chairs R Us, Furniture Goods, and Fine Office Supplies.";
-        System.out.println(cannotFulfillOrderMessage);
     }
 }
