@@ -21,20 +21,36 @@ public class Lamp extends Furniture {
 
     //Getter functions of the Child Class Lamp
 
+    /**
+     * Gets the status of the base
+     * @return  the status of the lamp
+     */
     public boolean getBase() {
         return base;
     }
 
+    /**
+     * Gets the status of the bulb
+     * @return  the status of the bulb
+     */
     public boolean getBulb() {
         return bulb;
     }
 
     //Setter functions of the Child Class Lamp
 
+    /**
+     * Sets base
+     * @param base  the status of the base
+     */
     public void setBase(boolean base) {
         this.base = base;
     }
 
+    /**
+     * Sets bulb
+     * @param bulb  the status of the bulb
+     */
     public void setBulb(boolean bulb) {
         this.bulb = bulb;
     }
