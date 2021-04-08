@@ -29,14 +29,26 @@ public class Filing extends Furniture {
 
     //Getter functions for the Filing Cabinets
 
+    /**
+     * Gets the status of the rails if they are usable or not
+     * @return  the status of the rails
+     */
     public boolean getRails() {
         return rails;
     }
 
+    /**
+     * Gets the status of the drawers if they are usable or not
+     * @return  the status of the drawers
+     */
     public boolean getDrawers() {
         return drawers;
     }
 
+    /**
+     * Gets the status of the cabinet if it is usable or not
+     * @return  the status of the cabinet
+     */
     public boolean getCabinet() {
         return cabinet;
     }
@@ -44,15 +56,26 @@ public class Filing extends Furniture {
 
     //Setter functions for the Filing Cabinets
 
-
+    /**
+     * Sets rails
+     * @param rails If the rails are usable or not
+     */
     public void setRails(boolean rails) {
         this.rails = rails;
     }
 
+    /**
+     * Sets drawers
+     * @param drawers   If the drawers are usable or not
+     */
     public void setDrawers(boolean drawers) {
         this.drawers = drawers;
     }
 
+    /**
+     * Sets cabinet
+     * @param cabinet   If the cabinet is usable or not
+     */
     public void setCabinet(boolean cabinet) {
         this.cabinet = cabinet;
     }
