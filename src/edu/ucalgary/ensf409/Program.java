@@ -25,10 +25,6 @@ public class Program {
         testRun.calculateCheapestOption();
     }
 
-    //default constructor - unused atm
-    public Program(){
-    }
-
     public void accessSQL(){
         Scanner scanner = new Scanner(System.in);
 
@@ -52,31 +48,70 @@ public class Program {
         System.out.println("Url: " + url);
 
         System.out.println("\nAccessing database...");
-        database = new DatabaseAccess(username, password, url);
+        setDatabase(new DatabaseAccess(username, password, url));
         System.out.println("Program successfully accessed database.");
     }
 
-    public void userInput(){
+    public void userInput() {
         Scanner scanner = new Scanner(System.in);
         while(true) {
             System.out.println("Enter the furniture category: (Chair, Desk, Lamp, Filing)");
-            category = scanner.nextLine().strip();
+            setCategory(scanner.nextLine().strip());
             if(category.equals("Chair") || category.equals("Desk") ||
                     category.equals("Lamp") || category.equals("Filing")) {
                 break;
             }
+            else {
+                System.out.println("Invalid category");
+            }
         }
 
         System.out.println("Enter the type of " + category + ": ");
-        type = scanner.nextLine().strip();
+        setType(scanner.nextLine().strip());
 
         System.out.println("Enter the number of items:");
-        numOfItems = Integer.parseInt(scanner.nextLine().strip());
+        setNumOfItems(Integer.parseInt(scanner.nextLine().strip()));
 
         scanner.close();
         System.out.println("Category: " + category);
         System.out.println("Type: " + type);
         System.out.println("Number of Items: " + numOfItems);
+    }
+
+    //default constructor - unused atm
+    public Program(){
+    }
+
+    public DatabaseAccess getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(DatabaseAccess database) {
+        this.database = database;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getNumOfItems() {
+        return numOfItems;
+    }
+
+    public void setNumOfItems(int numOfItems) {
+        this.numOfItems = numOfItems;
     }
 
     public void calculateCheapestOption(){
