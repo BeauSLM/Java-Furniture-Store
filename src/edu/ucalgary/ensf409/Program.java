@@ -136,8 +136,11 @@ public class Program {
     }
 
     /**
-     * Outputs a message in terminal if an order be fulfilled based
+     * Outputs a message in terminal of an order be fulfilled based
      * on current inventory
+     * 
+     * @param itemIDs the lists of items that are used to fulfill the order
+     * @param price   the total price of the items that are purchased       
      */
     public void generateOrderForm(ArrayList<String> itemIDs, int price) { // output if order can be fulfilled
         try {
@@ -153,19 +156,22 @@ public class Program {
             orderForm.append("Date: \n");
             orderForm.append("\n");
 
-            orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems +
-                    "\n");
+            orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems + "\n");
             orderForm.append("\n");
 
-            orderForm.append("Items Ordered");
-            // orderForm.append("ID: " + items we need); needs to output each type of furniture to be bought to make certain item
+            orderForm.append("Items Ordered\n");
+            for (int i = 0; i < itemIDs.size(); i++) { // prints out the IDs of the items ordered
+                orderForm.append("ID: " + itemIDs.get(i) + "\n");
+            }
             //iterate this please
 
-            orderForm.append("Total Price: " + price);
+            orderForm.append("\n");
+            orderForm.append("Total Price: $" + price);
 
             String form = orderForm.toString();
             orderFormWriter.write(form);
             orderFormWriter.close();
+
         } catch (IOException e) {
             System.err.println("IO Error.");
             e.printStackTrace();
