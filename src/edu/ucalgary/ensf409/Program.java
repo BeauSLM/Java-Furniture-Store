@@ -250,6 +250,71 @@ public class Program {
         this.numOfItems = numOfItems;
     }
 }
+
+class GUIUserInput extends JFrame implements ActionListener {
+    DatabaseAccess database;
+    String category;
+    final String[] choices = new String[] {"Chair", "Desk", "Lamp", "Filing"};
+    JLabel categoryLabel;
+    JLabel gMessage1;
+    JLabel gMessage2;
+    JLabel iLabel;
+    final JComboBox<String> selectionDropdown = new JComboBox<String>(choices);
+
+
+    public GUIUserInput(DatabaseAccess database) {
+        super("Select Category Form.");
+        this.database = database;
+        setupGUI();
+        setSize(600,400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void setupGUI() {
+        gMessage1 = new JLabel("Welcome to the University of Calgary");
+        gMessage2 = new JLabel("Supply Chain Management Software v2.5.");
+        iLabel = new JLabel("Select the furniture category: ");
+
+        JButton selectCategoryButton = new JButton("Select");
+        selectCategoryButton.addActionListener(this);
+
+        //create Panels
+        JPanel wrapContainer = new JPanel();
+        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
+
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new FlowLayout());
+
+        JPanel selectorPanel = new JPanel();
+        selectorPanel.setLayout(new FlowLayout());
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+
+        //add stuff to panels.
+        headerPanel.add(gMessage1);
+        headerPanel.add(gMessage2);
+
+        selectorPanel.add(iLabel);
+        selectorPanel.add(selectionDropdown);
+
+        buttonPanel.add(selectCategoryButton);
+
+        //add everything to a wrapper panel
+        wrapContainer.add(headerPanel);
+        wrapContainer.add(selectorPanel);
+        wrapContainer.add(buttonPanel);
+
+        //add the panel to the wrapper
+        this.add(wrapContainer);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String category = selectionDropdown.getSelectedItem().toString();
+        JOptionPane.showMessageDialog(null, "You have selected the following category : "+ category);
+    }
+
+}
 class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     private DatabaseAccess database;
     private String username;
@@ -340,10 +405,10 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
             database.retrieveAll();
             /*WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
             Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);*/
-            GUIUserInput userInputFrame = new GUIUserInput();
+            GUIUserInput userInputFrame = new GUIUserInput(database);
             this.setVisible(false);
             EventQueue.invokeLater(() -> {
-                sqlFrame.setVisible(true);
+                userInputFrame.setVisible(true);
             });
             //this.dispose();
         }else {
