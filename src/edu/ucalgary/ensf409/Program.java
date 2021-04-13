@@ -41,6 +41,9 @@ public class Program {
         //testRun.close();
     }
 
+    /**
+     * Closes connection to database
+     */
     public void close() {
         database.closeConnection();
     }
@@ -55,6 +58,9 @@ public class Program {
     }
 }
 
+/**
+ * Class that handles user input in the GUI
+ */
 class GUIUserInput extends JFrame implements ActionListener {
     DatabaseAccess database;
     String category;
@@ -254,6 +260,14 @@ class GUIOrderForm extends JFrame {
         }
     }
 
+    /**
+     * Forms a String that shows which items need to be ordered 
+     * depending on what the user needs. Also adds the price of the
+     * items to be purchased to the String. 
+     * @param itemIDs   The IDs of the items that need to be purchased
+     * @param price     The price of the total items to be purchased.
+     * @return  A String that outlines the IDs of the items to be purchased as well as the total price. 
+     */
     public String successfulOrderString(ArrayList<String> itemIDs, int price) {
         StringBuilder itemList = new StringBuilder();
         itemList.append("Purchase ");
@@ -288,6 +302,16 @@ class GUIOrderForm extends JFrame {
 
         return recommendedManus;
     }
+
+    /**
+     * Generates an OrderForm.txt that has the user's request, the items to be ordered,
+     * and the total price of all of the items. OrderForm.txt is made in an organized format
+     * @param itemIDs   The IDs of all of the items to be purchased.
+     * @param price     The total price of all the items to be purchased
+     * @param category  The category that each item belongs to (desk, chair, filing, lamp, etc)
+     * @param type      The type of item (kneeling, mesh, executive, etc)
+     * @param numOfItems The number of different items that need to be purchased
+     */
     public void generateOrderForm(ArrayList<String> itemIDs, int price, String category, String type, int numOfItems) { // output if order can be fulfilled
         try {
             // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.
