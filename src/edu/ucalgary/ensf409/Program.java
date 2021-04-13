@@ -384,6 +384,7 @@ class GUIOrderForm extends JFrame {
         }
         itemList.append(itemIDs.get(itemIDs.size() - 1) + ".");
 
+        // Print our info
         System.out.println("Purchase " + itemList + " for " + "$" + price);
     }
 }
