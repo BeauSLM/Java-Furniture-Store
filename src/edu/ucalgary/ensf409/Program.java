@@ -376,6 +376,18 @@ class GUIUserInput extends JFrame implements ActionListener {
     }
 
 }
+class GUIOrderForm extends JFrame {
+    public void successfulOrderGUI(ArrayList<String> itemIDs, int price) {
+        StringBuilder itemList = new StringBuilder();
+        for (int i = 0; i < (itemIDs.size() - 1); i++) { // prints out the IDs of the items ordered
+            itemList.append(itemIDs.get(i) + " and ");
+        }
+        itemList.append(itemIDs.get(itemIDs.size() - 1) + ".");
+
+        System.out.println("Purchase " + itemList + " for " + "$" + price);
+    }
+}
+
 class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     private DatabaseAccess database;
     private String username;
