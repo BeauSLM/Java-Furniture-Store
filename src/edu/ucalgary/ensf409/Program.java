@@ -180,42 +180,6 @@ public class Program {
     }
 
     /**
-     * Outputs a message in terminal if an order cannot be fulfilled based
-     * on current inventory
-     * 
-     * @param objectList list of manufacturers that sell components of the item that was ordered
-     */
-    public void recommendManufacturers(ArrayList<? extends Furniture> objectList) { // method if order CANNOT be fulfilled
-        ArrayList<String> recommendedManus = new ArrayList<>();
-        for (int i = 0; i < objectList.size(); i++) {
-            //finds the connection between the objectList's manuID to a manufacturer from the list
-            //yet another friendly reminder that optimization is not graded
-            for (Manufacturer manu : database.getManuList()) {
-                //if the object's manufacturer ID
-                if (objectList.get(i).getManuID().equals(manu.getManuID()) && recommendedManus.indexOf(manu.getManuID()) == -1) {
-                    recommendedManus.add(manu.getName());
-                    break;
-                }
-            }
-        }
-
-        //this should get you a list of manufacturer names. now you just need to output it. ^^
-
-                // code under this outputs recommended manufacturers
-        StringBuilder manuList = new StringBuilder();
-        for (int i = 0; i < (recommendedManus.size() - 1); i++) {
-            manuList.append(recommendedManus.get(i));
-            manuList.append(", ");
-        }
-
-        manuList.append("and ");
-        manuList.append(recommendedManus.get(recommendedManus.size() - 1));
-        manuList.append(".");
-
-        System.out.println("Order cannot be fulfilled based on current inventory. Suggested manufacturers are " + manuList);
-    }
-
-    /**
      * Sets database.
      *
      * @param database the database
@@ -367,6 +331,11 @@ class GUIUserInput extends JFrame implements ActionListener {
                 } else {
                     JOptionPane.showMessageDialog(null, "You have selected the following category : " + category +
                             ", type :" + type + ", number of items :" + numOfItems);
+                    GUIOrderForm processForm = new GUIOrderForm(category,type, numOfItems, database);
+                    this.setVisible(false);
+                    EventQueue.invokeLater(()->{
+                        processForm.setVisible(true);
+                    });
                 }
             }
         } catch(Exception ex) {
@@ -377,15 +346,144 @@ class GUIUserInput extends JFrame implements ActionListener {
 
 }
 class GUIOrderForm extends JFrame {
-    public void successfulOrderGUI(ArrayList<String> itemIDs, int price) {
+    private DatabaseAccess database;
+    private OptionCalculation orderCalc;
+    private JLabel generalMessage1;
+    private JLabel generalMessage2;
+    public GUIOrderForm(String category, String type, int numberOfItems, DatabaseAccess database) {
+        super("Order Form Process.");
+        orderCalc = new OptionCalculation(category, type, numberOfItems, database);
+        setupGUI();
+        setSize(600,400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void setupGUI() {
+        JPanel wrapContainer = new JPanel();
+        wrapContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.PAGE_AXIS));
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new FlowLayout());
+        generalMessage1 = new JLabel("Welcome to the University of Calgary");
+        generalMessage2 = new JLabel("Supply Chain Management Software v2.5.");
+        headerPanel.add(generalMessage1);
+        headerPanel.add(generalMessage2);
+        wrapContainer.add(headerPanel);
+        boolean canOrder = orderCalc.calculateCheapestPrice();
+        if(canOrder) {
+            generateOrderForm(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice(), orderCalc.getCategory(),
+                    orderCalc.getType(), orderCalc.getNumOfItems());
+
+            JPanel orderFormPanel = new JPanel();
+            orderFormPanel.setLayout(new FlowLayout());
+
+            JLabel messageLabel = new JLabel(successfulOrderString(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice()));
+            orderFormPanel.add(messageLabel);
+            wrapContainer.add(orderFormPanel);
+            this.add(wrapContainer);
+        } else {
+            ArrayList<String> manufacturers = new ArrayList<>();
+            switch (orderCalc.getCategory()) {
+                case "CHAIR":
+                    manufacturers = recommendManufacturers(database.getChairList());
+                    break;
+                case "DESK":
+                    manufacturers = recommendManufacturers(database.getDeskList());
+                    break;
+                case "LAMP":
+                    manufacturers = recommendManufacturers(database.getLampList());
+                    break;
+                case "FILING":
+                    manufacturers = recommendManufacturers(database.getFilingList());
+                    break;
+            }
+            JPanel manufacturerPanel = new JPanel();
+            manufacturerPanel.setLayout(new FlowLayout());
+
+            JLabel manuMessage1 = new JLabel("Your order can't be fulfilled with the current inventory.");
+            JLabel manuMessage2 = new JLabel("Recommended Manufacturers :");
+            manufacturerPanel.add(manuMessage1);
+            manufacturerPanel.add(manuMessage2);
+
+            JLabel[] manufacturerLabels = new JLabel[manufacturers.size()];
+            for(int i = 0; i < manufacturerLabels.length; i++) {
+                manufacturerLabels[i].setText(manufacturers.get(i));
+                manufacturerPanel.add(manufacturerLabels[i]);
+            }
+
+            wrapContainer.add(manufacturerPanel);
+            this.add(wrapContainer);
+        }
+    }
+
+    public String successfulOrderString(ArrayList<String> itemIDs, int price) {
         StringBuilder itemList = new StringBuilder();
+        itemList.append("Purchase ");
         for (int i = 0; i < (itemIDs.size() - 1); i++) { // prints out the IDs of the items ordered
             itemList.append(itemIDs.get(i) + " and ");
         }
         itemList.append(itemIDs.get(itemIDs.size() - 1) + ".");
+        itemList.append(" for "+ "$"+price+".");
+        return new String(itemList);
+    }
+    /**
+     * Outputs a message in terminal if an order cannot be fulfilled based
+     * on current inventory
+     *
+     * @param objectList list of manufacturers that sell components of the item that was ordered
+     */
+    public ArrayList<String> recommendManufacturers(ArrayList<? extends Furniture> objectList) { // method if order CANNOT be fulfilled
+        ArrayList<String> recommendedManus = new ArrayList<>();
+        for (int i = 0; i < objectList.size(); i++) {
+            //finds the connection between the objectList's manuID to a manufacturer from the list
+            //yet another friendly reminder that optimization is not graded
+            for (Manufacturer manu : database.getManuList()) {
+                //if the object's manufacturer ID
+                if (objectList.get(i).getManuID().equals(manu.getManuID()) && recommendedManus.indexOf(manu.getManuID()) == -1) {
+                    recommendedManus.add(manu.getName());
+                    break;
+                }
+            }
+        }
 
-        // Print our info
-        System.out.println("Purchase " + itemList + " for " + "$" + price);
+        //this should get you a list of manufacturer names. now you just need to output it. ^^
+
+        return recommendedManus;
+    }
+    public void generateOrderForm(ArrayList<String> itemIDs, int price, String category, String type, int numOfItems) { // output if order can be fulfilled
+        try {
+            // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.
+            BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("lib/orderform.txt"));
+
+            StringBuilder orderForm = new StringBuilder();
+            orderForm.append("Furniture Order Form\n");
+            orderForm.append("\n");
+
+            orderForm.append("Faculty Name: \n");
+            orderForm.append("Contact: \n");
+            orderForm.append("Date: \n");
+            orderForm.append("\n");
+
+            orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems + "\n");
+            orderForm.append("\n");
+
+            orderForm.append("Items Ordered\n");
+            for (int i = 0; i < itemIDs.size(); i++) { // prints out the IDs of the items ordered
+                orderForm.append("ID: " + itemIDs.get(i) + "\n");
+            }
+            //iterate this please
+
+            orderForm.append("\n");
+            orderForm.append("Total Price: $" + price);
+
+            String form = orderForm.toString();
+            orderFormWriter.write(form);
+            orderFormWriter.close();
+
+        } catch (IOException e) {
+            System.err.println("IO Error.");
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }
 

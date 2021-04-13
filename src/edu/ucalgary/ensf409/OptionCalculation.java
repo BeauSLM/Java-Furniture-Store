@@ -460,4 +460,13 @@ public class OptionCalculation {
 
     public ArrayList<String> getLowestPriceIDs() { return lowestPriceIDs; }
     public int getTotalLowestPrice() { return totalLowestPrice; }
+    public String getCategory() {
+	    return this.category;
+    }
+    public String getType() {
+	    return this.type;
+    }
+    public int getNumOfItems() {
+	    return this.numOfItems;
+    }
 }
