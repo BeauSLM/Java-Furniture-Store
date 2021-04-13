@@ -27,9 +27,6 @@ import java.awt.*;
  */
 public class Program {
     private DatabaseAccess database;
-    private String category;
-    private String type;
-    private int numOfItems;
     private static GUIAccessSQL sqlFrame;
 
     /**
@@ -44,116 +41,12 @@ public class Program {
         EventQueue.invokeLater(() -> {
             sqlFrame.setVisible(true);
         });
-        //testRun.accessSQL();
-        //testRun.userInput();
         //testRun.runProgram();
         //testRun.close();
     }
 
-    /**
-     * Access sql.
-     */
-    public void accessSQL() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter your username: ");
-        String username = scanner.nextLine().strip();
-
-        System.out.println("Enter your password: ");
-        String password = scanner.nextLine().strip();
-
-        System.out.println("Enter your database URL, or press return ONCE for the default: ");
-        String tmp = scanner.nextLine().strip();
-        String url;
-        if (tmp.equals("")) {
-            url = "jdbc:mysql://localhost/inventory";
-        } else {
-            url = new String(tmp);
-        }
-        scanner.close();
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
-        System.out.println("Url: " + url);
-
-        System.out.println("\nAccessing database...");
-        setDatabase(new DatabaseAccess(username, password, url));
-        System.out.println("Program successfully accessed database.");
-    }
-
-    /**
-     * User input.
-     */
-    public void userInput() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.println("Enter the furniture category: (Chair, Desk, Lamp, Filing)");
-            setCategory(scanner.nextLine().strip());
-            if (category.equals("Chair") || category.equals("Desk") ||
-                    category.equals("Lamp") || category.equals("Filing")) {
-                break;
-            } else {
-                System.out.println("Invalid category");
-            }
-        }
-
-        System.out.println("Enter the type of " + category + ": ");
-        setType(scanner.nextLine().strip());
-
-        System.out.println("Enter the number of items:");
-        setNumOfItems(Integer.parseInt(scanner.nextLine().strip()));
-
-        scanner.close();
-        System.out.println("Category: " + category);
-        System.out.println("Type: " + type);
-        System.out.println("Number of Items: " + numOfItems);
-    }
-
     public void close() {
         database.closeConnection();
-    }
-
-    /**
-     * Outputs a message in terminal of an order be fulfilled based
-     * on current inventory
-     * 
-     * @param itemIDs the lists of items that are used to fulfill the order
-     * @param price   the total price of the items that are purchased       
-     */
-    public void generateOrderForm(ArrayList<String> itemIDs, int price) { // output if order can be fulfilled
-        try {
-            // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.
-            BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("lib/orderform.txt"));
-
-            StringBuilder orderForm = new StringBuilder();
-            orderForm.append("Furniture Order Form\n");
-            orderForm.append("\n");
-
-            orderForm.append("Faculty Name: \n");
-            orderForm.append("Contact: \n");
-            orderForm.append("Date: \n");
-            orderForm.append("\n");
-
-            orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems + "\n");
-            orderForm.append("\n");
-
-            orderForm.append("Items Ordered\n");
-            for (int i = 0; i < itemIDs.size(); i++) { // prints out the IDs of the items ordered
-                orderForm.append("ID: " + itemIDs.get(i) + "\n");
-            }
-            //iterate this please
-
-            orderForm.append("\n");
-            orderForm.append("Total Price: $" + price);
-
-            String form = orderForm.toString();
-            orderFormWriter.write(form);
-            orderFormWriter.close();
-
-        } catch (IOException e) {
-            System.err.println("IO Error.");
-            e.printStackTrace();
-            System.exit(1);
-        }
     }
 
     /**
@@ -163,33 +56,6 @@ public class Program {
      */
     public void setDatabase(DatabaseAccess database) {
         this.database = database;
-    }
-
-    /**
-     * Sets category.
-     *
-     * @param category the category
-     */
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    /**
-     * Sets type.
-     *
-     * @param type the type
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * Sets num of items.
-     *
-     * @param numOfItems the num of items
-     */
-    public void setNumOfItems(int numOfItems) {
-        this.numOfItems = numOfItems;
     }
 }
 
