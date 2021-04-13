@@ -14,7 +14,6 @@ public class DatabaseAccess {
     private boolean isSuccessful;
 
     //ArrayLists that store the Database info
-	private String category;
     private ArrayList<Manufacturer> manuList;
     private ArrayList<Chair> chairList;
     private ArrayList<Desk> deskList;
@@ -28,11 +27,10 @@ public class DatabaseAccess {
      * @param password the password
      * @param url      the url
      */
-    public DatabaseAccess(String username, String password, String url, String category) {
+    public DatabaseAccess(String username, String password, String url) {
         this.USERNAME = username;
         this.PASSWORD = password;
         this.URL = url;
-		this.category = category;
         createConnection();
     }
 
@@ -40,7 +38,7 @@ public class DatabaseAccess {
      * Creates connection to sql DB, fills the class lists with the database's data.
      * This calls all the other functions.
      */
-    public void retrieveList() {
+    public void retrieveAll() {
 		retrieveManufacturers();
         retrieveChairs();
         retrieveDesks();
