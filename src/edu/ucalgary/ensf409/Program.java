@@ -2,6 +2,7 @@ package edu.ucalgary.ensf409;
 
 import java.awt.event.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
@@ -254,12 +255,19 @@ public class Program {
 class GUIUserInput extends JFrame implements ActionListener {
     DatabaseAccess database;
     String category;
+    String type;
+    int numOfItems;
     final String[] choices = new String[] {"Chair", "Desk", "Lamp", "Filing"};
-    JLabel categoryLabel;
     JLabel gMessage1;
     JLabel gMessage2;
     JLabel iLabel;
+    JLabel typeLabel;
+    JLabel noiLabel; //number of items label
     final JComboBox<String> selectionDropdown = new JComboBox<String>(choices);
+    JTextField typeTextField;
+    JTextField noiTextField;
+
+
 
 
     public GUIUserInput(DatabaseAccess database) {
@@ -274,6 +282,10 @@ class GUIUserInput extends JFrame implements ActionListener {
         gMessage1 = new JLabel("Welcome to the University of Calgary");
         gMessage2 = new JLabel("Supply Chain Management Software v2.5.");
         iLabel = new JLabel("Select the furniture category: ");
+        noiLabel = new JLabel("Number of Items :");
+        typeLabel = new JLabel("Type of furniture :");
+        noiTextField = new JTextField(18);
+        typeTextField = new JTextField(18);
 
         JButton selectCategoryButton = new JButton("Select");
         selectCategoryButton.addActionListener(this);
@@ -288,6 +300,12 @@ class GUIUserInput extends JFrame implements ActionListener {
         JPanel selectorPanel = new JPanel();
         selectorPanel.setLayout(new FlowLayout());
 
+        JPanel typePanel = new JPanel();
+        typePanel.setLayout(new FlowLayout());
+
+        JPanel noiPanel = new JPanel();
+        noiPanel.setLayout(new FlowLayout());
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
@@ -298,11 +316,22 @@ class GUIUserInput extends JFrame implements ActionListener {
         selectorPanel.add(iLabel);
         selectorPanel.add(selectionDropdown);
 
+
+        typePanel.add(typeLabel);
+        typePanel.add(typeTextField);
+
+        noiPanel.add(noiLabel);
+        noiPanel.add(noiTextField);
+
+
+
         buttonPanel.add(selectCategoryButton);
 
         //add everything to a wrapper panel
         wrapContainer.add(headerPanel);
         wrapContainer.add(selectorPanel);
+        wrapContainer.add(typePanel);
+        wrapContainer.add(noiPanel);
         wrapContainer.add(buttonPanel);
 
         //add the panel to the wrapper
@@ -310,11 +339,56 @@ class GUIUserInput extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        String category = selectionDropdown.getSelectedItem().toString();
-        JOptionPane.showMessageDialog(null, "You have selected the following category : "+ category);
+        String noiString;
+        String[] furnitureTypeArray;
+        category = selectionDropdown.getSelectedItem().toString();
+        type = typeTextField.getText();
+        noiString = noiTextField.getText();
+
+        try {
+            numOfItems = Integer.parseInt(noiString);
+            if(numOfItems < 0) {
+                JOptionPane.showMessageDialog(null, "You have inserted a negative Integer for number of items.");
+            } else {
+                //check if the words of type are properly capitalized.
+                furnitureTypeArray = type.split(" ");
+                boolean capitalizationFlag = false;
+                for(int i = 0; i < furnitureTypeArray.length; i++) {
+                    if(furnitureTypeArray[i].charAt(0) <= 'Z' && furnitureTypeArray[i].charAt(0) >= 'A') {
+                        capitalizationFlag = true;
+                    } else {
+                        capitalizationFlag = false;
+                        break;
+                    }
+                }
+                if(capitalizationFlag == false) {
+                    JOptionPane.showMessageDialog(null, "Your type is in the wrong form, each"+
+                            "word separated by space must start with a capital letter.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "You have selected the following category : " + category +
+                            ", type :" + type + ", number of items :" + numOfItems);
+                }
+            }
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "You have inserted an invalid input for number of items.");
+        }
+
     }
 
 }
+class GUIOrderForm extends JFrame {
+    public void successfulOrderGUI(ArrayList<String> itemIDs, int price) {
+        StringBuilder itemList = new StringBuilder();
+        for (int i = 0; i < (itemIDs.size() - 1); i++) { // prints out the IDs of the items ordered
+            itemList.append(itemIDs.get(i) + " and ");
+        }
+        itemList.append(itemIDs.get(itemIDs.size() - 1) + ".");
+
+        // Print our info
+        System.out.println("Purchase " + itemList + " for " + "$" + price);
+    }
+}
+
 class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     private DatabaseAccess database;
     private String username;
@@ -345,7 +419,7 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
         passwordLabel = new JLabel("Password :");
         urlLabel = new JLabel("URL      :");
         usernameTextField = new JTextField("e.g. MyUsername", 18);
-        passwordTextField = new JTextField("e.g. MyPaswword", 18);
+        passwordTextField = new JTextField("e.g. MyPassword", 18);
         urlTextField = new JTextField("e.g. http://localhost/", 30);
 
         usernameTextField.addMouseListener(this);
