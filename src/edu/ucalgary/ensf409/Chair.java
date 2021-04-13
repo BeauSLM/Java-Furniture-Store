@@ -102,6 +102,10 @@ public class Chair extends Furniture {
         return cushion;
     }
 
+    /**
+     * Gets the valid parts available from the chairs we have
+     * @return  arms, seat, cushion the statuses of the chair arms, seats, and cushions.
+     */
     public boolean[] getValidParts() {
         return new boolean[] {arms, seat, cushion};
     }
