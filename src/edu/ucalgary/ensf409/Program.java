@@ -108,29 +108,6 @@ public class Program {
         System.out.println("Number of Items: " + numOfItems);
     }
 
-    public void runProgram() {
-        OptionCalculation orderCalc = new OptionCalculation(category, type, numOfItems, database);
-        boolean canOrder = orderCalc.calculateCheapestPrice();
-        if (canOrder) {
-            generateOrderForm(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice());
-        } else {
-            switch (category) {
-                case "CHAIR":
-                    recommendManufacturers(database.getChairList());
-                    break;
-                case "DESK":
-                    recommendManufacturers(database.getDeskList());
-                    break;
-                case "LAMP":
-                    recommendManufacturers(database.getLampList());
-                    break;
-                case "FILING":
-                    recommendManufacturers(database.getFilingList());
-                    break;
-            }
-        }
-    }
-
     public void close() {
         database.closeConnection();
     }
@@ -360,7 +337,7 @@ class GUIOrderForm extends JFrame {
 
     public void setupGUI() {
         JPanel wrapContainer = new JPanel();
-        wrapContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.PAGE_AXIS));
+        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
         JPanel headerPanel = new JPanel();
         headerPanel.setLayout(new FlowLayout());
         generalMessage1 = new JLabel("Welcome to the University of Calgary");
