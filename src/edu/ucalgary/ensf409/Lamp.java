@@ -2,7 +2,8 @@ package edu.ucalgary.ensf409;
 import java.util.ArrayList;
 
 public class Lamp extends Furniture {
-
+    private boolean base;
+    private boolean bulb;
     /**
      * Constructor of the Child Class Lamp.
      * @param id        ID of the Lamp.
@@ -13,6 +14,47 @@ public class Lamp extends Furniture {
      * @param bulb      Boolean that indicates if the bulb of the Lamp is usable.
      */
     public Lamp(String id, String type, int price, String manuID, boolean base, boolean bulb) {
-        super(id, type, price, manuID, new boolean[]{base, bulb});
+        super(id, type, price, manuID);
+        this.base = base;
+        this.bulb = bulb;
+    }
+
+    //Getter functions of the Child Class Lamp
+
+    /**
+     * Gets the status of the base
+     * @return  the status of the lamp
+     */
+    public boolean getBase() {
+        return base;
+    }
+
+    /**
+     * Gets the status of the bulb
+     * @return  the status of the bulb
+     */
+    public boolean getBulb() {
+        return bulb;
+    }
+
+    //Setter functions of the Child Class Lamp
+
+    /**
+     * Sets base
+     * @param base  the status of the base
+     */
+    public void setBase(boolean base) {
+        this.base = base;
+    }
+
+    /**
+     * Sets bulb
+     * @param bulb  the status of the bulb
+     */
+    public void setBulb(boolean bulb) {
+        this.bulb = bulb;
+    }
+    public boolean[] getValidParts() {
+        return new boolean[] {base, bulb};
     }
 }

@@ -11,7 +11,6 @@ public abstract class Furniture {
     private String type;
     private int price;
     private String manuID;
-    private boolean[] validParts;
 
     /**
      * Constructor for the Parent Class Furniture.
@@ -21,12 +20,11 @@ public abstract class Furniture {
      * @param price  The price of the furniture
      * @param manuID The Manufacturer ID
      */
-    public Furniture(String id, String type, int price, String manuID, boolean[] validParts) {
+    public Furniture(String id, String type, int price, String manuID) {
         this.id = id;
         this.type = type;
         this.price = price;
         this.manuID = manuID;
-        this.validParts = validParts;
     }
 
     //All the getter functions for the parent class Furniture
@@ -66,12 +64,34 @@ public abstract class Furniture {
     public String getManuID() {
         return this.manuID;
     }
+    /**
+     * Sets type
+     * @param type  the type of furniture
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
 
+    /**
+     * Sets price
+     * @param price the price of the furniture
+     */
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    /**
+     * Sets the manufacturers ID
+     * @param manuID    the ID of the manufacturer
+     */
+    public void setManuID(String manuID) {
+        this.manuID = manuID;
+    }
     /**
      * Gets valid parts
      *
      * @return the valid parts array
      */
-    public boolean[] getValidParts() { return this.validParts; }
+    public abstract boolean[] getValidParts();
 }
 
