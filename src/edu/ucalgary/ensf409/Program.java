@@ -2,12 +2,8 @@ package edu.ucalgary.ensf409;
 
 import java.awt.event.*;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.xml.crypto.Data;
 import java.awt.*;
 
 /**
