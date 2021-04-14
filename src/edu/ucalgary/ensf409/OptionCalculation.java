@@ -66,7 +66,7 @@ public class OptionCalculation <T extends Furniture> {
 	    else {
             int maxNumOfItems = furnList.get(0).getValidParts().length * NUMOFITEMS;
             for (int i = 1; i <= maxNumOfItems; i++) {
-                if (i < furnList.size()) {
+                if (i <= furnList.size()) {
                     calculateCheapestCombo(furnList, i);
                 }
             }
@@ -87,11 +87,6 @@ public class OptionCalculation <T extends Furniture> {
         }
 
         findCombinations_Recursion(furnitureList, currentCombo, 0, 0, r);
-        /*
-        for(T obj : lowestPriceItems){
-            System.out.println(obj.getId() + ": $" + obj.getPrice());
-        }
-        */
     }
 
     /**
@@ -132,6 +127,14 @@ public class OptionCalculation <T extends Furniture> {
                 }
             }
         }
+        for(T item : combo){
+            System.out.print(item.getId()+", ");
+        }
+        System.out.print(": ");
+        for(int partNum : numOfParts){
+            System.out.print(partNum);
+        }
+        System.out.println();
         //checks to see if each item has all the parts for this combination
         boolean hasAllParts = true;
         for(int numOfThisPart : numOfParts){
