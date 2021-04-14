@@ -299,7 +299,7 @@ public class DatabaseAccess {
     }
 
     /**
-     * Gets isSuccessful (status of whether purchase of items has been successful).
+     * Gets isSuccessful (status of whether the connection to the database was successful).
      *
      * @return the isSuccessful
      */
@@ -334,14 +334,6 @@ public class DatabaseAccess {
         return URL;
     }
 
-    /**
-     * Is successful boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isSuccessful() {
-        return isSuccessful;
-    }
 
     /**
      * Sets successful.

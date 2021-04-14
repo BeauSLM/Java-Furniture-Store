@@ -19,7 +19,7 @@ import java.awt.*;
  */
 
 /**
- * Class for main, handles input and output using the terminal.
+ * Class for main, handles input and output using a Graphic User Interface
  */
 public class Program {
     private static GUIAccessSQL sqlFrame;
@@ -38,10 +38,12 @@ public class Program {
 }
 
 /**
- * The type Gui access sql.
+ * GUIAccessSQL is used to create a Graphic User Interface that requests from the
+ * user their database ID, database Password, and the URL to the database.
  */
 class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     private DatabaseAccess database;
+
     private String username;
     private String password;
     private String url;
@@ -51,9 +53,12 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     private JLabel usernameLabel;
     private JLabel passwordLabel;
     private JLabel urlLabel;
+
     private JTextField usernameTextField;
     private JTextField passwordTextField;
     private JTextField urlTextField;
+
+    private JButton connectButton;
 
     /**
      * Instantiates a new Gui access sql.
@@ -69,46 +74,45 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
      * Sets gui.
      */
     public void setupGUI() {
-        //Let's set up our Labels and TextFields and messages for the form.
+        //Let's set up the JLabels and the JTextFields and the JButton for our GUI.
         generalMessage1 = new JLabel("Welcome to the University of Calgary");
         generalMessage2 = new JLabel("Supply Chain Management Software v2.5.");
         usernameLabel = new JLabel("Username :");
         passwordLabel = new JLabel("Password :");
         urlLabel = new JLabel("URL      :");
+
         usernameTextField = new JTextField("e.g. MyUsername", 18);
         passwordTextField = new JTextField("e.g. MyPassword", 18);
         urlTextField = new JTextField("e.g. http://localhost/", 30);
 
+        connectButton = new JButton("Connect");
+
+        //add Mouse Listeners to the JTextFields and ActionListener to the JButton
         usernameTextField.addMouseListener(this);
         passwordTextField.addMouseListener(this);
         urlTextField.addMouseListener(this);
-
-        JButton connectButton = new JButton("Connect");
         connectButton.addActionListener(this);
 
-        //JPanels instantiation
+        //Create the JPanels.
         JPanel mainContainer = new JPanel();
-        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.PAGE_AXIS));
         JPanel headerPanel = new JPanel();
-        headerPanel.setLayout(new FlowLayout());
-
         JPanel usernamePanel = new JPanel();
-        usernamePanel.setLayout(new FlowLayout());
-
         JPanel passwordPanel = new JPanel();
-        passwordPanel.setLayout(new FlowLayout());
-
         JPanel urlPanel = new JPanel();
-        urlPanel.setLayout(new FlowLayout());
-
         JPanel connectPanel = new JPanel();
+
+        //Set the Layouts for the JPanels
+        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.PAGE_AXIS));
+        headerPanel.setLayout(new FlowLayout());
+        usernamePanel.setLayout(new FlowLayout());
+        passwordPanel.setLayout(new FlowLayout());
+        urlPanel.setLayout(new FlowLayout());
         connectPanel.setLayout(new FlowLayout());
 
-        //add components to their Panels
+        //Add Components to the JPanels.
 
         headerPanel.add(generalMessage1);
         headerPanel.add(generalMessage2);
-
         usernamePanel.add(usernameLabel);
         usernamePanel.add(usernameTextField);
         passwordPanel.add(passwordLabel);
@@ -116,27 +120,42 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
         urlPanel.add(urlLabel);
         urlPanel.add(urlTextField);
         connectPanel.add(connectButton);
-        //add Panels to the Frame
+
+        //Add the JPanels to the main JPanel
         mainContainer.add(headerPanel);
         mainContainer.add(usernamePanel);
         mainContainer.add(passwordPanel);
         mainContainer.add(urlPanel);
         mainContainer.add(connectPanel);
+
+        //Add the main panel to the JFrame.
         this.add(mainContainer);
     }
 
+    /**
+     * actionPerformed function used to handle an action performed on the
+     * Connect Button.
+     * @param e ActionEvent passed on the function actionPerformed
+     */
     public void actionPerformed(ActionEvent e) {
-
+        //Pull the data from the JTextFields username, password and url
         username = usernameTextField.getText();
         password = passwordTextField.getText();
         url = urlTextField.getText();
+        //Attempt to create a databaseAccess object called database using the inputs provided by the user.
         if(validAccess(username, password, url)) {
+            //We had a successfully created a DatabaseAccess object and connected successfully to the database. Let's
+            //handle business.
+
+            //JOptionPane dialog which notifies the user that they successfully connected.
             JOptionPane.showMessageDialog(null, "You successfully connected to the database with username : "
                     + username + " and password : "+ password+"and url : " + url);
             database.retrieveAll();
             /*WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
             Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);*/
+            //Create a GUIUserInput frame and let us use EventQueue to "invokeLater" that Frame.
             GUIUserInput userInputFrame = new GUIUserInput(database);
+            //close the currentFrame.
             this.setVisible(false);
             EventQueue.invokeLater(() -> {
                 userInputFrame.setVisible(true);
@@ -144,6 +163,7 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
             //this.dispose();
         }
         else {
+            //Unsuccessful connection to the database. Show a dialog to the user to notify them.
             JOptionPane.showMessageDialog(null, "There was an error connecting to the database with username : "
                     + username + " and password : "+ password+"and url : " + url);
         }
@@ -195,64 +215,29 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
 }
 
 /**
- * The type Gui user input.
+ *  Class used to create a JFrame that handles asks the user to input information
+ *  needed to start the process for finding the cheaper combinations of used
+ *  furniture to create another piece of furniture.
  */
 class GUIUserInput extends JFrame implements ActionListener {
-    /**
-     * The Database.
-     */
     DatabaseAccess database;
-    /**
-     * The Category.
-     */
-    String category,
-    /**
-     * The Type.
-     */
-    type;
-    /**
-     * The Num of items.
-     */
+    String category;
+    String type;
     int numOfItems;
-    /**
-     * The Choices.
-     */
+
+    JLabel gMessage1;
+    JLabel gMessage2;
+    JLabel iLabel;
+    JLabel noiLabel;
+    JLabel typeLabel;
+
+    JTextField typeTextField;
+    JTextField noiTextField;
+
     final String[] choices = new String[] {"Chair", "Desk", "Lamp", "Filing"};
-    /**
-     * The G message 1.
-     */
-    JLabel gMessage1,
-    /**
-     * The G message 2.
-     */
-    gMessage2;
-    /**
-     * The Label.
-     */
-    JLabel iLabel,
-    /**
-     * The Noi label.
-     */
-    noiLabel,
-    /**
-     * The Type label.
-     */
-    typeLabel;
-    /**
-     * The Selection dropdown.
-     */
     final JComboBox<String> selectionDropdown = new JComboBox<String>(choices);
     /**
-     * The Type text field.
-     */
-    JTextField typeTextField,
-    /**
-     * The Noi text field.
-     */
-    noiTextField;
-
-    /**
-     * Instantiates a new Gui user input.
+     * Instantiates a new GUI for user input.
      *
      * @param database the database
      */
@@ -265,40 +250,41 @@ class GUIUserInput extends JFrame implements ActionListener {
     }
 
     /**
-     * Sets gui.
+     * Function used to Setup the Graphic User Interface
      */
     public void setupGUI() {
+        //Instantiate the JLabels
         gMessage1 = new JLabel("Welcome to the University of Calgary");
         gMessage2 = new JLabel("Supply Chain Management Software v2.5.");
         iLabel = new JLabel("Select the furniture category: ");
         noiLabel = new JLabel("Number of Items :");
         typeLabel = new JLabel("Type of furniture :");
+
+        //Instantiate the JTextFields.
         noiTextField = new JTextField(18);
         typeTextField = new JTextField(18);
 
+        //create the Select button and add an action Listener object to it.
         JButton selectCategoryButton = new JButton("Select");
         selectCategoryButton.addActionListener(this);
 
         //create Panels
         JPanel wrapContainer = new JPanel();
-        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
-
         JPanel headerPanel = new JPanel();
-        headerPanel.setLayout(new FlowLayout());
-
         JPanel selectorPanel = new JPanel();
-        selectorPanel.setLayout(new FlowLayout());
-
         JPanel typePanel = new JPanel();
-        typePanel.setLayout(new FlowLayout());
-
         JPanel noiPanel = new JPanel();
-        noiPanel.setLayout(new FlowLayout());
-
         JPanel buttonPanel = new JPanel();
+
+        //Set the Panel Layouts
+        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
+        headerPanel.setLayout(new FlowLayout());
+        selectorPanel.setLayout(new FlowLayout());
+        typePanel.setLayout(new FlowLayout());
+        noiPanel.setLayout(new FlowLayout());
         buttonPanel.setLayout(new FlowLayout());
 
-        //add stuff to panels.
+        //Add JLabels, JTextFields and JButton to appropriate panels.
         headerPanel.add(gMessage1);
         headerPanel.add(gMessage2);
 
@@ -313,28 +299,36 @@ class GUIUserInput extends JFrame implements ActionListener {
 
         buttonPanel.add(selectCategoryButton);
 
-        //add everything to a wrapper panel
+        //Add all the JPanels to the wrapper Panel.
         wrapContainer.add(headerPanel);
         wrapContainer.add(selectorPanel);
         wrapContainer.add(typePanel);
         wrapContainer.add(noiPanel);
         wrapContainer.add(buttonPanel);
 
-        //add the panel to the wrapper
+        //Add the wrapper JPanel to the JFrame itself.
         this.add(wrapContainer);
     }
 
+    /**
+     * actionPerformed function used to handle interaction with the User Input GUI.
+     * @param e Event handler in the case the button is interacted with.
+     */
     public void actionPerformed(ActionEvent e) {
         String noiString;
         String[] furnitureTypeArray;
+
+        //Get the data provided from the Graphic User Intefrace.
         category = selectionDropdown.getSelectedItem().toString();
         type = typeTextField.getText();
         noiString = noiTextField.getText();
 
+        //Let's attempt to parse the number of Items we would like to create.
         try {
             numOfItems = Integer.parseInt(noiString);
-            if(numOfItems < 0) {
-                JOptionPane.showMessageDialog(null, "You have inserted a negative Integer for number of items.");
+            if(numOfItems <= 0) {
+                //Illegal argument. The number of Items must be positive
+                JOptionPane.showMessageDialog(null, "You have inserted non-positive Integer for number of items.");
             } else {
                 //check if the words of type are properly capitalized.
                 furnitureTypeArray = type.split(" ");
@@ -351,9 +345,13 @@ class GUIUserInput extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Your type is in the wrong form, each"+
                             "word separated by a space must start with a capital letter.");
                 } else {
+                    //Show to the user what they have inputted, and prompt them with the result of their selection.
                     JOptionPane.showMessageDialog(null, "You have selected the following category : " + category +
                             ", type :" + type + ", number of items :" + numOfItems);
+                    //Create a new GUIOrderForm object and then let's attempt to show on the screen the results of the
+                    //user request.
                     GUIOrderForm processForm = new GUIOrderForm(category, type, numOfItems, database);
+                    //hide the current frame.
                     this.setVisible(false);
                     EventQueue.invokeLater(()->{
                         processForm.setVisible(true);
@@ -362,19 +360,21 @@ class GUIUserInput extends JFrame implements ActionListener {
             }
         }
         catch(Exception ex) {
+            //We caught an exception when attemption to convert to integer. User has given an invalid input.
             JOptionPane.showMessageDialog(null, "You have inserted an invalid input for number of items.");
         }
     }
 }
 
 /**
- * The type Gui order form.
+ * This class is used to process the user input provided in GUIUserInput
  */
 class GUIOrderForm extends JFrame {
     private DatabaseAccess database;
     private String category;
     private OptionCalculation orderCalc;
-    private JLabel generalMessage1, generalMessage2;
+    private JLabel generalMessage1;
+    private JLabel generalMessage2;
 
     /**
      * Instantiates a new Gui order form.
@@ -388,6 +388,7 @@ class GUIOrderForm extends JFrame {
         super("Order Form Process.");
         this.database = database;
         this.category = category;
+        //create an OptionCalculation Object used to process the user Order.
         orderCalc = new OptionCalculation(type, numberOfItems);
         setupGUI();
         setSize(600,400);
@@ -395,20 +396,31 @@ class GUIOrderForm extends JFrame {
     }
 
     /**
-     * Sets gui.
+     *  setupGUI function sets up the Graphic User Interface for the OrderForm process.
      */
     public void setupGUI() {
+        boolean calcSuccess = false;
+        //Setup the top part of the Graphic Interface and the wrapper JPanel
         JPanel wrapContainer = new JPanel();
-        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
         JPanel headerPanel = new JPanel();
+
+        //Setup the Layouts for the wrapper JPanel and the header JPanel
+        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
         headerPanel.setLayout(new FlowLayout());
+
+        //instantiate the header JLabels
         generalMessage1 = new JLabel("Welcome to the University of Calgary");
         generalMessage2 = new JLabel("Supply Chain Management Software v2.5.");
+
+        //add the JLabels to the headerPanel
         headerPanel.add(generalMessage1);
         headerPanel.add(generalMessage2);
+
+        //add the header JPanel to the wrapper JPanel
         wrapContainer.add(headerPanel);
 
-        boolean calcSuccess = false;
+        //Let's attempt to calculate the cheapest price for the creation of the object.
+        //Assign the status of the calculation to the variable calcSuccess
         switch(category){
             case "Chair":
                 calcSuccess = orderCalc.calculateCheapestPrice(database.getChairList());
@@ -424,24 +436,25 @@ class GUIOrderForm extends JFrame {
                 break;
         }
 
+
         if(calcSuccess) {
-            //deletes all items on the list
+            //Let's first delete all items on the list.
             for(Object id : orderCalc.getLowestPriceIDs()){
                 database.deleteItem(category, (String)id); //what the fuck java
             }
 
-            //makes the order form
+            //Create the Order Form in the text file.
             generateOrderForm(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice(), category,
                     orderCalc.getType(), orderCalc.getNumOfItems());
 
-            //gui stuff
+            //Create the JPanels needed and their layouts
             JPanel orderFormPanel = new JPanel();
             orderFormPanel.setLayout(new FlowLayout());
 
+            //create a Label that shows what is the cheapest option.
             JLabel messageLabel = new JLabel(successfulOrderString(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice()));
             orderFormPanel.add(messageLabel);
             wrapContainer.add(orderFormPanel);
-            this.add(wrapContainer);
         } else {
             //recommends manufacturers based on the list of producers of the category
             ArrayList<String> manufacturers = new ArrayList<>();
@@ -459,15 +472,20 @@ class GUIOrderForm extends JFrame {
                     manufacturers = recommendManufacturers(database.getFilingList());
                     break;
             }
-            //gui stuff
+            //Create a JPanel to hold the Manufacturer Recommendation information
             JPanel manufacturerPanel = new JPanel();
             manufacturerPanel.setLayout(new FlowLayout());
 
+            //Create the messages for the user.
             JLabel manuMessage1 = new JLabel("Your order can't be fulfilled with the current inventory.");
             JLabel manuMessage2 = new JLabel("Recommended Manufacturers :");
+
+            //Add JLabels to the Panel
             manufacturerPanel.add(manuMessage1);
             manufacturerPanel.add(manuMessage2);
 
+            //Depending on how many manufacturers are to be recommended create the appropriate JLabels
+            //with their info.
             JLabel[] manufacturerLabels = new JLabel[manufacturers.size()];
             for(int i = 0; i < manufacturerLabels.length; i++) {
                 manufacturerLabels[i].setText(manufacturers.get(i));
@@ -475,8 +493,8 @@ class GUIOrderForm extends JFrame {
             }
 
             wrapContainer.add(manufacturerPanel);
-            this.add(wrapContainer);
         }
+        this.add(wrapContainer);
     }
 
     /**
@@ -498,9 +516,7 @@ class GUIOrderForm extends JFrame {
     }
 
     /**
-     * Outputs a message in terminal if an order cannot be fulfilled based
-     * on current inventory
-     *
+     * Returns an array List of recommended manufacturers in the case we can't fulfill an order
      * @param objectList list of manufacturers that sell components of the item that was ordered
      * @return the array list
      */
