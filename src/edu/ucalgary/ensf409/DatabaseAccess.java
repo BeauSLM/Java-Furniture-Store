@@ -236,6 +236,37 @@ public class DatabaseAccess {
         try {
             Statement deleteItem = dbConnect.createStatement();
             deleteItem.executeUpdate(query);
+            //if our query is executed let us remove the item from its respective collection
+            switch(category) {
+                case "Chair":
+                    for(int i=0; i < chairList.size(); i++) {
+                        if(chairList.get(i).getId().equals(id)) {
+                            chairList.remove(i);
+                        }
+                    }
+                    break;
+                case "Filing":
+                    for(int i=0; i < filingList.size(); i++) {
+                        if(filingList.get(i).getId().equals(id)) {
+                            filingList.remove(i);
+                        }
+                    }
+                    break;
+                case "Desk":
+                    for(int i=0; i < deskList.size(); i++) {
+                        if(deskList.get(i).getId().equals(id)) {
+                            deskList.remove(i);
+                        }
+                    }
+                    break;
+                case "Lamp":
+                    for(int i=0; i < lampList.size(); i++) {
+                        if(lampList.get(i).getId().equals(id)) {
+                            lampList.remove(i);
+                        }
+                    }
+                    break;
+            }
         }
         catch(SQLException e){
             System.out.println("Error deleting item " + id);
