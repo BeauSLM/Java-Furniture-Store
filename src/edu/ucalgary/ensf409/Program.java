@@ -553,7 +553,7 @@ class GUIOrderForm extends JFrame {
     public void generateOrderForm(ArrayList<String> itemIDs, int price, String category, String type, int numOfItems) { // output if order can be fulfilled
         try {
             // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.
-            BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("lib/orderform.txt"));
+            BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("src/edu/ucalgary/ensf409/orderform.txt"));
 
             StringBuilder orderForm = new StringBuilder();
             orderForm.append("Furniture Order Form\n");
