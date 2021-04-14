@@ -282,18 +282,18 @@ public class DatabaseAccess {
     public ArrayList<Filing> getFilingList() { return this.filingList; }
 
     /**
-     * Gets db connect.
+     * Gets dbConnect.
      *
-     * @return the db connect
+     * @return the dbConnect
      */
     public Connection getDbConnect() {
         return this.dbConnect;
     }
 
     /**
-     * Gets is successful.
+     * Gets isSuccessful (status of whether purchase of items has been successful).
      *
-     * @return the is successful
+     * @return the isSuccessful
      */
     public boolean getIsSuccessful() {
         return isSuccessful;
