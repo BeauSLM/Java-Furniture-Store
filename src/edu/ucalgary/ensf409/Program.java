@@ -513,13 +513,13 @@ class GUIOrderForm extends JFrame {
     }
 
     /**
-     * Generate order form.
+     * Generates an order form in a text file.
      *
-     * @param itemIDs    the item i ds
+     * @param itemIDs    the item IDs
      * @param price      the price
      * @param category   the category
      * @param type       the type
-     * @param numOfItems the num of items
+     * @param numOfItems the number of items
      */
     public void generateOrderForm(ArrayList<String> itemIDs, int price, String category, String type, int numOfItems) { // output if order can be fulfilled
         try {
