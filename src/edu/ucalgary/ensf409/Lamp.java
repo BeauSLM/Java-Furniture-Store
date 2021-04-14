@@ -42,24 +42,6 @@ public class Lamp extends Furniture {
         return bulb;
     }
 
-    //Setter functions of the Child Class Lamp
-
-    /**
-     * Sets base
-     * @param base  the status of the base
-     */
-    public void setBase(boolean base) {
-        this.base = base;
-    }
-
-    /**
-     * Sets bulb
-     * @param bulb  the status of the bulb
-     */
-    public void setBulb(boolean bulb) {
-        this.bulb = bulb;
-    }
-
     /**
      * Gets valid parts
      *

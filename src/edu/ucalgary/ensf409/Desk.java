@@ -53,38 +53,12 @@ public class Desk extends Furniture {
         return drawer;
     }
 
-    //Desk class setter Function
-
-    /**
-     * Sets legs
-     * @param legs  If the legs are usable or not
-     */
-    public void setLegs(boolean legs) {
-        this.legs = legs;
-    }
-
-    /**
-     * Sets top
-     * @param top   If the top is usable or not
-     */
-    public void setTop(boolean top) {
-        this.top = top;
-    }
-
-    /**
-     * Sets drawer
-     * @param drawer    If the drawer is usable or not
-     */
-    public void setDrawer(boolean drawer) {
-        this.drawer = drawer;
-    }
-
     /**
      * Gets valid parts
      *
      * @return the valid parts array of desk.
      */
     public boolean[] getValidParts() {
-        return new boolean[] {this.legs,this.top, this.drawer};
+        return new boolean[] {legs, top, drawer};
     }
 }
