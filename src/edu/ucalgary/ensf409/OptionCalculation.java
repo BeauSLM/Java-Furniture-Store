@@ -70,7 +70,7 @@ public class OptionCalculation <T extends Furniture> {
                     calculateCheapestCombo(furnList, i);
                 }
             }
-            return !lowestPriceItems.isEmpty();
+            return !(lowestPriceItems == null);
         }
     }
 
