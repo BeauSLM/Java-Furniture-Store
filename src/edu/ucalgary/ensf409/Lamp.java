@@ -7,7 +7,14 @@ import java.util.ArrayList;
  * classified as Lamps.
  */
 public class Lamp extends Furniture {
+    /**
+     * boolean that indicates if the lamp base is usable
+     */
     private boolean base;
+
+    /**
+     * boolean that indicates if the lamp bulb is usable
+     */
     private boolean bulb;
 
     /**
