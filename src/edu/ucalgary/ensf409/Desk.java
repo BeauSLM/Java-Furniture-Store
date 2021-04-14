@@ -1,10 +1,16 @@
 package edu.ucalgary.ensf409;
 
 /**
+ * <h1>Desk</h1>
+ * 
  * Child class that inherits from class Furniture.
  * Used to implement the Furniture that can be
  * classified as Desks.
+ * 
+ * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
+ * @version 2.4
  */
+ 
 public class Desk extends Furniture {
     /**
      * boolean that indicates if the desk legs are usable
