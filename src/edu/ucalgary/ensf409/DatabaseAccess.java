@@ -3,8 +3,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
+ * <h1>DatabaseAccess</h1>
  * Class used to access the inventory database.
+ * 
+ * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
+ * @version 2.4
  */
+
 public class DatabaseAccess {
     //SQL Connection stuff
     private final String USERNAME;
