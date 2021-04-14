@@ -299,5 +299,49 @@ public class DatabaseAccess {
         return isSuccessful;
     }
 
+    /**
+     * Gets username.
+     *
+     * @return the username
+     */
+    public String getUSERNAME() {
+        return USERNAME;
+    }
+
+    /**
+     * Gets password.
+     *
+     * @return the password
+     */
+    public String getPASSWORD() {
+        return PASSWORD;
+    }
+
+    /**
+     * Gets url.
+     *
+     * @return the url
+     */
+    public String getURL() {
+        return URL;
+    }
+
+    /**
+     * Is successful boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+
+    /**
+     * Sets successful.
+     *
+     * @param successful the successful
+     */
+    public void setSuccessful(boolean successful) {
+        isSuccessful = successful;
+    }
 }
 

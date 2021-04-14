@@ -8,12 +8,12 @@ import static org.junit.Assert.*;
  */
 public class UnitTest {
 
-    DatabaseAccess testDb;
+    static DatabaseAccess testDb;
 
     //change these to fit your system before running tests
-    String username = "ensf409";
-    String password = "ensf409";
-    String url = "jdbc:mysql://localhost:3306/inventory";
+    static String username = "ensf409";
+    static String password = "ensf409";
+    static String url = "jdbc:mysql://localhost:3306/INVENTORY";
 
     /**
      * Instantiates a new Unit test.
@@ -25,7 +25,7 @@ public class UnitTest {
     //_____________________________________________________________________________
 
     @BeforeClass
-    public void DBSetup(){
+    public static void DBSetup(){
         //user input from command line maybe?
         //
         testDb = new DatabaseAccess(username, password, url);
