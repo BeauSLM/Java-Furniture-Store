@@ -2,6 +2,9 @@ package edu.ucalgary.ensf409;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 
 /**
  * Class for unit tests.
@@ -95,6 +98,51 @@ public class UnitTest {
         assertTrue(foundItem);
     }
 
+    @Test
+    public void testDatabaseAccessRetrieval_DeleteChair() {
+        // testing deleting a chair and searching for it
+        String id = "C3819";
+        String type = "Kneeling";
+        String legs = "N";
+        String arms = "N";
+        String seat = "Y";
+        String cushion = "N";
+        int price = 75;
+        String manuID = "005";
+            
+        boolean foundItem = false;
+        testDb.deleteItem(type, id);
+
+        for(Chair item : testDb.getChairList()){
+            if(item.getId().equals(id) && item.getType().equals(type)){
+                foundItem = true;
+            }
+        }
+        assertFalse("Chair was successfully deleted.", foundItem);
+
+        // attempt to add the chair that was deleted back into database.
+        try {
+            String query = "INSERT INTO chair (id, type, legs, arms, seat, cushion, price, manuid) VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement myStmt = testDb.getDbConnect().prepareStatement(query);
+                
+            myStmt.setString(1, id);
+            myStmt.setString(2, type);
+            myStmt.setString(3, legs);
+            myStmt.setString(4, arms);
+            myStmt.setString(5, seat);
+            myStmt.setString(6, cushion);
+            myStmt.setInt(7, price);
+            myStmt.setString(8, manuID);
+
+            myStmt.executeUpdate();
+                
+            myStmt.close();
+    
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
+    }
+
     // OptionCalculation Tests
     //_______________________________________________________
     @Test
@@ -116,4 +164,5 @@ public class UnitTest {
             System.out.println((String)id);
         }
     }
+
 }
