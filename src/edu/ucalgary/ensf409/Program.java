@@ -362,6 +362,7 @@ class GUIUserInput extends JFrame implements ActionListener {
         catch(Exception ex) {
             //We caught an exception when attemption to convert to integer. User has given an invalid input.
             JOptionPane.showMessageDialog(null, "You have inserted an invalid input for number of items.");
+            ex.printStackTrace();
         }
     }
 }
