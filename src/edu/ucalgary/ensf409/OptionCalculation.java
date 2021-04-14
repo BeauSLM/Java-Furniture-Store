@@ -93,6 +93,10 @@ public class OptionCalculation <T extends Furniture> {
      */
     private void calculateCheapestCombo(ArrayList<T> furnitureList, int r){
         ArrayList<T> currentCombo = new ArrayList<>();
+        for(int i = 0; i < r; i++){ //initializes currentCombo to r empty elements
+            currentCombo.add(null);
+        }
+
         findCombinations_Recursion(furnitureList, currentCombo, 0, 0, r);
     }
 
