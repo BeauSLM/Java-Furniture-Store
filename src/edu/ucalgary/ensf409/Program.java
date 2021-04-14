@@ -508,10 +508,9 @@ class GUIOrderForm extends JFrame {
     public String successfulOrderString(ArrayList<String> itemIDs, int price) {
         StringBuilder itemList = new StringBuilder();
         itemList.append("Purchase ");
-        for (int i = 0; i < (itemIDs.size() - 1); i++) { // prints out the IDs of the items ordered
-            itemList.append(itemIDs.get(i) + " and ");
+        for (Object id : orderCalc.getLowestPriceIDs()) { // prints out the IDs of the items ordered
+            itemList.append((String)id);
         }
-        itemList.append(itemIDs.get(itemIDs.size() - 1) + ".");
         itemList.append(" for "+ "$"+price+".");
         return new String(itemList);
     }

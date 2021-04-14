@@ -30,11 +30,6 @@ public class OptionCalculation <T extends Furniture> {
      */
     private ArrayList<T> lowestPriceItems = new ArrayList<>();
 
-    /**
-     * List of id's of the furniture items needed in the cheapest possible order.
-     */
-    private ArrayList<String> lowestPriceIDs = new ArrayList<>();
-
 
     /**
      * Instantiates a new Option calculation.
@@ -157,11 +152,12 @@ public class OptionCalculation <T extends Furniture> {
      *
      * @param furnList Array of the appropriate furniture type, from which the IDs of the furniture will be fetched.
      */
-    public void genItemIDs(ArrayList<T> furnList){
-	    lowestPriceIDs.clear();
-	    for(T item : furnList){
-	        lowestPriceIDs.add(item.getId());
+    public ArrayList<String> genItemIDs(ArrayList<T> furnList){
+	    ArrayList<String> itemIDs = new ArrayList<>();
+        for(T item : furnList){
+	        itemIDs.add(item.getId());
         }
+        return itemIDs;
     }
 
     /**
@@ -177,7 +173,7 @@ public class OptionCalculation <T extends Furniture> {
      *
      * @return the list.
      */
-    public ArrayList<String> getLowestPriceIDs() { return lowestPriceIDs; }
+    public ArrayList<String> getLowestPriceIDs() { return genItemIDs(lowestPriceItems); }
 
     /**
      * Gets total lowest price.
