@@ -16,6 +16,8 @@ public class UnitTest {
     //change these to fit your system before running tests
     private static String username = "ensf409";
     private static String password = "ensf409";
+
+    // RIGHT NOW THIS IS FOR BEAU'S MACHINE CHANGE INVENTORY TO LOWERCASE IF YOU NEED TO
     private static String url = "jdbc:mysql://localhost:3306/INVENTORY";
 
     /**
@@ -118,7 +120,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertFalse("Chair was successfully deleted.", foundItem);
+        assertFalse("Chair was NOT deleted", foundItem);
 
         // attempt to add the chair that was deleted back into database.
         try {
