@@ -345,17 +345,58 @@ class GUIUserInput extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Your type is in the wrong form, each"+
                             "word separated by a space must start with a capital letter.");
                 } else {
-                    //Show to the user what they have inputted, and prompt them with the result of their selection.
-                    JOptionPane.showMessageDialog(null, "You have selected the following category: " + category +
-                            ", type: " + type + ", number of items: " + numOfItems);
-                    //Create a new GUIOrderForm object and then let's attempt to show on the screen the results of the
-                    //user request.
-                    GUIOrderForm processForm = new GUIOrderForm(category, type, numOfItems, database);
-                    //hide the current frame.
-                    this.setVisible(false);
-                    EventQueue.invokeLater(()->{
-                        processForm.setVisible(true);
-                    });
+                    //Let us check if the Type of furniture exists in our ArrayLists
+                    boolean typeFound = false;
+                    switch(category) {
+                        case "Chair":
+                            for(int i =0; i < database.getChairList().size(); i++) {
+                                if(database.getChairList().get(i).getType().equals(type)) {
+                                    typeFound = true;
+                                    break;
+                                }
+                            }
+                            break;
+                        case "Desk":
+                            for(int i =0; i < database.getDeskList().size(); i++) {
+                                if(database.getDeskList().get(i).getType().equals(type)) {
+                                    typeFound = true;
+                                    break;
+                                }
+                            }
+                            break;
+                        case "Lamp":
+                            for(int i =0; i < database.getLampList().size(); i++) {
+                                if(database.getChairList().get(i).getType().equals(type)) {
+                                    typeFound = true;
+                                    break;
+                                }
+                            }
+                            break;
+                        case "Filing":
+                            for(int i =0; i < database.getFilingList().size(); i++) {
+                                if(database.getChairList().get(i).getType().equals(type)) {
+                                    typeFound = true;
+                                    break;
+                                }
+                            }
+                            break;
+                    }
+                    if(typeFound == true) {
+                        //Show to the user what they have inputted, and prompt them with the result of their selection.
+                        JOptionPane.showMessageDialog(null, "You have selected the following category: " + category +
+                                ", type: " + type + ", number of items: " + numOfItems);
+                        //Create a new GUIOrderForm object and then let's attempt to show on the screen the results of the
+                        //user request.
+                        GUIOrderForm processForm = new GUIOrderForm(category, type, numOfItems, database);
+                        //hide the current frame.
+                        this.setVisible(false);
+                        EventQueue.invokeLater(() -> {
+                            processForm.setVisible(true);
+                        });
+                    } else {
+                        JOptionPane.showMessageDialog(null, "You have entered a type for the category : "
+                                +category+" of items that doesn't exist.");
+                    }
                 }
             }
         }
