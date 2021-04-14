@@ -8,12 +8,12 @@ import static org.junit.Assert.*;
  */
 public class UnitTest {
 
-    static DatabaseAccess testDb;
+    private static DatabaseAccess testDb;
 
     //change these to fit your system before running tests
-    static String username = "ensf409";
-    static String password = "ensf409";
-    static String url = "jdbc:mysql://localhost:3306/INVENTORY";
+    private static String username = "ensf409";
+    private static String password = "ensf409";
+    private static String url = "jdbc:mysql://localhost:3306/INVENTORY";
 
     /**
      * Instantiates a new Unit test.
@@ -95,6 +95,25 @@ public class UnitTest {
         assertTrue(foundItem);
     }
 
-    // Tests
+    // OptionCalculation Tests
     //_______________________________________________________
+    @Test
+    public void testOptionCalculation_1DeskLamp() {
+        OptionCalculation cheapestLamp = new OptionCalculation("Desk", 1);
+        cheapestLamp.calculateCheapestPrice(testDb.getLampList());
+        assertEquals(cheapestLamp.getTotalLowestPrice(), 20);
+        for(Object id : cheapestLamp.getLowestPriceIDs()){
+            System.out.println((String)id);
+        }
+    }
+
+    @Test
+    public void testOptionCalculation_2DeskLamps() {
+        OptionCalculation cheapestLamp = new OptionCalculation("Desk", 2);
+        cheapestLamp.calculateCheapestPrice(testDb.getLampList());
+        assertEquals(cheapestLamp.getTotalLowestPrice(), 40);
+        for(Object id : cheapestLamp.getLowestPriceIDs()){
+            System.out.println((String)id);
+        }
+    }
 }
