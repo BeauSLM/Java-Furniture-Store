@@ -39,6 +39,33 @@ public class Filing extends Furniture {
         this.drawers = drawers;
         this.cabinet = cabinet;
     }
+
+    //Setter functions for the Filing Cabinets
+
+    /**
+     * Sets rails
+     * @param rails If the rails are usable or not
+     */
+    public void setRails(boolean rails) {
+        this.rails = rails;
+    }
+
+    /**
+     * Sets drawers
+     * @param drawers   If the drawers are usable or not
+     */
+    public void setDrawers(boolean drawers) {
+        this.drawers = drawers;
+    }
+
+    /**
+     * Sets cabinet
+     * @param cabinet   If the cabinet is usable or not
+     */
+    public void setCabinet(boolean cabinet) {
+        this.cabinet = cabinet;
+    }
+
     //Getter functions for the Filing Cabinets
 
     /**

@@ -47,7 +47,39 @@ public class Chair extends Furniture {
         this.seat = seat;
         this.cushion = cushion;
     }
+    //Setter functions for the Child Class Chair
 
+    /**
+     * Sets legs
+     * @param legs      If legs are usable or not
+     */
+    public void setLegs(boolean legs) {
+        this.legs = legs;
+    }
+
+    /**
+     * Sets arms
+     * @param arms      If arms are usable or not
+     */
+    public void setArms(boolean arms) {
+        this.arms = arms;
+    }
+
+    /**
+     * Sets seat
+     * @param seat      If seat is usable or not
+     */
+    public void setSeat(boolean seat) {
+        this.seat = seat;
+    }
+
+    /**
+     * Sets cushion
+     * @param cushion   If cushion is usable or not
+     */
+    public void setCushion(boolean cushion) {
+        this.cushion = cushion;
+    }
     //Getter functions for the Child Class Chair
 
     /**
