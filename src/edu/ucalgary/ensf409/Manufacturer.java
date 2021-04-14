@@ -1,9 +1,13 @@
 package edu.ucalgary.ensf409;
 
 /**
- * Class Manufacturer. Acts as a placeholder for a Manufacturer
- * for our Program.
+ * <h1>Manufacturer</h1>
+ * This class is used as the placeholder for the manufacturer class.
+ *
+ * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
+ * @version 2.4
  */
+
 public class Manufacturer {
     /**
      * The manufacturers ID
