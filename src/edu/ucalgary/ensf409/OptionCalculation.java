@@ -74,7 +74,6 @@ public class OptionCalculation <T extends Furniture> {
                 return false;
             }
             else{
-                genItemIDs(lowestPriceItems);
                 return true;
             }
         }
@@ -90,6 +89,9 @@ public class OptionCalculation <T extends Furniture> {
         ArrayList<T> currentCombo = new ArrayList<>();
         for(int i = 0; i < r; i++){ //initializes currentCombo to r empty elements
             currentCombo.add(null);
+        }
+        for(T obj : lowestPriceItems){
+            System.out.println(obj.getId() + ": $" + obj.getPrice());
         }
 
         findCombinations_Recursion(furnitureList, currentCombo, 0, 0, r);
