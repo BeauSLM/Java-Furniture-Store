@@ -195,4 +195,31 @@ public class OptionCalculation <T extends Furniture> {
      * @return the number of items
      */
     public int getNumOfItems() { return this.NUMOFITEMS; }
+
+    /**
+     * Gets type.
+     *
+     * @return the type
+     */
+    public String getTYPE() {
+        return TYPE;
+    }
+
+    /**
+     * Gets numofitems.
+     *
+     * @return the numofitems
+     */
+    public int getNUMOFITEMS() {
+        return NUMOFITEMS;
+    }
+
+    /**
+     * Sets total lowest price.
+     *
+     * @param totalLowestPrice the total lowest price
+     */
+    public void setTotalLowestPrice(int totalLowestPrice) {
+        this.totalLowestPrice = totalLowestPrice;
+    }
 }

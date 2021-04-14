@@ -32,6 +32,7 @@ public class DatabaseAccess {
         this.PASSWORD = password;
         this.URL = url;
         createConnection();
+        retrieveAll();
     }
 
     /**
