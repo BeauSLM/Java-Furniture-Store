@@ -100,6 +100,9 @@ public class UnitTest {
         assertTrue(foundItem);
     }
 
+    /**
+     * Test to see if a chair can be deleted successfully. Adds back which ever chair was deleted back into database.
+     */
     @Test
     public void testDatabaseAccessRetrieval_DeleteChair() {
         // testing deleting a chair and searching for it
@@ -146,6 +149,9 @@ public class UnitTest {
         }   
     }
 
+    /**
+     * Test to see if a desk can be deleted successfully. Adds back which ever desk was deleted back into database.
+     */
     @Test
     public void testDatabaseAccessRetrieval_DeleteDesk() {
         // testing deleting a chair and searching for it
@@ -190,6 +196,9 @@ public class UnitTest {
         }   
     }
 
+    /**
+     * Test to see if a lamp can be deleted successfully. Adds back which ever lamp was deleted back into database.
+     */
     @Test
     public void testDatabaseAccessRetrieval_DeleteLamp() {
         // testing deleting a chair and searching for it
@@ -232,6 +241,9 @@ public class UnitTest {
         }   
     }
 
+    /**
+     * Test to see if a filing can be deleted successfully. Adds back which ever filing was deleted back into database.
+     */
     @Test
     public void testDatabaseAccessRetrieval_DeleteFiling() {
         // testing deleting a chair and searching for it
