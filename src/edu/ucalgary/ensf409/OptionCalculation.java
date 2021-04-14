@@ -28,7 +28,7 @@ public class OptionCalculation <T extends Furniture> {
     /**
      * A list of objects of the Furniture that are in the cheapest possible order.
      */
-    private ArrayList<T> lowestPriceItems = new ArrayList<>();
+    private ArrayList<T> lowestPriceItems;
 
 
     /**
@@ -125,8 +125,10 @@ public class OptionCalculation <T extends Furniture> {
     private void processCombination(ArrayList<T> combo){
         int[] numOfParts = new int[combo.get(0).getValidParts().length];
         int totalPrice = 0;
+        ArrayList<T> lowestItems = new ArrayList<>();
         for(T item : combo){
             totalPrice += item.getPrice();
+            lowestItems.add(item);
             for(int i = 0; i < item.getValidParts().length; i++){
                 if(item.getValidParts()[i]){
                     numOfParts[i]++;
@@ -144,7 +146,7 @@ public class OptionCalculation <T extends Furniture> {
         //if it has all the parts and the total price is lower (or the first valid one),
         //set the total lowest price and its items to the combination processed
         if(hasAllParts && (totalPrice < totalLowestPrice || totalLowestPrice == -1)){
-            lowestPriceItems = combo;
+            lowestPriceItems = lowestItems;
             totalLowestPrice = totalPrice;
         }
     }
