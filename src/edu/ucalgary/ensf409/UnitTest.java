@@ -190,6 +190,48 @@ public class UnitTest {
         }   
     }
 
+    @Test
+    public void testDatabaseAccessRetrieval_DeleteLamp() {
+        // testing deleting a chair and searching for it
+        String category = "Lamp";
+        String id = "L649";
+        String type = "Desk";
+        String base = "Y";
+        String bulb = "N";
+        int price = 18;
+        String manuID = "004";
+            
+        boolean foundItem = false;
+        testDb.deleteItem(category, id);
+
+        for(Lamp item : testDb.getLampList()){
+            if(item.getId().equals(id) && item.getType().equals(type)){
+                foundItem = true;
+            }
+        }
+        assertFalse("Lamp was deleted as it was unable to be found.", foundItem);
+
+        // attempt to add the lamp that was deleted back into database.
+        try {
+            String query = "INSERT INTO lamp (id, type, base, bulb, price, manuid) VALUES (?,?,?,?,?,?)";
+            PreparedStatement myStmt = testDb.getDbConnect().prepareStatement(query);
+                
+            myStmt.setString(1, id);
+            myStmt.setString(2, type);
+            myStmt.setString(3, base);
+            myStmt.setString(4, bulb);
+            myStmt.setInt(5, price);
+            myStmt.setString(6, manuID);
+
+            myStmt.executeUpdate();
+                
+            myStmt.close();
+    
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
+    }
+
     // OptionCalculation Tests
     //_______________________________________________________
     @Test
