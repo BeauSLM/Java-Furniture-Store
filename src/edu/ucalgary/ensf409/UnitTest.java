@@ -232,6 +232,50 @@ public class UnitTest {
         }   
     }
 
+    @Test
+    public void testDatabaseAccessRetrieval_DeleteFiling() {
+        // testing deleting a chair and searching for it
+        String category = "Filing";
+        String id = "F015";
+        String type = "Large";
+        String rails = "Y";
+        String drawers = "N";
+        String cabinet = "N";
+        int price = 75;
+        String manuID = "004";
+            
+        boolean foundItem = false;
+        testDb.deleteItem(category, id);
+
+        for(Filing item : testDb.getFilingList()){
+            if(item.getId().equals(id) && item.getType().equals(type)){
+                foundItem = true;
+            }
+        }
+        assertFalse("Filing was deleted as it was unable to be found.", foundItem);
+
+        // attempt to add the filing that was deleted back into database.
+        try {
+            String query = "INSERT INTO filing (id, type, rails, drawers, cabinet, price, manuid) VALUES (?,?,?,?,?,?,?)";
+            PreparedStatement myStmt = testDb.getDbConnect().prepareStatement(query);
+                
+            myStmt.setString(1, id);
+            myStmt.setString(2, type);
+            myStmt.setString(3, rails);
+            myStmt.setString(4, drawers);
+            myStmt.setString(5, cabinet);
+            myStmt.setInt(6, price);
+            myStmt.setString(6, manuID);
+
+            myStmt.executeUpdate();
+                
+            myStmt.close();
+    
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }   
+    }
+
     // OptionCalculation Tests
     //_______________________________________________________
     @Test
