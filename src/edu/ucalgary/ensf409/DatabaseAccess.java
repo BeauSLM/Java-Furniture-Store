@@ -267,6 +267,7 @@ public class DatabaseAccess {
                     }
                     break;
             }
+            deleteItem.close();
         }
         catch(SQLException e){
             System.out.println("Error deleting item " + id);

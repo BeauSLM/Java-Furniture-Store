@@ -495,6 +495,7 @@ class GUIOrderForm extends JFrame {
 
             wrapContainer.add(manufacturerPanel);
         }
+        database.closeConnection();
         this.add(wrapContainer);
     }
 

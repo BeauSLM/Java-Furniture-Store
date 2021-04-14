@@ -70,12 +70,7 @@ public class OptionCalculation <T extends Furniture> {
                     calculateCheapestCombo(furnList, i);
                 }
             }
-            if (lowestPriceItems.isEmpty()) {
-                return false;
-            }
-            else{
-                return true;
-            }
+            return !lowestPriceItems.isEmpty();
         }
     }
 
@@ -83,7 +78,7 @@ public class OptionCalculation <T extends Furniture> {
      * Finds the cheapest combination of items needed to provide all the necessary components to fulfill the order.
      *
      * @param furnitureList List of available furniture.
-     * @param r
+     * @param r the number of elements to pull from the furnitureList
      */
     private void calculateCheapestCombo(ArrayList<T> furnitureList, int r){
         ArrayList<T> currentCombo = new ArrayList<>();
