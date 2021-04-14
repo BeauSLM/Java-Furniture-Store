@@ -145,7 +145,7 @@ public class UnitTest {
     
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }   
+        }
     }
 
     /**
@@ -173,7 +173,6 @@ public class UnitTest {
         }
         assertFalse("Desk was deleted as it was unable to be found.", foundItem);
 
-        /*
         // attempt to add the chair that was deleted back into database.
         try {
             String query = "INSERT INTO desk (id, type, legs, top, drawer, price, manuid) VALUES (?,?,?,?,?,?,?)";
@@ -194,7 +193,6 @@ public class UnitTest {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        */
     }
 
     /**
@@ -221,7 +219,6 @@ public class UnitTest {
         }
         assertFalse("Lamp was deleted as it was unable to be found.", foundItem);
 
-        /*
         // attempt to add the lamp that was deleted back into database.
         try {
             String query = "INSERT INTO lamp (id, type, base, bulb, price, manuid) VALUES (?,?,?,?,?,?)";
@@ -241,7 +238,6 @@ public class UnitTest {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-         */
     }
 
     /**
@@ -269,7 +265,6 @@ public class UnitTest {
         }
         assertFalse("Filing was deleted as it was unable to be found.", foundItem);
 
-        /*
         // attempt to add the filing that was deleted back into database.
         try {
             String query = "INSERT INTO filing (id, type, rails, drawers, cabinet, price, manuid) VALUES (?,?,?,?,?,?,?)";
@@ -290,8 +285,6 @@ public class UnitTest {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-         */
     }
 
     // OptionCalculation Tests
@@ -322,5 +315,12 @@ public class UnitTest {
         OptionCalculation cheapestFiling = new OptionCalculation("Medium", 3);
         cheapestFiling.calculateCheapestPrice(testDb.getFilingList());
         assertEquals(cheapestFiling.getTotalLowestPrice(), 600);
+    }
+
+    @Test //tests w/ chair, which requires 4 parts unlike others
+    public void testOptionCalculation_1MeshChair(){
+        OptionCalculation cheapestChair = new OptionCalculation("Mesh", 1);
+        cheapestChair.calculateCheapestPrice(testDb.getChairList());
+        assertEquals(cheapestChair.getTotalLowestPrice(), 200);
     }
 }
