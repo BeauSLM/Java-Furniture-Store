@@ -49,7 +49,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Manufacturer was not able to be retrieved.", foundItem);
     }
     @Test
     public void testDatabaseAccessRetrieval_Chair() {
@@ -61,7 +61,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Chair C8138 was not able to be retrieved.", foundItem);
     }
     @Test
     public void testDatabaseAccessRetrieval_Desk() {
@@ -73,7 +73,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Desk D3820 was not able to be retrieved.", foundItem);
     }
     @Test
     public void testDatabaseAccessRetrieval_Lamp() {
@@ -85,7 +85,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Lamp L053 was not able to be retrieved.", foundItem);
     }
     @Test
     public void testDatabaseAccessRetrieval_Filing() {
@@ -97,7 +97,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Filing F011 was not able to be retrieved.", foundItem);
     }
 
     /**
@@ -298,7 +298,7 @@ public class UnitTest {
     public void testOptionCalculation_1DeskLamp() {
         OptionCalculation cheapestLamp = new OptionCalculation("Desk", 1);
         cheapestLamp.calculateCheapestPrice(testDb.getLampList());
-        assertEquals(cheapestLamp.getTotalLowestPrice(), 20);
+        assertEquals("Lowest price was incorrectly calculated.", cheapestLamp.getTotalLowestPrice(), 20);
         for(Object id : cheapestLamp.getLowestPriceIDs()){
             System.out.println((String)id);
         }
@@ -311,7 +311,7 @@ public class UnitTest {
     public void testOptionCalculation_2DeskLamps() {
         OptionCalculation cheapestLamp = new OptionCalculation("Desk", 2);
         cheapestLamp.calculateCheapestPrice(testDb.getLampList());
-        assertEquals(cheapestLamp.getTotalLowestPrice(), 40);
+        assertEquals("Lowest price was incorrectly calculated.", cheapestLamp.getTotalLowestPrice(), 40);
         for(Object id : cheapestLamp.getLowestPriceIDs()){
             System.out.println((String)id);
         }
