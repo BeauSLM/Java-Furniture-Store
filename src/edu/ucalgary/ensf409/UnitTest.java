@@ -62,9 +62,9 @@ public class UnitTest {
     public void testDatabaseAccessRetrieval_Desk() {
         //searching for D3820
         boolean foundItem = false;
-        for(Desk item : testDb.getDeskList()){
+        for(Desk item : testDb.getDeskList()) {
             if(item.getId().equals("D3820") && item.getLegs() && !item.getDrawer() && !item.getTop()
-                && item.getType().equals("Standing") && item.getPrice() == 150 && item.getManuID().equals(001)) {
+                && item.getType().equals("Standing") && item.getPrice() == 150 && item.getManuID().equals("001")) {
                 foundItem = true;
             }
         }
