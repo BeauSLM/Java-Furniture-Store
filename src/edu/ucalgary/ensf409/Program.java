@@ -425,9 +425,16 @@ class GUIOrderForm extends JFrame {
         }
 
         if(calcSuccess) {
+            //deletes all items on the list
+            for(Object id : orderCalc.getLowestPriceIDs()){
+                database.deleteItem(category, (String)id); //what the fuck java
+            }
+
+            //makes the order form
             generateOrderForm(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice(), category,
                     orderCalc.getType(), orderCalc.getNumOfItems());
 
+            //gui stuff
             JPanel orderFormPanel = new JPanel();
             orderFormPanel.setLayout(new FlowLayout());
 
@@ -436,6 +443,7 @@ class GUIOrderForm extends JFrame {
             wrapContainer.add(orderFormPanel);
             this.add(wrapContainer);
         } else {
+            //recommends manufacturers based on the list of producers of the category
             ArrayList<String> manufacturers = new ArrayList<>();
             switch (category) {
                 case "Chair":
@@ -451,6 +459,7 @@ class GUIOrderForm extends JFrame {
                     manufacturers = recommendManufacturers(database.getFilingList());
                     break;
             }
+            //gui stuff
             JPanel manufacturerPanel = new JPanel();
             manufacturerPanel.setLayout(new FlowLayout());
 

@@ -228,12 +228,19 @@ public class DatabaseAccess {
 
     /**
      * Delete item.
-     *
-     * @param type the type
+     * @param category the category
      * @param id   the id
      */
-    public void deleteItem(String type, String id){
-
+    public void deleteItem(String category, String id){
+        String query = "DELETE FROM " + category + " WHERE ID = '" + id + "'";
+        try {
+            Statement deleteItem = dbConnect.createStatement();
+            deleteItem.executeUpdate(query);
+        }
+        catch(SQLException e){
+            System.out.println("Error deleting item " + id);
+            e.printStackTrace();
+        }
     }
 
     /**
