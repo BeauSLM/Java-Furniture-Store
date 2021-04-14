@@ -81,6 +81,11 @@ public class Filing extends Furniture {
     }
 
     @Override
+    /**
+     * Gets valid parts
+     *
+     * @return the valid parts array of Filing
+     */
     public boolean[] getValidParts() {
         return new boolean[] {rails, drawers, cabinet};
     }

@@ -79,6 +79,11 @@ public class Desk extends Furniture {
         this.drawer = drawer;
     }
 
+    /**
+     * Gets valid parts
+     *
+     * @return the valid parts array of desk.
+     */
     public boolean[] getValidParts() {
         return new boolean[] {this.legs,this.top, this.drawer};
     }

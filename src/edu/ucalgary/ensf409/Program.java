@@ -7,16 +7,16 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
-* <h1>Program</h1>
-* This program implements an application that
-* is used to determine the cheapest combination of
-* inventory items that can be used to fulfill an order that
-* is specified. The application calculates the most cost effective
-* way of assembling a certain item using components from other items. 
-*
-* @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
-* @version 1.0
-*/
+ * <h1>Program</h1>
+ * This program implements an application that
+ * is used to determine the cheapest combination of
+ * inventory items that can be used to fulfill an order that
+ * is specified. The application calculates the most cost effective
+ * way of assembling a certain item using components from other items.
+ *
+ * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
+ * @version 1.0
+ */
 
 /**
  * Class for main, handles input and output using the terminal.

@@ -1,6 +1,11 @@
 package edu.ucalgary.ensf409;
 import java.util.ArrayList;
 
+/**
+ * Child class that inherits from class Furniture.
+ * Used to implement the Furniture that can be
+ * classified as Lamps.
+ */
 public class Lamp extends Furniture {
     private boolean base;
     private boolean bulb;
@@ -54,6 +59,12 @@ public class Lamp extends Furniture {
     public void setBulb(boolean bulb) {
         this.bulb = bulb;
     }
+
+    /**
+     * Gets valid parts
+     *
+     * @return the valid parts array
+     */
     public boolean[] getValidParts() {
         return new boolean[] {base, bulb};
     }
