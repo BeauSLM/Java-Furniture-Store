@@ -6,8 +6,19 @@ import java.util.ArrayList;
  * the category Filing Cabinets.
  */
 public class Filing extends Furniture {
+    /**
+     * boolean that indicates if the filing rails are usable
+     */
     private boolean rails;
+
+    /**
+     * boolean that indicates if the filing drawers are usable
+     */ 
     private boolean drawers;
+
+    /**
+     * boolean that indicates if the filing cabinet is usable
+     */
     private boolean cabinet;
 
     /**

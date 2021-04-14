@@ -6,8 +6,19 @@ package edu.ucalgary.ensf409;
  * classified as Desks.
  */
 public class Desk extends Furniture {
+    /**
+     * boolean that indicates if the desk legs are usable
+     */
     private boolean legs;
+
+    /**
+     * boolean that indicates if the desk top is usable
+     */
     private boolean top;
+
+    /**
+     * boolean that indicates if the chair drawer is usable
+     */
     private boolean drawer;
 
     /**
