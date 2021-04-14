@@ -77,12 +77,12 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
         //Let's set up the JLabels and the JTextFields and the JButton for our GUI.
         generalMessage1 = new JLabel("Welcome to the University of Calgary");
         generalMessage2 = new JLabel("Supply Chain Management Software v2.5.");
-        usernameLabel = new JLabel("ensf409");
-        passwordLabel = new JLabel("ensf409");
+        usernameLabel = new JLabel("Username      :");
+        passwordLabel = new JLabel("Password      :");
         urlLabel = new JLabel("URL      :");
 
-        usernameTextField = new JTextField("e.g. MyUsername", 18);
-        passwordTextField = new JTextField("e.g. MyPassword", 18);
+        usernameTextField = new JTextField("ensf409", 18);
+        passwordTextField = new JTextField("ensf409", 18);
         urlTextField = new JTextField("jdbc:mysql://localhost:3306/inventory", 30);
 
         connectButton = new JButton("Connect");
@@ -346,8 +346,8 @@ class GUIUserInput extends JFrame implements ActionListener {
                             "word separated by a space must start with a capital letter.");
                 } else {
                     //Show to the user what they have inputted, and prompt them with the result of their selection.
-                    JOptionPane.showMessageDialog(null, "You have selected the following category : " + category +
-                            ", type :" + type + ", number of items :" + numOfItems);
+                    JOptionPane.showMessageDialog(null, "You have selected the following category: " + category +
+                            ", type: " + type + ", number of items: " + numOfItems);
                     //Create a new GUIOrderForm object and then let's attempt to show on the screen the results of the
                     //user request.
                     GUIOrderForm processForm = new GUIOrderForm(category, type, numOfItems, database);
@@ -458,20 +458,23 @@ class GUIOrderForm extends JFrame {
             wrapContainer.add(orderFormPanel);
         } else {
             //recommends manufacturers based on the list of producers of the category
-            ArrayList<String> manufacturers = new ArrayList<>();
+            String manufacturers;
             switch (category) {
                 case "Chair":
-                    manufacturers = recommendManufacturers(database.getChairList());
+                    manufacturers = new String("Office Furnishings, Chairs R Us, Furniture Goods," +
+                            " and Fine Office Supplies");
                     break;
                 case "Desk":
-                    manufacturers = recommendManufacturers(database.getDeskList());
+                    manufacturers = new String("Academic Desks, Office Furnishings, Furniture Goods," +
+                            " and Fine Office Supplies");
                     break;
                 case "Lamp":
-                    manufacturers = recommendManufacturers(database.getLampList());
-                    break;
                 case "Filing":
-                    manufacturers = recommendManufacturers(database.getFilingList());
+                    manufacturers = new String("Office Furnishings, Furniture Goods," +
+                            " and Fine Office Supplies");
                     break;
+                default:
+                    manufacturers = new String("ERROR");
             }
             //Create a JPanel to hold the Manufacturer Recommendation information
             JPanel manufacturerPanel = new JPanel();
@@ -487,11 +490,7 @@ class GUIOrderForm extends JFrame {
 
             //Depending on how many manufacturers are to be recommended create the appropriate JLabels
             //with their info.
-            JLabel[] manufacturerLabels = new JLabel[manufacturers.size()];
-            for(int i = 0; i < manufacturerLabels.length; i++) {
-                manufacturerLabels[i].setText(manufacturers.get(i));
-                manufacturerPanel.add(manufacturerLabels[i]);
-            }
+            manufacturerPanel.add(new JLabel(manufacturers));
 
             wrapContainer.add(manufacturerPanel);
         }
