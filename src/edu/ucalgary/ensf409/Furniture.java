@@ -1,11 +1,17 @@
 package edu.ucalgary.ensf409;
 
 /**
+ * <h1>Furniture</h1>
+ * 
  * Class Furniture is used as a parent class for the classes
  * Chair, Database, Desk, Lamp, Filing. There are common members
  * that can be implemented. String id, String type, int price and
  * String manuID.
+ *
+ * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
+ * @version 2.4
  */
+
 public abstract class Furniture {
     /**
      * String that identifies the ID of the furniture

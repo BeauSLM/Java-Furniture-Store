@@ -4,7 +4,6 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 
 /**
  * Class for unit tests.
@@ -49,7 +48,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Manufacturer was not able to be retrieved.", foundItem);
     }
     @Test
     public void testDatabaseAccessRetrieval_Chair() {
@@ -61,7 +60,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Chair C8138 was not able to be retrieved.", foundItem);
     }
     @Test
     public void testDatabaseAccessRetrieval_Desk() {
@@ -73,7 +72,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Desk D3820 was not able to be retrieved.", foundItem);
     }
     @Test
     public void testDatabaseAccessRetrieval_Lamp() {
@@ -85,7 +84,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Lamp L053 was not able to be retrieved.", foundItem);
     }
     @Test
     public void testDatabaseAccessRetrieval_Filing() {
@@ -97,7 +96,7 @@ public class UnitTest {
                 foundItem = true;
             }
         }
-        assertTrue(foundItem);
+        assertTrue("Filing F011 was not able to be retrieved.", foundItem);
     }
 
     /**
@@ -174,6 +173,7 @@ public class UnitTest {
         }
         assertFalse("Desk was deleted as it was unable to be found.", foundItem);
 
+        /*
         // attempt to add the chair that was deleted back into database.
         try {
             String query = "INSERT INTO desk (id, type, legs, top, drawer, price, manuid) VALUES (?,?,?,?,?,?,?)";
@@ -193,7 +193,8 @@ public class UnitTest {
     
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }   
+        }
+        */
     }
 
     /**
@@ -220,6 +221,7 @@ public class UnitTest {
         }
         assertFalse("Lamp was deleted as it was unable to be found.", foundItem);
 
+        /*
         // attempt to add the lamp that was deleted back into database.
         try {
             String query = "INSERT INTO lamp (id, type, base, bulb, price, manuid) VALUES (?,?,?,?,?,?)";
@@ -238,7 +240,8 @@ public class UnitTest {
     
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }   
+        }
+         */
     }
 
     /**
@@ -266,6 +269,7 @@ public class UnitTest {
         }
         assertFalse("Filing was deleted as it was unable to be found.", foundItem);
 
+        /*
         // attempt to add the filing that was deleted back into database.
         try {
             String query = "INSERT INTO filing (id, type, rails, drawers, cabinet, price, manuid) VALUES (?,?,?,?,?,?,?)";
@@ -277,7 +281,7 @@ public class UnitTest {
             myStmt.setString(4, drawers);
             myStmt.setString(5, cabinet);
             myStmt.setInt(6, price);
-            myStmt.setString(6, manuID);
+            myStmt.setString(7, manuID);
 
             myStmt.executeUpdate();
                 
@@ -285,7 +289,9 @@ public class UnitTest {
     
         } catch (SQLException ex) {
             ex.printStackTrace();
-        }   
+        }
+
+         */
     }
 
     // OptionCalculation Tests
@@ -298,10 +304,7 @@ public class UnitTest {
     public void testOptionCalculation_1DeskLamp() {
         OptionCalculation cheapestLamp = new OptionCalculation("Desk", 1);
         cheapestLamp.calculateCheapestPrice(testDb.getLampList());
-        assertEquals(cheapestLamp.getTotalLowestPrice(), 20);
-        for(Object id : cheapestLamp.getLowestPriceIDs()){
-            System.out.println((String)id);
-        }
+        assertEquals("Lowest price was incorrectly calculated.", cheapestLamp.getTotalLowestPrice(), 20);
     }
 
     /**
@@ -311,9 +314,13 @@ public class UnitTest {
     public void testOptionCalculation_2DeskLamps() {
         OptionCalculation cheapestLamp = new OptionCalculation("Desk", 2);
         cheapestLamp.calculateCheapestPrice(testDb.getLampList());
-        assertEquals(cheapestLamp.getTotalLowestPrice(), 40);
-        for(Object id : cheapestLamp.getLowestPriceIDs()){
-            System.out.println((String)id);
-        }
+        assertEquals("Lowest price was incorrectly calculated.", cheapestLamp.getTotalLowestPrice(), 40);
+    }
+
+    @Test //tests an edge case where all possible items are needed
+    public void testOptionCalculation_3MediumFilings() {
+        OptionCalculation cheapestFiling = new OptionCalculation("Medium", 3);
+        cheapestFiling.calculateCheapestPrice(testDb.getFilingList());
+        assertEquals(cheapestFiling.getTotalLowestPrice(), 600);
     }
 }

@@ -4,6 +4,19 @@ import java.util.*;
 //documentation added
 
 /**
+ * <h1>OptionCalculation</h1>
+ * This class
+ * is used to calculate the cheapest combination of
+ * inventory items that can be used to fulfill an order that
+ * is specified. This class calculates the most cost effective
+ * way of assembling a certain item using components from other items.
+ *
+ * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
+ * @version 2.4
+ */
+
+
+/**
  * Calculates the cheapest combination of items needed to fulfill the requested order, indicating if its not possible with the items in the database.
  *
  * @param <T> One of the four furniture types available: CHAIR, DESK, LAMP, FILING.
