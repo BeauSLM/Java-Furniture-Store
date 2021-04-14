@@ -1,38 +1,57 @@
 package edu.ucalgary.ensf409;
 import java.util.*;
-//v1
+//v1.1
+//documentation added
 
+/**
+ * Calculates the cheapest combination of items needed to fulfill the requested order, indicating if its not possible with the items in the database.
+ *
+ * @param <T> One of the four furniture types available: CHAIR, DESK, LAMP, FILING.
+ */
 public class OptionCalculation <T extends Furniture> {
 
-    private final String type;
-    private final int numOfItems;
+    private final String TYPE;
+    private final int NUMOFITEMS;
 
     private int totalLowestPrice = -1;
     private ArrayList<T> lowestPriceItems = new ArrayList<>();
-    private final ArrayList<String> lowestPriceIDs = new ArrayList<>();
+    private ArrayList<String> lowestPriceIDs = new ArrayList<>();
 
 
-	public OptionCalculation(String type, int numOfItems) {
-        this.type = type;
-        this.numOfItems = numOfItems;
+    /**
+     * Instantiates a new Option calculation.
+     *
+     * @param TYPE       Indicates what type of furniture.
+     * @param NUMOFITEMS the number of items.
+     */
+    public OptionCalculation(String TYPE, int NUMOFITEMS) {
+        this.TYPE = TYPE;
+        this.NUMOFITEMS = NUMOFITEMS;
     }
 
     private ArrayList<T> getFurnitureOfType(ArrayList<T> furnList){
 	    ArrayList<T> furnitureOfType = new ArrayList<>();
 	    for(T furniture : furnList){
-	        if(furniture.getType().equals(type)){
+	        if(furniture.getType().equals(TYPE)){
                 furnitureOfType.add(furniture);
             }
         }
 	    return furnitureOfType;
     }
-    public boolean calculateCheapestPrice(ArrayList<T> furnList){
+
+    /**
+     * Finds the cheapest combination of furniture needed to fulfill the order, updating the class fields with a list of the furniture and its overall price.
+     *
+     * @param furnList the furn list
+     * @return Boolean indicating if all necessary items are in stock to fulfill the order. Used to choose what to generate: an order form or a manufacturer recommendation.
+     */
+    public boolean calculateCheapestPrice(ArrayList<T> furnList) {
 	    furnList = getFurnitureOfType(furnList);
 	    if(furnList.isEmpty()){
 	        return false; //no valid items
         }
 	    else {
-            int maxNumOfItems = furnList.get(0).getValidParts().length * numOfItems;
+            int maxNumOfItems = furnList.get(0).getValidParts().length * NUMOFITEMS;
             for (int i = 1; i <= maxNumOfItems; i++) {
                 if (i < furnList.size()) {
                     calculateCheapestCombo(furnList, i);
@@ -78,7 +97,7 @@ public class OptionCalculation <T extends Furniture> {
         //checks to see if each item has all the parts for this combination
         boolean hasAllParts = true;
         for(int numOfThisPart : numOfParts){
-            if(numOfThisPart < numOfItems){
+            if(numOfThisPart < NUMOFITEMS){
                 hasAllParts = false;
                 break;
             }
@@ -91,6 +110,11 @@ public class OptionCalculation <T extends Furniture> {
         }
     }
 
+    /**
+     * Stores the IDs of furniture items needed to fulfill the order in the member ArrayList.
+     *
+     * @param furnList Array of the appropriate furniture type, from which the IDs of the furniture will be fetched.
+     */
     public void genItemIDs(ArrayList<T> furnList){
 	    lowestPriceIDs.clear();
 	    for(T item : furnList){
@@ -98,10 +122,39 @@ public class OptionCalculation <T extends Furniture> {
         }
     }
 
-    //getters
+    /**
+     * Gets the list of Furniture objects containing the lowest price items.
+     *
+     * @return the list.
+     */
+//getters
     public ArrayList<T> getLowestPriceItems() { return lowestPriceItems; }
+
+    /**
+     * Gets the list of IDs of the items needed to fulfill the order
+     *
+     * @return the list.
+     */
     public ArrayList<String> getLowestPriceIDs() { return lowestPriceIDs; }
+
+    /**
+     * Gets total lowest price.
+     *
+     * @return the total lowest price
+     */
     public int getTotalLowestPrice() { return totalLowestPrice; }
-    public String getType() { return this.type; }
-    public int getNumOfItems() { return this.numOfItems; }
+
+    /**
+     * Gets type of furniture.
+     *
+     * @return the type
+     */
+    public String getType() { return this.TYPE; }
+
+    /**
+     * Gets number of items.
+     *
+     * @return the number of items
+     */
+    public int getNumOfItems() { return this.NUMOFITEMS; }
 }
