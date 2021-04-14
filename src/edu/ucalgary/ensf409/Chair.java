@@ -6,9 +6,24 @@ package edu.ucalgary.ensf409;
  * Chair.
  */
 public class Chair extends Furniture {
+    /**
+     * boolean that indicates if the chair legs are usable
+     */
     private boolean legs;
+
+    /**
+     * boolean that indicates if the chair arms are usable
+     */
     private boolean arms;
+
+    /**
+     * boolean that indicates if the chair seat is usable
+     */
     private boolean seat;
+
+    /**
+     * boolean that indicates if the chair cushion is usable
+     */
     private boolean cushion;
 
     /**
