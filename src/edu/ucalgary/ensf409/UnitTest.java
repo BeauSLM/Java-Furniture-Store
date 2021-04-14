@@ -290,6 +290,10 @@ public class UnitTest {
 
     // OptionCalculation Tests
     //_______________________________________________________
+
+    /**
+     * Tests if OptionCalculation can find or purchase 1 desk lamp
+     */
     @Test
     public void testOptionCalculation_1DeskLamp() {
         OptionCalculation cheapestLamp = new OptionCalculation("Desk", 1);
@@ -300,6 +304,9 @@ public class UnitTest {
         }
     }
 
+    /**
+     * Tests if OptionCalculation can find or purchase 2 desk lamps
+     */
     @Test
     public void testOptionCalculation_2DeskLamps() {
         OptionCalculation cheapestLamp = new OptionCalculation("Desk", 2);
