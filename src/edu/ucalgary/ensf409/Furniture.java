@@ -7,9 +7,24 @@ package edu.ucalgary.ensf409;
  * String manuID.
  */
 public abstract class Furniture {
+    /**
+     * String that identifies the ID of the furniture
+     */
     private String id;
+
+    /**
+     * String that identifies the type of the furniture
+     */
     private String type;
+
+    /**
+     * int that identifies the price of the furniture
+     */
     private int price;
+
+    /**
+     * String that identifies the manufacturers ID of the furniture
+     */
     private String manuID;
 
     /**
