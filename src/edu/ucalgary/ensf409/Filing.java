@@ -2,9 +2,14 @@ package edu.ucalgary.ensf409;
 import java.util.ArrayList;
 
 /**
+ * <h1>Filing</h1>
  * Child Class Filing that is used as a container for furniture of
  * the category Filing Cabinets.
+ *
+ * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
+ * @version 2.4
  */
+
 public class Filing extends Furniture {
     /**
      * boolean that indicates if the filing rails are usable
