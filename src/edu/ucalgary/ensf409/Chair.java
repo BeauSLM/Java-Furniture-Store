@@ -123,6 +123,6 @@ public class Chair extends Furniture {
      * @return  arms, seat, cushion the statuses of the chair arms, seats, and cushions.
      */
     public boolean[] getValidParts() {
-        return new boolean[] {arms, seat, cushion};
+        return new boolean[] {legs, arms, seat, cushion};
     }
 }
