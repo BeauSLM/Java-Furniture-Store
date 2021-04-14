@@ -10,11 +10,29 @@ import java.util.*;
  */
 public class OptionCalculation <T extends Furniture> {
 
+    /**
+     * Indicates what type of furniture: CHAIR, DESK, LAMP, or FILING
+     */
     private final String TYPE;
+
+    /**
+     * The number of items required
+     */
     private final int NUMOFITEMS;
 
+    /**
+     * The price of the cheapest possible order.
+     */
     private int totalLowestPrice = -1;
+
+    /**
+     * A list of objects of the Furniture that are in the cheapest possible order.
+     */
     private ArrayList<T> lowestPriceItems = new ArrayList<>();
+
+    /**
+     * List of id's of the furniture items needed in the cheapest possible order.
+     */
     private ArrayList<String> lowestPriceIDs = new ArrayList<>();
 
 
@@ -42,7 +60,7 @@ public class OptionCalculation <T extends Furniture> {
     /**
      * Finds the cheapest combination of furniture needed to fulfill the order, updating the class fields with a list of the furniture and its overall price.
      *
-     * @param furnList the furn list
+     * @param furnList the list of furniture available to order.
      * @return Boolean indicating if all necessary items are in stock to fulfill the order. Used to choose what to generate: an order form or a manufacturer recommendation.
      */
     public boolean calculateCheapestPrice(ArrayList<T> furnList) {
@@ -67,11 +85,26 @@ public class OptionCalculation <T extends Furniture> {
         }
     }
 
+    /**
+     * Finds the cheapest combination of items needed to provide all the necessary components to fulfill the order.
+     *
+     * @param furnitureList List of available furniture.
+     * @param r
+     */
     private void calculateCheapestCombo(ArrayList<T> furnitureList, int r){
         ArrayList<T> currentCombo = new ArrayList<>();
         findCombinations_Recursion(furnitureList, currentCombo, 0, 0, r);
     }
 
+    /**
+     * Implementation of a recursive algorithm that finds the cheapest combination of furniture with the necessary components.
+     *
+     * @param furnList
+     * @param currCombo
+     * @param currIndex
+     * @param level
+     * @param r
+     */
     private void findCombinations_Recursion(ArrayList<T> furnList, ArrayList<T> currCombo, int currIndex, int level, int r){
         if(level == r){
             processCombination(currCombo);
@@ -83,6 +116,11 @@ public class OptionCalculation <T extends Furniture> {
         }
     }
 
+    /**
+     *
+     *
+     * @param combo
+     */
     private void processCombination(ArrayList<T> combo){
         int[] numOfParts = new int[combo.get(0).getValidParts().length];
         int totalPrice = 0;
