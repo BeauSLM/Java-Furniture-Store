@@ -77,13 +77,13 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
         //Let's set up the JLabels and the JTextFields and the JButton for our GUI.
         generalMessage1 = new JLabel("Welcome to the University of Calgary");
         generalMessage2 = new JLabel("Supply Chain Management Software v2.5.");
-        usernameLabel = new JLabel("Username :");
-        passwordLabel = new JLabel("Password :");
+        usernameLabel = new JLabel("ensf409");
+        passwordLabel = new JLabel("ensf409");
         urlLabel = new JLabel("URL      :");
 
         usernameTextField = new JTextField("e.g. MyUsername", 18);
         passwordTextField = new JTextField("e.g. MyPassword", 18);
-        urlTextField = new JTextField("e.g. http://localhost/", 30);
+        urlTextField = new JTextField("jdbc:mysql://localhost:3306/inventory", 30);
 
         connectButton = new JButton("Connect");
 
