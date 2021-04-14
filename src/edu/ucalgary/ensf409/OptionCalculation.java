@@ -87,9 +87,11 @@ public class OptionCalculation <T extends Furniture> {
         }
 
         findCombinations_Recursion(furnitureList, currentCombo, 0, 0, r);
+        /*
         for(T obj : lowestPriceItems){
             System.out.println(obj.getId() + ": $" + obj.getPrice());
         }
+        */
     }
 
     /**
