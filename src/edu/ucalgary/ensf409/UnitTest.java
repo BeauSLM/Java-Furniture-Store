@@ -51,7 +51,7 @@ public class UnitTest {
         //searching for C8138
         boolean foundItem = false;
         for(Chair item : testDb.getChairList()){
-            if(item.getId().equals("C8138") && item.getType().equals("Task") && !item.getLegs() && !item.getArms()
+            if(item.getId().equals("C8138") && item.getType().equals("Mesh") && !item.getLegs() && !item.getArms()
                     && item.getSeat() && !item.getCushion() && item.getPrice() == 75 && item.getManuID().equals("005")){
                 foundItem = true;
             }
@@ -88,7 +88,7 @@ public class UnitTest {
         boolean foundItem = false;
         for(Filing item : testDb.getFilingList()){
             if(item.getId().equals("F011") && item.getType().equals("Large") && !item.getRails() && item.getDrawers()
-                    && !item.getCabinet() && item.getPrice() == 225 && item.getManuID().equals("005")){
+                    && item.getCabinet() && item.getPrice() == 225 && item.getManuID().equals("005")){
                 foundItem = true;
             }
         }
