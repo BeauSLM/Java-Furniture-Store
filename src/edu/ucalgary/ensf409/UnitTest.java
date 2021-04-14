@@ -323,4 +323,11 @@ public class UnitTest {
         cheapestFiling.calculateCheapestPrice(testDb.getFilingList());
         assertEquals(cheapestFiling.getTotalLowestPrice(), 600);
     }
+
+    @Test //tests w/ chair, which requires 4 parts unlike others
+    public void testOptionCalculation_1MeshChair(){
+        OptionCalculation cheapestChair = new OptionCalculation("Mesh", 1);
+        cheapestChair.calculateCheapestPrice(testDb.getChairList());
+        assertEquals(cheapestChair.getTotalLowestPrice(), 200);
+    }
 }
