@@ -5,9 +5,24 @@ package edu.ucalgary.ensf409;
  * for our Program.
  */
 public class Manufacturer {
+    /**
+     * The manufacturers ID
+     */
     private String manuID;
+
+    /**
+     * The name of the manufacturer
+     */
     private String name;
+
+    /**
+     * The phone number of the manufacturer
+     */
     private String phone;
+
+    /**
+     * The province where the manufacturer is located
+     */
     private String province;
 
     /**
