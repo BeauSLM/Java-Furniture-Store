@@ -1,10 +1,16 @@
 package edu.ucalgary.ensf409;
 
 /**
+ * <h1>Chair</h1>
+ * 
  * Child Class Chair that inherits from Parent Class Furniture
  * and implements Furniture of that fall in the category of
  * Chair.
+ * 
+ * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
+ * @version 2.4
  */
+
 public class Chair extends Furniture {
     /**
      * boolean that indicates if the chair legs are usable
