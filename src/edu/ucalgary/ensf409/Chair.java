@@ -37,7 +37,8 @@ public class Chair extends Furniture {
 
     /**
      * Gets the status of the legs if they are usable or unusable
-     * @return  legs the status of the legs
+     *
+     * @return legs the status of the legs
      */
     public boolean getLegs() {
         return legs;
@@ -45,7 +46,8 @@ public class Chair extends Furniture {
 
     /**
      * Gets the status of the arms if they are usable or unusable
-     * @return  arms the status of the arms
+     *
+     * @return arms the status of the arms
      */
     public boolean getArms() {
         return arms;
@@ -53,7 +55,8 @@ public class Chair extends Furniture {
 
     /**
      * Gets the status of the seat if it is usable or unusable
-     * @return  seat the status of the seat
+     *
+     * @return seat the status of the seat
      */
     public boolean getSeat() {
         return seat;
@@ -61,7 +64,8 @@ public class Chair extends Furniture {
 
     /**
      * Gets the status of the cushion if it is usable or unusable
-     * @return  cushion the status of the cushion
+     *
+     * @return cushion the status of the cushion
      */
     public boolean getCushion() {
         return cushion;

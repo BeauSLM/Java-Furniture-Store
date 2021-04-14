@@ -1,4 +1,5 @@
 package edu.ucalgary.ensf409;
+
 /**
  * Class Manufacturer. Acts as a placeholder for a Manufacturer
  * for our Program.
@@ -11,10 +12,11 @@ public class Manufacturer {
 
     /**
      * Constructor for Manufacturer Class.
-     * @param manuID    Manufacturer ID.
-     * @param name      Manufacturer Name.
-     * @param phone     Manufacturer Phone.
-     * @param province  Manufacturer Province
+     *
+     * @param manuID   Manufacturer ID.
+     * @param name     Manufacturer Name.
+     * @param phone    Manufacturer Phone.
+     * @param province Manufacturer Province
      */
     public Manufacturer(String manuID, String name, String phone, String province) {
         this.manuID = manuID;
@@ -27,7 +29,8 @@ public class Manufacturer {
 
     /**
      * Gets the manufacturers ID
-     * @return  the manufacturers ID
+     *
+     * @return the manufacturers ID
      */
     public String getManuID() {
         return manuID;
@@ -35,7 +38,8 @@ public class Manufacturer {
 
     /**
      * Gets the name of the manufacturer
-     * @return  the name of the manufacturer
+     *
+     * @return the name of the manufacturer
      */
     public String getName() {
         return name;
@@ -43,7 +47,8 @@ public class Manufacturer {
 
     /**
      * Gets the phone number of the manufacturer
-     * @return  the phone number of the manufacturer
+     *
+     * @return the phone number of the manufacturer
      */
     public String getPhone() {
         return phone;
@@ -51,7 +56,8 @@ public class Manufacturer {
 
     /**
      * Gets the province of the manufacturer
-     * @return  the province of the manufacturer
+     *
+     * @return the province of the manufacturer
      */
     public String getProvince() {
         return province;
@@ -62,7 +68,8 @@ public class Manufacturer {
 
     /**
      * Sets manuID
-     * @param manuID    the ID of the manufacturer
+     *
+     * @param manuID the ID of the manufacturer
      */
     public void setManuID(String manuID) {
         this.manuID = manuID;
@@ -70,7 +77,8 @@ public class Manufacturer {
 
     /**
      * Sets name
-     * @param name  the name of the manufacturer
+     *
+     * @param name the name of the manufacturer
      */
     public void setName(String name) {
         this.name = name;
@@ -78,6 +86,7 @@ public class Manufacturer {
 
     /**
      * Sets phone
+     *
      * @param phone the phone number of the manufacturer
      */
     public void setPhone(String phone) {
@@ -86,7 +95,8 @@ public class Manufacturer {
 
     /**
      * Sets province
-     * @param province  the province of the manufacturer
+     *
+     * @param province the province of the manufacturer
      */
     public void setProvince(String province) {
         this.province = province;

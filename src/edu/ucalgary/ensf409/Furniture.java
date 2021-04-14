@@ -64,9 +64,11 @@ public abstract class Furniture {
     public String getManuID() {
         return this.manuID;
     }
+
     /**
      * Sets type
-     * @param type  the type of furniture
+     *
+     * @param type the type of furniture
      */
     public void setType(String type) {
         this.type = type;
@@ -74,6 +76,7 @@ public abstract class Furniture {
 
     /**
      * Sets price
+     *
      * @param price the price of the furniture
      */
     public void setPrice(int price) {
@@ -82,11 +85,13 @@ public abstract class Furniture {
 
     /**
      * Sets the manufacturers ID
-     * @param manuID    the ID of the manufacturer
+     *
+     * @param manuID the ID of the manufacturer
      */
     public void setManuID(String manuID) {
         this.manuID = manuID;
     }
+
     /**
      * Gets valid parts
      *

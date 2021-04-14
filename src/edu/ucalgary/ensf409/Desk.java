@@ -9,6 +9,7 @@ public class Desk extends Furniture {
     private boolean legs;
     private boolean top;
     private boolean drawer;
+
     /**
      * Constructor for Child Class Desk
      *
@@ -31,7 +32,8 @@ public class Desk extends Furniture {
 
     /**
      * Gets the status of the legs if they are usable or unusable
-     * @return  the status of the legs
+     *
+     * @return the status of the legs
      */
     public boolean getLegs() {
         return legs;
@@ -39,7 +41,8 @@ public class Desk extends Furniture {
 
     /**
      * Gets the status of the top if it is usable or unusable
-     * @return  the status of the top
+     *
+     * @return the status of the top
      */
     public boolean getTop() {
         return top;
@@ -47,7 +50,8 @@ public class Desk extends Furniture {
 
     /**
      * Gets the status of the drawer if it is usable or unusable
-     * @return  the status of the drawer
+     *
+     * @return the status of the drawer
      */
     public boolean getDrawer() {
         return drawer;

@@ -225,6 +225,12 @@ public class DatabaseAccess {
         filingList = resultList; //updates field
     }
 
+    /**
+     * Delete item.
+     *
+     * @param type the type
+     * @param id   the id
+     */
     public void deleteItem(String type, String id){
 
     }
@@ -240,16 +246,55 @@ public class DatabaseAccess {
         }
     }
 
+    /**
+     * Gets manu list.
+     *
+     * @return the manu list
+     */
     public ArrayList<Manufacturer> getManuList() { return this.manuList; }
+
+    /**
+     * Gets chair list.
+     *
+     * @return the chair list
+     */
     public ArrayList<Chair> getChairList() { return this.chairList; }
+
+    /**
+     * Gets desk list.
+     *
+     * @return the desk list
+     */
     public ArrayList<Desk> getDeskList() { return this.deskList; }
+
+    /**
+     * Gets lamp list.
+     *
+     * @return the lamp list
+     */
     public ArrayList<Lamp> getLampList() { return this.lampList; }
+
+    /**
+     * Gets filing list.
+     *
+     * @return the filing list
+     */
     public ArrayList<Filing> getFilingList() { return this.filingList; }
 
+    /**
+     * Gets db connect.
+     *
+     * @return the db connect
+     */
     public Connection getDbConnect() {
         return this.dbConnect;
     }
 
+    /**
+     * Gets is successful.
+     *
+     * @return the is successful
+     */
     public boolean getIsSuccessful() {
         return isSuccessful;
     }

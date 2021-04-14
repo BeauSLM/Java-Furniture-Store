@@ -37,6 +37,9 @@ public class Program {
     }
 }
 
+/**
+ * The type Gui access sql.
+ */
 class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     private DatabaseAccess database;
     private String username;
@@ -52,6 +55,9 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     private JTextField passwordTextField;
     private JTextField urlTextField;
 
+    /**
+     * Instantiates a new Gui access sql.
+     */
     public GUIAccessSQL() {
         super("Connect to Database.");
         setupGUI();
@@ -59,6 +65,9 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Sets gui.
+     */
     public void setupGUI() {
         //Let's set up our Labels and TextFields and messages for the form.
         generalMessage1 = new JLabel("Welcome to the University of Calgary");
@@ -139,12 +148,14 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
                     + username + " and password : "+ password+"and url : " + url);
         }
     }
+
     /**
      * Attempts to create a databaseAccess object through info gained from the GUIAccessSQL object
-     * @param username  Database username
-     * @param password  Database password
-     * @param url       URL for the database inventory.
-     * @return boolean  Returns the status of the attempted connection
+     *
+     * @param username Database username
+     * @param password Database password
+     * @param url      URL for the database inventory.
+     * @return boolean Returns the status of the attempted connection
      */
     public boolean validAccess(String username, String password, String url)  {
         database = new DatabaseAccess(username, password, url);
@@ -183,16 +194,68 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     }
 }
 
+/**
+ * The type Gui user input.
+ */
 class GUIUserInput extends JFrame implements ActionListener {
+    /**
+     * The Database.
+     */
     DatabaseAccess database;
-    String category, type;
+    /**
+     * The Category.
+     */
+    String category,
+    /**
+     * The Type.
+     */
+    type;
+    /**
+     * The Num of items.
+     */
     int numOfItems;
+    /**
+     * The Choices.
+     */
     final String[] choices = new String[] {"Chair", "Desk", "Lamp", "Filing"};
-    JLabel gMessage1, gMessage2;
-    JLabel iLabel, noiLabel, typeLabel;
+    /**
+     * The G message 1.
+     */
+    JLabel gMessage1,
+    /**
+     * The G message 2.
+     */
+    gMessage2;
+    /**
+     * The Label.
+     */
+    JLabel iLabel,
+    /**
+     * The Noi label.
+     */
+    noiLabel,
+    /**
+     * The Type label.
+     */
+    typeLabel;
+    /**
+     * The Selection dropdown.
+     */
     final JComboBox<String> selectionDropdown = new JComboBox<String>(choices);
-    JTextField typeTextField, noiTextField;
+    /**
+     * The Type text field.
+     */
+    JTextField typeTextField,
+    /**
+     * The Noi text field.
+     */
+    noiTextField;
 
+    /**
+     * Instantiates a new Gui user input.
+     *
+     * @param database the database
+     */
     public GUIUserInput(DatabaseAccess database) {
         super("Select Category Form.");
         this.database = database;
@@ -201,6 +264,9 @@ class GUIUserInput extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Sets gui.
+     */
     public void setupGUI() {
         gMessage1 = new JLabel("Welcome to the University of Calgary");
         gMessage2 = new JLabel("Supply Chain Management Software v2.5.");
@@ -301,12 +367,23 @@ class GUIUserInput extends JFrame implements ActionListener {
     }
 }
 
+/**
+ * The type Gui order form.
+ */
 class GUIOrderForm extends JFrame {
     private DatabaseAccess database;
     private String category;
     private OptionCalculation orderCalc;
     private JLabel generalMessage1, generalMessage2;
 
+    /**
+     * Instantiates a new Gui order form.
+     *
+     * @param category      the category
+     * @param type          the type
+     * @param numberOfItems the number of items
+     * @param database      the database
+     */
     public GUIOrderForm(String category, String type, int numberOfItems, DatabaseAccess database) {
         super("Order Form Process.");
         this.database = database;
@@ -317,6 +394,9 @@ class GUIOrderForm extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Sets gui.
+     */
     public void setupGUI() {
         JPanel wrapContainer = new JPanel();
         wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
@@ -390,6 +470,13 @@ class GUIOrderForm extends JFrame {
         }
     }
 
+    /**
+     * Successful order string string.
+     *
+     * @param itemIDs the item i ds
+     * @param price   the price
+     * @return the string
+     */
     public String successfulOrderString(ArrayList<String> itemIDs, int price) {
         StringBuilder itemList = new StringBuilder();
         itemList.append("Purchase ");
@@ -400,11 +487,13 @@ class GUIOrderForm extends JFrame {
         itemList.append(" for "+ "$"+price+".");
         return new String(itemList);
     }
+
     /**
      * Outputs a message in terminal if an order cannot be fulfilled based
      * on current inventory
      *
      * @param objectList list of manufacturers that sell components of the item that was ordered
+     * @return the array list
      */
     public ArrayList<String> recommendManufacturers(ArrayList<? extends Furniture> objectList) { // method if order CANNOT be fulfilled
         ArrayList<String> recommendedManus = new ArrayList<>();
@@ -422,6 +511,16 @@ class GUIOrderForm extends JFrame {
 
         return recommendedManus;
     }
+
+    /**
+     * Generate order form.
+     *
+     * @param itemIDs    the item i ds
+     * @param price      the price
+     * @param category   the category
+     * @param type       the type
+     * @param numOfItems the num of items
+     */
     public void generateOrderForm(ArrayList<String> itemIDs, int price, String category, String type, int numOfItems) { // output if order can be fulfilled
         try {
             // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.

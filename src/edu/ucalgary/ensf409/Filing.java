@@ -12,13 +12,14 @@ public class Filing extends Furniture {
 
     /**
      * Constructor for the Child Class Filing
-     * @param id        ID of the Filing Cabinet
-     * @param type      Type of the Filing Cabinet
-     * @param price     Price of the Filing Cabinet
-     * @param manuID    Manufacturer ID of the Filing Cabinet
-     * @param rails     Boolean that is used to indicate if rails are usable
-     * @param drawers   Boolean that is used to indicate if the drawers are usable
-     * @param cabinet   Boolean that is used to indicate if the cabinet is usable
+     *
+     * @param id      ID of the Filing Cabinet
+     * @param type    Type of the Filing Cabinet
+     * @param price   Price of the Filing Cabinet
+     * @param manuID  Manufacturer ID of the Filing Cabinet
+     * @param rails   Boolean that is used to indicate if rails are usable
+     * @param drawers Boolean that is used to indicate if the drawers are usable
+     * @param cabinet Boolean that is used to indicate if the cabinet is usable
      */
     public Filing(String id, String type, int price, String manuID, boolean rails, boolean drawers,
                  boolean cabinet) {
@@ -31,7 +32,8 @@ public class Filing extends Furniture {
 
     /**
      * Gets the status of the rails if they are usable or not
-     * @return  the status of the rails
+     *
+     * @return the status of the rails
      */
     public boolean getRails() {
         return rails;
@@ -39,7 +41,8 @@ public class Filing extends Furniture {
 
     /**
      * Gets the status of the drawers if they are usable or not
-     * @return  the status of the drawers
+     *
+     * @return the status of the drawers
      */
     public boolean getDrawers() {
         return drawers;
@@ -47,7 +50,8 @@ public class Filing extends Furniture {
 
     /**
      * Gets the status of the cabinet if it is usable or not
-     * @return  the status of the cabinet
+     *
+     * @return the status of the cabinet
      */
     public boolean getCabinet() {
         return cabinet;
