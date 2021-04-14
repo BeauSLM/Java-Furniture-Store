@@ -471,11 +471,11 @@ class GUIOrderForm extends JFrame {
     }
 
     /**
-     * Successful order string string.
-     *
-     * @param itemIDs the item i ds
-     * @param price   the price
-     * @return the string
+     * Makes a String that shows the itemIDs of the items that need to be purchased
+     * and the total price of the items purchased in case of a successful order.
+     * @param itemIDs   The IDs of the items that need to be purchased.
+     * @param price     The total price of the items purchased.
+     * @return          A formatted String that consists of the itemIDs of the purchased items and the total price of the purchased items.
      */
     public String successfulOrderString(ArrayList<String> itemIDs, int price) {
         StringBuilder itemList = new StringBuilder();
