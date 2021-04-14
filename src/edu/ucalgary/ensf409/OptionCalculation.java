@@ -1,38 +1,22 @@
 package edu.ucalgary.ensf409;
 import java.util.*;
 
-public class OptionCalculation {
+public class OptionCalculation <T extends Furniture> {
 
-    private final String category;
     private final String type;
     private final int numOfItems;
-    private final DatabaseAccess database;
 
-    private int totalLowestPrice = 0;
-    private ArrayList<String> lowestPriceIDs = new ArrayList<>(); //used in the case of a successful order
+    private int totalLowestPrice = -1;
+    private ArrayList<T> lowestPriceItems = new ArrayList<>();
+    private final ArrayList<String> lowestPriceIDs = new ArrayList<>();
 
-	public OptionCalculation(String category, String type, int numOfItems, DatabaseAccess database) {
-        this.category = category;
+
+	public OptionCalculation(String type, int numOfItems) {
         this.type = type;
         this.numOfItems = numOfItems;
-        this.database = database;
     }
 
-    public boolean calculateCheapestPrice(){
-	    switch(category) {
-            case "CHAIR":
-                return calculateCheapestPrice(getFurnitureOfType(database.getChairList()));
-            case "DESK":
-                return calculateCheapestPrice(getFurnitureOfType(database.getDeskList()));
-            case "LAMP":
-                return calculateCheapestPrice(getFurnitureOfType(database.getLampList()));
-            case "FILING":
-                return calculateCheapestPrice(getFurnitureOfType(database.getFilingList()));
-        }
-        return false; //ok compiler
-    }
-
-    private <T extends Furniture> ArrayList<T> getFurnitureOfType(ArrayList<T> furnList){
+    private ArrayList<T> getFurnitureOfType(ArrayList<T> furnList){
 	    ArrayList<T> furnitureOfType = new ArrayList<>();
 	    for(T furniture : furnList){
 	        if(furniture.getType().equals(type)){
@@ -41,30 +25,34 @@ public class OptionCalculation {
         }
 	    return furnitureOfType;
     }
-    private <T extends Furniture> boolean calculateCheapestPrice(ArrayList<T> furnList){
+    public boolean calculateCheapestPrice(ArrayList<T> furnList){
+	    furnList = getFurnitureOfType(furnList);
 	    if(furnList.isEmpty()){
-	        return false; //no valid combinations
+	        return false; //no valid items
         }
 	    else {
-            int maxNumOfItems = database.getChairList().get(0).getValidParts().length * numOfItems;
+            int maxNumOfItems = furnList.get(0).getValidParts().length * numOfItems;
             for (int i = 1; i <= maxNumOfItems; i++) {
                 if (i < furnList.size()) {
                     calculateCheapestCombo(furnList, i);
                 }
             }
-            if (lowestPriceIDs.isEmpty()) {
+            if (lowestPriceItems.isEmpty()) {
                 return false;
             }
-            return true;
+            else{
+                genItemIDs(lowestPriceItems);
+                return true;
+            }
         }
     }
 
-    private <T extends Furniture> void calculateCheapestCombo(ArrayList<T> furnitureList, int r){
-        ArrayList<T> currentCombo = new ArrayList<T>();
+    private void calculateCheapestCombo(ArrayList<T> furnitureList, int r){
+        ArrayList<T> currentCombo = new ArrayList<>();
         findCombinations_Recursion(furnitureList, currentCombo, 0, 0, r);
     }
 
-    private <T extends Furniture> void findCombinations_Recursion(ArrayList<T> furnList, ArrayList<T> currCombo, int currIndex, int level, int r){
+    private void findCombinations_Recursion(ArrayList<T> furnList, ArrayList<T> currCombo, int currIndex, int level, int r){
         if(level == r){
             processCombination(currCombo);
             return;
@@ -75,14 +63,44 @@ public class OptionCalculation {
         }
     }
 
-    private <T extends Furniture> void processCombination(ArrayList<T> combo){
-        //does the actual calculation stuff, need to do
+    private void processCombination(ArrayList<T> combo){
+        int[] numOfParts = new int[combo.get(0).getValidParts().length];
+        int totalPrice = 0;
+        for(T item : combo){
+            totalPrice += item.getPrice();
+            for(int i = 0; i < item.getValidParts().length; i++){
+                if(item.getValidParts()[i]){
+                    numOfParts[i]++;
+                }
+            }
+        }
+        //checks to see if each item has all the parts for this combination
+        boolean hasAllParts = true;
+        for(int numOfThisPart : numOfParts){
+            if(numOfThisPart < numOfItems){
+                hasAllParts = false;
+                break;
+            }
+        }
+        //if it has all the parts and the total price is lower (or the first valid one),
+        //set the total lowest price and its items to the combination processed
+        if(hasAllParts && (totalPrice < totalLowestPrice || totalLowestPrice == -1)){
+            lowestPriceItems = combo;
+            totalLowestPrice = totalPrice;
+        }
+    }
+
+    public void genItemIDs(ArrayList<T> furnList){
+	    lowestPriceIDs.clear();
+	    for(T item : furnList){
+	        lowestPriceIDs.add(item.getId());
+        }
     }
 
     //getters
+    public ArrayList<T> getLowestPriceItems() { return lowestPriceItems; }
     public ArrayList<String> getLowestPriceIDs() { return lowestPriceIDs; }
     public int getTotalLowestPrice() { return totalLowestPrice; }
-    public String getCategory() { return this.category; }
     public String getType() { return this.type; }
     public int getNumOfItems() { return this.numOfItems; }
 }

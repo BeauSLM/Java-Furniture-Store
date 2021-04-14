@@ -22,7 +22,6 @@ import java.awt.*;
  * Class for main, handles input and output using the terminal.
  */
 public class Program {
-    private DatabaseAccess database;
     private static GUIAccessSQL sqlFrame;
 
     /**
@@ -31,298 +30,10 @@ public class Program {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        System.out.println("When prompted to enter, enter the necessary information, then press return.");
-        Program testRun = new Program();
         sqlFrame = new GUIAccessSQL();
         EventQueue.invokeLater(() -> {
             sqlFrame.setVisible(true);
         });
-        //testRun.runProgram();
-        //testRun.close();
-    }
-
-    public void close() {
-        database.closeConnection();
-    }
-
-    /**
-     * Sets database.
-     *
-     * @param database the database
-     */
-    public void setDatabase(DatabaseAccess database) {
-        this.database = database;
-    }
-}
-
-class GUIUserInput extends JFrame implements ActionListener {
-    DatabaseAccess database;
-    String category;
-    String type;
-    int numOfItems;
-    final String[] choices = new String[] {"Chair", "Desk", "Lamp", "Filing"};
-    JLabel gMessage1;
-    JLabel gMessage2;
-    JLabel iLabel;
-    JLabel typeLabel;
-    JLabel noiLabel; //number of items label
-    final JComboBox<String> selectionDropdown = new JComboBox<String>(choices);
-    JTextField typeTextField;
-    JTextField noiTextField;
-
-
-
-
-    public GUIUserInput(DatabaseAccess database) {
-        super("Select Category Form.");
-        this.database = database;
-        setupGUI();
-        setSize(600,400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public void setupGUI() {
-        gMessage1 = new JLabel("Welcome to the University of Calgary");
-        gMessage2 = new JLabel("Supply Chain Management Software v2.5.");
-        iLabel = new JLabel("Select the furniture category: ");
-        noiLabel = new JLabel("Number of Items :");
-        typeLabel = new JLabel("Type of furniture :");
-        noiTextField = new JTextField(18);
-        typeTextField = new JTextField(18);
-
-        JButton selectCategoryButton = new JButton("Select");
-        selectCategoryButton.addActionListener(this);
-
-        //create Panels
-        JPanel wrapContainer = new JPanel();
-        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
-
-        JPanel headerPanel = new JPanel();
-        headerPanel.setLayout(new FlowLayout());
-
-        JPanel selectorPanel = new JPanel();
-        selectorPanel.setLayout(new FlowLayout());
-
-        JPanel typePanel = new JPanel();
-        typePanel.setLayout(new FlowLayout());
-
-        JPanel noiPanel = new JPanel();
-        noiPanel.setLayout(new FlowLayout());
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
-
-        //add stuff to panels.
-        headerPanel.add(gMessage1);
-        headerPanel.add(gMessage2);
-
-        selectorPanel.add(iLabel);
-        selectorPanel.add(selectionDropdown);
-
-
-        typePanel.add(typeLabel);
-        typePanel.add(typeTextField);
-
-        noiPanel.add(noiLabel);
-        noiPanel.add(noiTextField);
-
-
-
-        buttonPanel.add(selectCategoryButton);
-
-        //add everything to a wrapper panel
-        wrapContainer.add(headerPanel);
-        wrapContainer.add(selectorPanel);
-        wrapContainer.add(typePanel);
-        wrapContainer.add(noiPanel);
-        wrapContainer.add(buttonPanel);
-
-        //add the panel to the wrapper
-        this.add(wrapContainer);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        String noiString;
-        String[] furnitureTypeArray;
-        category = selectionDropdown.getSelectedItem().toString();
-        type = typeTextField.getText();
-        noiString = noiTextField.getText();
-
-        try {
-            numOfItems = Integer.parseInt(noiString);
-            if(numOfItems < 0) {
-                JOptionPane.showMessageDialog(null, "You have inserted a negative Integer for number of items.");
-            } else {
-                //check if the words of type are properly capitalized.
-                furnitureTypeArray = type.split(" ");
-                boolean capitalizationFlag = false;
-                for(int i = 0; i < furnitureTypeArray.length; i++) {
-                    if(furnitureTypeArray[i].charAt(0) <= 'Z' && furnitureTypeArray[i].charAt(0) >= 'A') {
-                        capitalizationFlag = true;
-                    } else {
-                        capitalizationFlag = false;
-                        break;
-                    }
-                }
-                if(capitalizationFlag == false) {
-                    JOptionPane.showMessageDialog(null, "Your type is in the wrong form, each"+
-                            "word separated by space must start with a capital letter.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "You have selected the following category : " + category +
-                            ", type :" + type + ", number of items :" + numOfItems);
-                    GUIOrderForm processForm = new GUIOrderForm(category,type, numOfItems, database);
-                    this.setVisible(false);
-                    EventQueue.invokeLater(()->{
-                        processForm.setVisible(true);
-                    });
-                }
-            }
-        } catch(Exception ex) {
-            JOptionPane.showMessageDialog(null, "You have inserted an invalid input for number of items.");
-        }
-
-    }
-
-}
-class GUIOrderForm extends JFrame {
-    private DatabaseAccess database;
-    private OptionCalculation orderCalc;
-    private JLabel generalMessage1;
-    private JLabel generalMessage2;
-    public GUIOrderForm(String category, String type, int numberOfItems, DatabaseAccess database) {
-        super("Order Form Process.");
-        orderCalc = new OptionCalculation(category, type, numberOfItems, database);
-        setupGUI();
-        setSize(600,400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public void setupGUI() {
-        JPanel wrapContainer = new JPanel();
-        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
-        JPanel headerPanel = new JPanel();
-        headerPanel.setLayout(new FlowLayout());
-        generalMessage1 = new JLabel("Welcome to the University of Calgary");
-        generalMessage2 = new JLabel("Supply Chain Management Software v2.5.");
-        headerPanel.add(generalMessage1);
-        headerPanel.add(generalMessage2);
-        wrapContainer.add(headerPanel);
-        boolean canOrder = orderCalc.calculateCheapestPrice();
-        if(canOrder) {
-            generateOrderForm(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice(), orderCalc.getCategory(),
-                    orderCalc.getType(), orderCalc.getNumOfItems());
-
-            JPanel orderFormPanel = new JPanel();
-            orderFormPanel.setLayout(new FlowLayout());
-
-            JLabel messageLabel = new JLabel(successfulOrderString(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice()));
-            orderFormPanel.add(messageLabel);
-            wrapContainer.add(orderFormPanel);
-            this.add(wrapContainer);
-        } else {
-            ArrayList<String> manufacturers = new ArrayList<>();
-            switch (orderCalc.getCategory()) {
-                case "CHAIR":
-                    manufacturers = recommendManufacturers(database.getChairList());
-                    break;
-                case "DESK":
-                    manufacturers = recommendManufacturers(database.getDeskList());
-                    break;
-                case "LAMP":
-                    manufacturers = recommendManufacturers(database.getLampList());
-                    break;
-                case "FILING":
-                    manufacturers = recommendManufacturers(database.getFilingList());
-                    break;
-            }
-            JPanel manufacturerPanel = new JPanel();
-            manufacturerPanel.setLayout(new FlowLayout());
-
-            JLabel manuMessage1 = new JLabel("Your order can't be fulfilled with the current inventory.");
-            JLabel manuMessage2 = new JLabel("Recommended Manufacturers :");
-            manufacturerPanel.add(manuMessage1);
-            manufacturerPanel.add(manuMessage2);
-
-            JLabel[] manufacturerLabels = new JLabel[manufacturers.size()];
-            for(int i = 0; i < manufacturerLabels.length; i++) {
-                manufacturerLabels[i].setText(manufacturers.get(i));
-                manufacturerPanel.add(manufacturerLabels[i]);
-            }
-
-            wrapContainer.add(manufacturerPanel);
-            this.add(wrapContainer);
-        }
-    }
-
-    public String successfulOrderString(ArrayList<String> itemIDs, int price) {
-        StringBuilder itemList = new StringBuilder();
-        itemList.append("Purchase ");
-        for (int i = 0; i < (itemIDs.size() - 1); i++) { // prints out the IDs of the items ordered
-            itemList.append(itemIDs.get(i) + " and ");
-        }
-        itemList.append(itemIDs.get(itemIDs.size() - 1) + ".");
-        itemList.append(" for "+ "$"+price+".");
-        return new String(itemList);
-    }
-    /**
-     * Outputs a message in terminal if an order cannot be fulfilled based
-     * on current inventory
-     *
-     * @param objectList list of manufacturers that sell components of the item that was ordered
-     */
-    public ArrayList<String> recommendManufacturers(ArrayList<? extends Furniture> objectList) { // method if order CANNOT be fulfilled
-        ArrayList<String> recommendedManus = new ArrayList<>();
-        for (int i = 0; i < objectList.size(); i++) {
-            //finds the connection between the objectList's manuID to a manufacturer from the list
-            //yet another friendly reminder that optimization is not graded
-            for (Manufacturer manu : database.getManuList()) {
-                //if the object's manufacturer ID
-                if (objectList.get(i).getManuID().equals(manu.getManuID()) && recommendedManus.indexOf(manu.getManuID()) == -1) {
-                    recommendedManus.add(manu.getName());
-                    break;
-                }
-            }
-        }
-
-        //this should get you a list of manufacturer names. now you just need to output it. ^^
-
-        return recommendedManus;
-    }
-    public void generateOrderForm(ArrayList<String> itemIDs, int price, String category, String type, int numOfItems) { // output if order can be fulfilled
-        try {
-            // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.
-            BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("lib/orderform.txt"));
-
-            StringBuilder orderForm = new StringBuilder();
-            orderForm.append("Furniture Order Form\n");
-            orderForm.append("\n");
-
-            orderForm.append("Faculty Name: \n");
-            orderForm.append("Contact: \n");
-            orderForm.append("Date: \n");
-            orderForm.append("\n");
-
-            orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems + "\n");
-            orderForm.append("\n");
-
-            orderForm.append("Items Ordered\n");
-            for (int i = 0; i < itemIDs.size(); i++) { // prints out the IDs of the items ordered
-                orderForm.append("ID: " + itemIDs.get(i) + "\n");
-            }
-            //iterate this please
-
-            orderForm.append("\n");
-            orderForm.append("Total Price: $" + price);
-
-            String form = orderForm.toString();
-            orderFormWriter.write(form);
-            orderFormWriter.close();
-
-        } catch (IOException e) {
-            System.err.println("IO Error.");
-            e.printStackTrace();
-            System.exit(1);
-        }
     }
 }
 
@@ -410,7 +121,7 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
         username = usernameTextField.getText();
         password = passwordTextField.getText();
         url = urlTextField.getText();
-        if(validAccess(username,password, url)) {
+        if(validAccess(username, password, url)) {
             JOptionPane.showMessageDialog(null, "You successfully connected to the database with username : "
                     + username + " and password : "+ password+"and url : " + url);
             database.retrieveAll();
@@ -422,10 +133,22 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
                 userInputFrame.setVisible(true);
             });
             //this.dispose();
-        }else {
+        }
+        else {
             JOptionPane.showMessageDialog(null, "There was an error connecting to the database with username : "
                     + username + " and password : "+ password+"and url : " + url);
         }
+    }
+    /**
+     * Attempts to create a databaseAccess object through info gained from the GUIAccessSQL object
+     * @param username  Database username
+     * @param password  Database password
+     * @param url       URL for the database inventory.
+     * @return boolean  Returns the status of the attempted connection
+     */
+    public boolean validAccess(String username, String password, String url)  {
+        database = new DatabaseAccess(username, password, url);
+        return database.getIsSuccessful();
     }
 
     public void mouseEntered(MouseEvent event) {
@@ -458,16 +181,281 @@ class GUIAccessSQL extends JFrame implements ActionListener, MouseListener {
     public void mouseReleased(MouseEvent e) {
 
     }
+}
 
+class GUIUserInput extends JFrame implements ActionListener {
+    DatabaseAccess database;
+    String category, type;
+    int numOfItems;
+    final String[] choices = new String[] {"Chair", "Desk", "Lamp", "Filing"};
+    JLabel gMessage1, gMessage2;
+    JLabel iLabel, noiLabel, typeLabel;
+    final JComboBox<String> selectionDropdown = new JComboBox<String>(choices);
+    JTextField typeTextField, noiTextField;
+
+    public GUIUserInput(DatabaseAccess database) {
+        super("Select Category Form.");
+        this.database = database;
+        setupGUI();
+        setSize(600,400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void setupGUI() {
+        gMessage1 = new JLabel("Welcome to the University of Calgary");
+        gMessage2 = new JLabel("Supply Chain Management Software v2.5.");
+        iLabel = new JLabel("Select the furniture category: ");
+        noiLabel = new JLabel("Number of Items :");
+        typeLabel = new JLabel("Type of furniture :");
+        noiTextField = new JTextField(18);
+        typeTextField = new JTextField(18);
+
+        JButton selectCategoryButton = new JButton("Select");
+        selectCategoryButton.addActionListener(this);
+
+        //create Panels
+        JPanel wrapContainer = new JPanel();
+        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
+
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new FlowLayout());
+
+        JPanel selectorPanel = new JPanel();
+        selectorPanel.setLayout(new FlowLayout());
+
+        JPanel typePanel = new JPanel();
+        typePanel.setLayout(new FlowLayout());
+
+        JPanel noiPanel = new JPanel();
+        noiPanel.setLayout(new FlowLayout());
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+
+        //add stuff to panels.
+        headerPanel.add(gMessage1);
+        headerPanel.add(gMessage2);
+
+        selectorPanel.add(iLabel);
+        selectorPanel.add(selectionDropdown);
+
+        typePanel.add(typeLabel);
+        typePanel.add(typeTextField);
+
+        noiPanel.add(noiLabel);
+        noiPanel.add(noiTextField);
+
+        buttonPanel.add(selectCategoryButton);
+
+        //add everything to a wrapper panel
+        wrapContainer.add(headerPanel);
+        wrapContainer.add(selectorPanel);
+        wrapContainer.add(typePanel);
+        wrapContainer.add(noiPanel);
+        wrapContainer.add(buttonPanel);
+
+        //add the panel to the wrapper
+        this.add(wrapContainer);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        String noiString;
+        String[] furnitureTypeArray;
+        category = selectionDropdown.getSelectedItem().toString();
+        type = typeTextField.getText();
+        noiString = noiTextField.getText();
+
+        try {
+            numOfItems = Integer.parseInt(noiString);
+            if(numOfItems < 0) {
+                JOptionPane.showMessageDialog(null, "You have inserted a negative Integer for number of items.");
+            } else {
+                //check if the words of type are properly capitalized.
+                furnitureTypeArray = type.split(" ");
+                boolean capitalizationFlag = false;
+                for(int i = 0; i < furnitureTypeArray.length; i++) {
+                    if(furnitureTypeArray[i].charAt(0) <= 'Z' && furnitureTypeArray[i].charAt(0) >= 'A') {
+                        capitalizationFlag = true;
+                    } else {
+                        capitalizationFlag = false;
+                        break;
+                    }
+                }
+                if(capitalizationFlag == false) {
+                    JOptionPane.showMessageDialog(null, "Your type is in the wrong form, each"+
+                            "word separated by a space must start with a capital letter.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "You have selected the following category : " + category +
+                            ", type :" + type + ", number of items :" + numOfItems);
+                    GUIOrderForm processForm = new GUIOrderForm(category, type, numOfItems, database);
+                    this.setVisible(false);
+                    EventQueue.invokeLater(()->{
+                        processForm.setVisible(true);
+                    });
+                }
+            }
+        }
+        catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "You have inserted an invalid input for number of items.");
+        }
+    }
+}
+
+class GUIOrderForm extends JFrame {
+    private DatabaseAccess database;
+    private String category;
+    private OptionCalculation orderCalc;
+    private JLabel generalMessage1, generalMessage2;
+
+    public GUIOrderForm(String category, String type, int numberOfItems, DatabaseAccess database) {
+        super("Order Form Process.");
+        this.database = database;
+        this.category = category;
+        orderCalc = new OptionCalculation(type, numberOfItems);
+        setupGUI();
+        setSize(600,400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void setupGUI() {
+        JPanel wrapContainer = new JPanel();
+        wrapContainer.setLayout(new BoxLayout(wrapContainer, BoxLayout.PAGE_AXIS));
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new FlowLayout());
+        generalMessage1 = new JLabel("Welcome to the University of Calgary");
+        generalMessage2 = new JLabel("Supply Chain Management Software v2.5.");
+        headerPanel.add(generalMessage1);
+        headerPanel.add(generalMessage2);
+        wrapContainer.add(headerPanel);
+
+        boolean calcSuccess = false;
+        switch(category){
+            case "Chair":
+                calcSuccess = orderCalc.calculateCheapestPrice(database.getChairList());
+                break;
+            case "Desk":
+                calcSuccess = orderCalc.calculateCheapestPrice(database.getDeskList());
+                break;
+            case "Lamp":
+                calcSuccess = orderCalc.calculateCheapestPrice(database.getLampList());
+                break;
+            case "Filing":
+                calcSuccess = orderCalc.calculateCheapestPrice(database.getFilingList());
+                break;
+        }
+
+        if(calcSuccess) {
+            generateOrderForm(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice(), category,
+                    orderCalc.getType(), orderCalc.getNumOfItems());
+
+            JPanel orderFormPanel = new JPanel();
+            orderFormPanel.setLayout(new FlowLayout());
+
+            JLabel messageLabel = new JLabel(successfulOrderString(orderCalc.getLowestPriceIDs(), orderCalc.getTotalLowestPrice()));
+            orderFormPanel.add(messageLabel);
+            wrapContainer.add(orderFormPanel);
+            this.add(wrapContainer);
+        } else {
+            ArrayList<String> manufacturers = new ArrayList<>();
+            switch (category) {
+                case "Chair":
+                    manufacturers = recommendManufacturers(database.getChairList());
+                    break;
+                case "Desk":
+                    manufacturers = recommendManufacturers(database.getDeskList());
+                    break;
+                case "Lamp":
+                    manufacturers = recommendManufacturers(database.getLampList());
+                    break;
+                case "Filing":
+                    manufacturers = recommendManufacturers(database.getFilingList());
+                    break;
+            }
+            JPanel manufacturerPanel = new JPanel();
+            manufacturerPanel.setLayout(new FlowLayout());
+
+            JLabel manuMessage1 = new JLabel("Your order can't be fulfilled with the current inventory.");
+            JLabel manuMessage2 = new JLabel("Recommended Manufacturers :");
+            manufacturerPanel.add(manuMessage1);
+            manufacturerPanel.add(manuMessage2);
+
+            JLabel[] manufacturerLabels = new JLabel[manufacturers.size()];
+            for(int i = 0; i < manufacturerLabels.length; i++) {
+                manufacturerLabels[i].setText(manufacturers.get(i));
+                manufacturerPanel.add(manufacturerLabels[i]);
+            }
+
+            wrapContainer.add(manufacturerPanel);
+            this.add(wrapContainer);
+        }
+    }
+
+    public String successfulOrderString(ArrayList<String> itemIDs, int price) {
+        StringBuilder itemList = new StringBuilder();
+        itemList.append("Purchase ");
+        for (int i = 0; i < (itemIDs.size() - 1); i++) { // prints out the IDs of the items ordered
+            itemList.append(itemIDs.get(i) + " and ");
+        }
+        itemList.append(itemIDs.get(itemIDs.size() - 1) + ".");
+        itemList.append(" for "+ "$"+price+".");
+        return new String(itemList);
+    }
     /**
-     * Attempts to create a databaseAccess object through info gained from the GUIAccessSQL object
-     * @param username  Database username
-     * @param password  Database password
-     * @param url       URL for the database inventory.
-     * @return boolean  Returns the status of the attempted connection
+     * Outputs a message in terminal if an order cannot be fulfilled based
+     * on current inventory
+     *
+     * @param objectList list of manufacturers that sell components of the item that was ordered
      */
-    public boolean validAccess(String username, String password, String url)  {
-        database = new DatabaseAccess(username, password, url);
-        return database.getIsSuccessful();
+    public ArrayList<String> recommendManufacturers(ArrayList<? extends Furniture> objectList) { // method if order CANNOT be fulfilled
+        ArrayList<String> recommendedManus = new ArrayList<>();
+        for (int i = 0; i < objectList.size(); i++) {
+            for (Manufacturer manu : database.getManuList()) {
+                //if the object's manufacturer ID
+                if (objectList.get(i).getManuID().equals(manu.getManuID()) && !recommendedManus.contains(manu.getManuID())) {
+                    recommendedManus.add(manu.getName());
+                    break;
+                }
+            }
+        }
+
+        //this should get you a list of manufacturer names. now you just need to output it. ^^
+
+        return recommendedManus;
+    }
+    public void generateOrderForm(ArrayList<String> itemIDs, int price, String category, String type, int numOfItems) { // output if order can be fulfilled
+        try {
+            // System.out.println("Purchase " + id + "and " + manuID + "for " + price + "."); // placeholder as need added price of each item.
+            BufferedWriter orderFormWriter = new BufferedWriter(new FileWriter("lib/orderform.txt"));
+
+            StringBuilder orderForm = new StringBuilder();
+            orderForm.append("Furniture Order Form\n");
+            orderForm.append("\n");
+
+            orderForm.append("Faculty Name: \n");
+            orderForm.append("Contact: \n");
+            orderForm.append("Date: \n");
+            orderForm.append("\n");
+
+            orderForm.append("Original Request: " + type + " " + category + ", " + numOfItems + "\n");
+            orderForm.append("\n");
+
+            orderForm.append("Items Ordered\n");
+            for (int i = 0; i < itemIDs.size(); i++) { // prints out the IDs of the items ordered
+                orderForm.append("ID: " + itemIDs.get(i) + "\n");
+            }
+            //iterate this please
+
+            orderForm.append("\n");
+            orderForm.append("Total Price: $" + price);
+
+            String form = orderForm.toString();
+            orderFormWriter.write(form);
+            orderFormWriter.close();
+
+        } catch (IOException e) {
+            System.err.println("IO Error when generating order form file.");
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }
