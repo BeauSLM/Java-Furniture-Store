@@ -103,6 +103,7 @@ public class UnitTest {
     @Test
     public void testDatabaseAccessRetrieval_DeleteChair() {
         // testing deleting a chair and searching for it
+        String category = "Chair";
         String id = "C3819";
         String type = "Kneeling";
         String legs = "N";
@@ -113,14 +114,14 @@ public class UnitTest {
         String manuID = "005";
             
         boolean foundItem = false;
-        testDb.deleteItem(type, id);
+        testDb.deleteItem(category, id);
 
         for(Chair item : testDb.getChairList()){
             if(item.getId().equals(id) && item.getType().equals(type)){
                 foundItem = true;
             }
         }
-        assertFalse("Chair was NOT deleted", foundItem);
+        assertFalse("Chair was deleted as it was unable to be found.", foundItem);
 
         // attempt to add the chair that was deleted back into database.
         try {
