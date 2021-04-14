@@ -6,8 +6,14 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
 /**
- * Class for unit tests.
+ * <h1>UnitTests</h1>
+ * 
+ * Class for unit tests to test program functionality.
+ * 
+ * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
+ * @version 2.4
  */
+ 
 public class UnitTest {
 
     private static DatabaseAccess testDb;
