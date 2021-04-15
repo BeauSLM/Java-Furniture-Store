@@ -4,11 +4,13 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 
 /**
  * <h1>UnitTests</h1>
  * 
- * Class for unit tests to test program functionality.
+ * Class for unit tests to test program functionality. The below USERNAME, PASSWORD, and URL field will have to
+ * be manually changed by anyone running the tests.
  * 
  * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
  * @version 2.4
@@ -21,9 +23,7 @@ public class UnitTest {
     //change these to fit your system before running tests
     private static String USERNAME = "ensf409";
     private static String PASSWORD = "ensf409";
-
-    // RIGHT NOW THIS IS FOR BEAU'S MACHINE CHANGE INVENTORY TO LOWERCASE IF YOU NEED TO
-    private static String URL = "jdbc:mysql://localhost:3306/INVENTORY";
+    private static String URL = "jdbc:mysql://localhost:3306/INVENTORY"; //works on both windows and linux
 
     /**
      * Instantiates a new Unit test.
@@ -34,10 +34,14 @@ public class UnitTest {
     //Pre-test setup
     //_____________________________________________________________________________
 
-    @Before //resets the database before each connection
+    /**
+     * Resets the database and the testDb object before each and every test by essentially running each
+     * individual line of the inventory.sql file given (yikes!)
+     */
+    @Before
     public void resetDatabase() {
         try {
-            testDb = new DatabaseAccess(USERNAME, PASSWORD, URL);
+            testDb = new DatabaseAccess(USERNAME, PASSWORD, URL); //reinitializes testDb connection every time
             String query = "DROP DATABASE IF EXISTS INVENTORY;";
             PreparedStatement myStatement = testDb.getDbConnect().prepareStatement(query);
             myStatement.execute();
@@ -221,13 +225,20 @@ public class UnitTest {
             myStatement = testDb.getDbConnect().prepareStatement(query);
             myStatement.execute();
 
+            myStatement.close(); //don't forget to close the Statement!
+
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
     }
+
     //DatabaseAccess Tests
     //________________________________________________________________
 
+    /**
+     * Tests if the database can be retrieved properly for the Manufacturer category by checking if a specific
+     * item is in the database
+     */
     @Test
     public void testDatabaseAccessRetrieval_Manu() {
         //searching for Chairs R Us
@@ -240,6 +251,11 @@ public class UnitTest {
         }
         assertTrue("Manufacturer was not able to be retrieved.", foundItem);
     }
+
+    /**
+     * Tests if the database can be retrieved properly for the Chair category by checking if a specific
+     * item is in the database
+     */
     @Test
     public void testDatabaseAccessRetrieval_Chair() {
         //searching for C8138
@@ -252,6 +268,11 @@ public class UnitTest {
         }
         assertTrue("Chair C8138 was not able to be retrieved.", foundItem);
     }
+
+    /**
+     * Tests if the database can be retrieved properly for the Desk category by checking if a specific
+     * item is in the database
+     */
     @Test
     public void testDatabaseAccessRetrieval_Desk() {
         //searching for D3820
@@ -264,6 +285,11 @@ public class UnitTest {
         }
         assertTrue("Desk D3820 was not able to be retrieved.", foundItem);
     }
+
+    /**
+     * Tests if the database can be retrieved properly for the Lamp category by checking if a specific
+     * item is in the database
+     */
     @Test
     public void testDatabaseAccessRetrieval_Lamp() {
         //searching for L053
@@ -276,6 +302,11 @@ public class UnitTest {
         }
         assertTrue("Lamp L053 was not able to be retrieved.", foundItem);
     }
+
+    /**
+     * Tests if the database can be retrieved properly for the Filing category by checking if a specific
+     * item is in the database
+     */
     @Test
     public void testDatabaseAccessRetrieval_Filing() {
         //searching for F011
@@ -290,7 +321,7 @@ public class UnitTest {
     }
 
     /**
-     * Test to see if a chair can be deleted successfully. Adds back which ever chair was deleted back into database.
+     * Test to see if a chair can be deleted successfully.
      */
     @Test
     public void testDatabaseAccessRetrieval_DeleteChair() {
@@ -317,7 +348,7 @@ public class UnitTest {
     }
 
     /**
-     * Test to see if a desk can be deleted successfully. Adds back which ever desk was deleted back into database.
+     * Test to see if a desk can be deleted successfully.
      */
     @Test
     public void testDatabaseAccessRetrieval_DeleteDesk() {
@@ -343,7 +374,7 @@ public class UnitTest {
     }
 
     /**
-     * Test to see if a lamp can be deleted successfully. Adds back which ever lamp was deleted back into database.
+     * Test to see if a lamp can be deleted successfully.
      */
     @Test
     public void testDatabaseAccessRetrieval_DeleteLamp() {
@@ -368,7 +399,7 @@ public class UnitTest {
     }
 
     /**
-     * Test to see if a filing can be deleted successfully. Adds back which ever filing was deleted back into database.
+     * Test to see if a filing can be deleted successfully.
      */
     @Test
     public void testDatabaseAccessRetrieval_DeleteFiling() {
@@ -397,7 +428,7 @@ public class UnitTest {
     //_______________________________________________________
 
     /**
-     * Tests if OptionCalculation can find or purchase 1 desk lamp
+     * Tests if OptionCalculation can find or purchase a desk lamp - tests if orders work, period
      */
     @Test
     public void testOptionCalculation_1DeskLamp() {
@@ -407,7 +438,7 @@ public class UnitTest {
     }
 
     /**
-     * Tests if OptionCalculation can find or purchase 2 desk lamps
+     * Tests if OptionCalculation can calculate an order for 2 desk lamps - tests if multiple orders work
      */
     @Test
     public void testOptionCalculation_2DeskLamps() {
@@ -416,17 +447,45 @@ public class UnitTest {
         assertEquals("Lowest price was incorrectly calculated.", cheapestLamp.getTotalLowestPrice(), 40);
     }
 
-    @Test //tests an edge case where all possible items are needed
+    /**
+     * Tests if OptionCalculation can calculate an order for 3 medium filings - tests the case where
+     * all possible items are needed
+     */
+    @Test
     public void testOptionCalculation_3MediumFilings() {
         OptionCalculation cheapestFiling = new OptionCalculation("Medium", 3);
         cheapestFiling.calculateCheapestPrice(testDb.getFilingList());
         assertEquals(cheapestFiling.getTotalLowestPrice(), 600);
     }
 
-    @Test //tests w/ chair, which requires 4 parts unlike others
+    /**
+     * Tests if OptionCalculation can calculate an order for a mesh chair - the optioncalculation
+     * will be checking for 4 parts rather than 3 or 2
+     */
+    @Test
     public void testOptionCalculation_1MeshChair(){
         OptionCalculation cheapestChair = new OptionCalculation("Mesh", 1);
         cheapestChair.calculateCheapestPrice(testDb.getChairList());
         assertEquals(cheapestChair.getTotalLowestPrice(), 200);
+    }
+
+    /**
+     * Tests to make sure the calculateCheapestPrice returns false when given a type that doesn't
+     * exist within the database. This means that the getFurnitureType method works too.
+     */
+    @Test
+    public void testOptionCalculation_InvalidChairType(){
+        OptionCalculation calc = new OptionCalculation("Fancy", 1);
+        assertFalse(calc.calculateCheapestPrice(testDb.getChairList()));
+    }
+
+    /**
+     * Tests to make sure the calculateCheapestPrice returns false when given an empty list (no inventory!)
+     */
+    @Test
+    public void testOptionCalculation_EmptyDatabase(){
+        OptionCalculation calc = new OptionCalculation("Mesh", 1);
+        ArrayList<Chair> emptyChairList = new ArrayList<>();
+        assertFalse(calc.calculateCheapestPrice(emptyChairList));
     }
 }
