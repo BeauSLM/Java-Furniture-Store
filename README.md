@@ -7,6 +7,9 @@
 > ### Quentin Jennings
 > ### Jacob Lansang
 
+## Video presentation:
+
+.mp4 file at https://drive.google.com/file/d/1QV1uTl8IJdxF5Pdo7RQfIA2rg9ob5FGb/view?usp=sharing
 ## What's included
 - `uml.pdf` - uml diagram
 
