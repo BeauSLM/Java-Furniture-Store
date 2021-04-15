@@ -366,7 +366,7 @@ class GUIUserInput extends JFrame implements ActionListener {
                             break;
                         case "Lamp":
                             for(int i =0; i < database.getLampList().size(); i++) {
-                                if(database.getChairList().get(i).getType().equals(type)) {
+                                if(database.getLampList().get(i).getType().equals(type)) {
                                     typeFound = true;
                                     break;
                                 }
@@ -374,7 +374,7 @@ class GUIUserInput extends JFrame implements ActionListener {
                             break;
                         case "Filing":
                             for(int i =0; i < database.getFilingList().size(); i++) {
-                                if(database.getChairList().get(i).getType().equals(type)) {
+                                if(database.getFilingList().get(i).getType().equals(type)) {
                                     typeFound = true;
                                     break;
                                 }
