@@ -15,7 +15,7 @@ import java.awt.*;
  * way of assembling a certain item using components from other items.
  *
  * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
- * @version 1.0
+ * @version 69.69.69
  */
 
 /**
