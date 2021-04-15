@@ -42,6 +42,7 @@ public class Desk extends Furniture {
 
     /**
      * Sets legs
+     *
      * @param legs  If the legs are usable or not
      */
     public void setLegs(boolean legs) {
@@ -50,6 +51,7 @@ public class Desk extends Furniture {
 
     /**
      * Sets top
+     *
      * @param top   If the top is usable or not
      */
     public void setTop(boolean top) {
@@ -58,6 +60,7 @@ public class Desk extends Furniture {
 
     /**
      * Sets drawer
+     *
      * @param drawer    If the drawer is usable or not
      */
     public void setDrawer(boolean drawer) {

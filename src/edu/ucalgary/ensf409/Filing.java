@@ -44,6 +44,7 @@ public class Filing extends Furniture {
 
     /**
      * Sets rails
+     *
      * @param rails If the rails are usable or not
      */
     public void setRails(boolean rails) {
@@ -52,6 +53,7 @@ public class Filing extends Furniture {
 
     /**
      * Sets drawers
+     *
      * @param drawers   If the drawers are usable or not
      */
     public void setDrawers(boolean drawers) {
@@ -60,6 +62,7 @@ public class Filing extends Furniture {
 
     /**
      * Sets cabinet
+     *
      * @param cabinet   If the cabinet is usable or not
      */
     public void setCabinet(boolean cabinet) {

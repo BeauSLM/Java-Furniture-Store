@@ -228,6 +228,7 @@ public class DatabaseAccess {
 
     /**
      * Delete item.
+     *
      * @param category the category
      * @param id   the id
      */

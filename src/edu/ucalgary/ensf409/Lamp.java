@@ -36,6 +36,7 @@ public class Lamp extends Furniture {
 
     /**
      * Sets base
+     *
      * @param base  the status of the base
      */
     public void setBase(boolean base) {
@@ -44,6 +45,7 @@ public class Lamp extends Furniture {
 
     /**
      * Sets bulb
+     *
      * @param bulb  the status of the bulb
      */
     public void setBulb(boolean bulb) {

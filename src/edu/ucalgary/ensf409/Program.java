@@ -501,6 +501,7 @@ class GUIOrderForm extends JFrame {
     /**
      * Makes a String that shows the itemIDs of the items that need to be purchased
      * and the total price of the items purchased in case of a successful order.
+     *
      * @param itemIDs   The IDs of the items that need to be purchased.
      * @param price     The total price of the items purchased.
      * @return          A formatted String that consists of the itemIDs of the purchased items and the total price of the purchased items.
@@ -521,6 +522,7 @@ class GUIOrderForm extends JFrame {
 
     /**
      * Returns an array List of recommended manufacturers in the case we can't fulfill an order
+     *
      * @param objectList list of manufacturers that sell components of the item that was ordered
      * @return the array list
      */
