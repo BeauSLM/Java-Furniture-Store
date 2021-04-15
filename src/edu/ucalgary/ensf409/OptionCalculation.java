@@ -1,14 +1,11 @@
 package edu.ucalgary.ensf409;
 import java.util.*;
-//v1.1
-//documentation added
 
 /**
  * <h1>OptionCalculation</h1>
- * This class
- * is used to calculate the cheapest combination of
- * inventory items that can be used to fulfill an order that
- * is specified. This class calculates the most cost effective
+ * This class is used to calculate the cheapest combination of
+ * inventory items that can be used to fulfill an order as specified
+ * by the user. This class calculates the most cost effective
  * way of assembling a certain item using components from other items.
  *
  * @author  Beau McCartney, Apostolos Scondrianis, Quentin Jennings, Jacob Lansang
@@ -29,17 +26,17 @@ public class OptionCalculation <T extends Furniture> {
     private final String TYPE;
 
     /**
-     * The number of items required
+     * The number of items in the order.
      */
     private final int NUMOFITEMS;
 
     /**
-     * The price of the cheapest possible order.
+     * The total price of the cheapest possible order. -1 means there is currently no valid order.
      */
     private int totalLowestPrice = -1;
 
     /**
-     * A list of objects of the Furniture that are in the cheapest possible order.
+     * A list of the items used for the lowest price order.
      */
     private ArrayList<T> lowestPriceItems;
 
@@ -47,7 +44,7 @@ public class OptionCalculation <T extends Furniture> {
     /**
      * Instantiates a new Option calculation.
      *
-     * @param TYPE       Indicates what type of furniture.
+     * @param TYPE       the type of furniture.
      * @param NUMOFITEMS the number of items.
      */
     public OptionCalculation(String TYPE, int NUMOFITEMS) {
@@ -55,32 +52,26 @@ public class OptionCalculation <T extends Furniture> {
         this.NUMOFITEMS = NUMOFITEMS;
     }
 
-    private ArrayList<T> getFurnitureOfType(ArrayList<T> furnList){
-	    ArrayList<T> furnitureOfType = new ArrayList<>();
-	    for(T furniture : furnList){
-	        if(furniture.getType().equals(TYPE)){
-                furnitureOfType.add(furniture);
-            }
-        }
-	    return furnitureOfType;
-    }
-
     /**
-     * Finds the cheapest combination of furniture needed to fulfill the order, updating the class fields with a list of the furniture and its overall price.
+     * Finds the cheapest combination of furniture needed to fulfill the order, updating the class fields with a
+     * list of the furniture and its overall price.
      *
      * @param furnList the list of furniture available to order.
-     * @return Boolean indicating if all necessary items are in stock to fulfill the order. Used to choose what to generate: an order form or a manufacturer recommendation.
+     * @return Boolean indicating if all necessary items are in stock to fulfill the order or not
      */
     public boolean calculateCheapestPrice(ArrayList<T> furnList) {
 	    furnList = getFurnitureOfType(furnList);
 	    if(furnList.isEmpty()){
-	        return false; //no valid items
+	        return false; //no valid items = no order
         }
 	    else {
+	        //if each furniture item only has 1 usable part, this is the max number of items in an order
             int maxNumOfItems = furnList.get(0).getValidParts().length * NUMOFITEMS;
+
+            //runs the combination recursive algorithm for each number of possible combinations
             for (int i = 1; i <= maxNumOfItems; i++) {
                 if (i <= furnList.size()) {
-                    calculateCheapestCombo(furnList, i);
+                    calculateCheapestCombo(furnList, i); //calls the combination function for each possible value r
                 }
             }
             return !(lowestPriceItems == null);
@@ -88,14 +79,32 @@ public class OptionCalculation <T extends Furniture> {
     }
 
     /**
+     * Takes a list of furniture and returns a list with only one type of furniture.
+     *
+     * @param furnList the list of a category of furniture.
+     * @return the list of one type of the input category of furniture
+     */
+    private ArrayList<T> getFurnitureOfType(ArrayList<T> furnList){
+        ArrayList<T> furnitureOfType = new ArrayList<>();
+        for(T furniture : furnList){
+            if(furniture.getType().equals(TYPE)){
+                furnitureOfType.add(furniture);
+            }
+        }
+        return furnitureOfType;
+    }
+
+    /**
      * Finds the cheapest combination of items needed to provide all the necessary components to fulfill the order.
+     * Calls a recursive function to accomplish this.
      *
      * @param furnitureList List of available furniture.
      * @param r the number of elements to pull from the furnitureList
      */
     private void calculateCheapestCombo(ArrayList<T> furnitureList, int r){
         ArrayList<T> currentCombo = new ArrayList<>();
-        for(int i = 0; i < r; i++){ //initializes currentCombo to r empty elements
+        //initializes currentCombo to r empty elements
+        for(int i = 0; i < r; i++){
             currentCombo.add(null);
         }
 
@@ -112,25 +121,29 @@ public class OptionCalculation <T extends Furniture> {
      * @param r
      */
     private void findCombinations_Recursion(ArrayList<T> furnList, ArrayList<T> currCombo, int currIndex, int level, int r){
-        if(level == r){
-            processCombination(currCombo);
+        if(level == r){ //exits the recursion when we are r levels deep
+            processCombination(currCombo); //processes the current combo
             return;
         }
-        for(int i = currIndex; i < furnList.size(); i++){
-            currCombo.set(level, furnList.get(i));
+        for(int i = currIndex; i < furnList.size(); i++){ //the recursive part of the function
+            currCombo.set(level, furnList.get(i)); //builds the current combo
             findCombinations_Recursion(furnList, currCombo, i+1, level+1, r);
         }
     }
 
     /**
+     * Processes a combination of furniture objects. Calculates the total price and counts the total number
+     * of valid parts across the combination. If there are enough parts to complete the order across the objects,
+     * it then checks for the lowest price.
      *
-     *
-     * @param combo
+     * @param combo The combination of furniture objects to be processed.
      */
     private void processCombination(ArrayList<T> combo){
         int[] numOfParts = new int[combo.get(0).getValidParts().length];
         int totalPrice = 0;
         ArrayList<T> lowestItems = new ArrayList<>();
+
+        //gathers total item price, total items, and total parts
         for(T item : combo){
             totalPrice += item.getPrice();
             lowestItems.add(item);
@@ -140,6 +153,9 @@ public class OptionCalculation <T extends Furniture> {
                 }
             }
         }
+
+        /*
+        //Testing stuff
         for(T item : combo){
             System.out.print(item.getId()+", ");
         }
@@ -148,7 +164,9 @@ public class OptionCalculation <T extends Furniture> {
             System.out.print(partNum);
         }
         System.out.println();
-        //checks to see if each item has all the parts for this combination
+        */
+
+        //checks to see if there are enough of each part for the order
         boolean hasAllParts = true;
         for(int numOfThisPart : numOfParts){
             if(numOfThisPart < NUMOFITEMS){
@@ -165,7 +183,7 @@ public class OptionCalculation <T extends Furniture> {
     }
 
     /**
-     * Stores the IDs of furniture items needed to fulfill the order in the member ArrayList.
+     * Returns the IDs of furniture items needed to fulfill the order.
      *
      * @param furnList Array of the appropriate furniture type, from which the IDs of the furniture will be fetched.
      */
@@ -182,7 +200,6 @@ public class OptionCalculation <T extends Furniture> {
      *
      * @return the list.
      */
-//getters
     public ArrayList<T> getLowestPriceItems() { return lowestPriceItems; }
 
     /**

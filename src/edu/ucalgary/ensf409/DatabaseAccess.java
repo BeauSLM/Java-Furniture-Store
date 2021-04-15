@@ -18,7 +18,7 @@ public class DatabaseAccess {
     private Connection dbConnect;
     private boolean isSuccessful;
 
-    //ArrayLists that store the Database info
+    //ArrayLists that store all the Database info
     private ArrayList<Manufacturer> manuList;
     private ArrayList<Chair> chairList;
     private ArrayList<Desk> deskList;
@@ -36,8 +36,8 @@ public class DatabaseAccess {
         this.USERNAME = username;
         this.PASSWORD = password;
         this.URL = url;
-        createConnection();
-        retrieveAll();
+        createConnection(); //creates a connection to the database when initialized
+        retrieveAll(); //then retrieves the data from the database to the object's arraylists
     }
 
     /**
@@ -53,7 +53,7 @@ public class DatabaseAccess {
     }
 
     /**
-     * Create connection to SQL database.
+     * Creates a connection to the SQL database.
      */
     public void createConnection() {
         try {
@@ -232,10 +232,10 @@ public class DatabaseAccess {
     }
 
     /**
-     * Delete item.
+     * Deletes an item from the SQL Database. Used to delete each ordered item.
      *
-     * @param category the category
-     * @param id   the id
+     * @param category the category of furniture
+     * @param id   the unique Id of the item to be deleted
      */
     public void deleteItem(String category, String id){
         String query = "DELETE FROM " + category + " WHERE ID = '" + id + "'";
@@ -343,43 +343,6 @@ public class DatabaseAccess {
      */
     public boolean getIsSuccessful() {
         return isSuccessful;
-    }
-
-    /**
-     * Gets username.
-     *
-     * @return the username
-     */
-    public String getUSERNAME() {
-        return USERNAME;
-    }
-
-    /**
-     * Gets password.
-     *
-     * @return the password
-     */
-    public String getPASSWORD() {
-        return PASSWORD;
-    }
-
-    /**
-     * Gets url.
-     *
-     * @return the url
-     */
-    public String getURL() {
-        return URL;
-    }
-
-
-    /**
-     * Sets successful.
-     *
-     * @param successful the successful
-     */
-    public void setSuccessful(boolean successful) {
-        isSuccessful = successful;
     }
 }
 
