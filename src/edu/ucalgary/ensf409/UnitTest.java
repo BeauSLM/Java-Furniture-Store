@@ -23,7 +23,7 @@ public class UnitTest {
     private static String PASSWORD = "ensf409";
 
     // RIGHT NOW THIS IS FOR BEAU'S MACHINE CHANGE INVENTORY TO LOWERCASE IF YOU NEED TO
-    private static String URL = "jdbc:mysql://localhost:3306/INVENTORY";
+    private static String URL = "jdbc:mysql://localhost:3306/inventory";
 
     /**
      * Instantiates a new Unit test.
@@ -428,5 +428,24 @@ public class UnitTest {
         OptionCalculation cheapestChair = new OptionCalculation("Mesh", 1);
         cheapestChair.calculateCheapestPrice(testDb.getChairList());
         assertEquals(cheapestChair.getTotalLowestPrice(), 200);
+    }
+
+    @Test //test with desk traditional, 1 item
+    public void testOptionCalculation_1DeskTraditional() {
+        OptionCalculation cheapestDesk = new OptionCalculation("Traditional", 1);
+        cheapestDesk.calculateCheapestPrice(testDb.getDeskList());
+        assertEquals(cheapestDesk.getTotalLowestPrice(), 100);
+    }
+
+    @Test //test with desk traditional, 1 item, check IDs this time.
+    public void testOptionCalculation_1DeskTraditionalCheckItems() {
+        StringBuilder testString = new StringBuilder("");
+        OptionCalculation cheapestDesk = new OptionCalculation("Traditional", 1);
+        cheapestDesk.calculateCheapestPrice(testDb.getDeskList());
+        for(int i = 0; i < cheapestDesk.getLowestPriceItems().size(); i++) {
+            testString.append(cheapestDesk.getLowestPriceIDs().get(i));
+        }
+
+        assertEquals(new String(testString), "D0890D8675");
     }
 }
