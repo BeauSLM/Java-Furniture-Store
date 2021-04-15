@@ -16,14 +16,14 @@ import java.sql.PreparedStatement;
  
 public class UnitTest {
 
-    private static DatabaseAccess testDb;
+    private DatabaseAccess testDb;
 
     //change these to fit your system before running tests
-    private static String username = "ensf409";
-    private static String password = "ensf409";
+    private static String USERNAME = "ensf409";
+    private static String PASSWORD = "ensf409";
 
     // RIGHT NOW THIS IS FOR BEAU'S MACHINE CHANGE INVENTORY TO LOWERCASE IF YOU NEED TO
-    private static String url = "jdbc:mysql://localhost:3306/INVENTORY";
+    private static String URL = "jdbc:mysql://localhost:3306/INVENTORY";
 
     /**
      * Instantiates a new Unit test.
@@ -34,15 +34,10 @@ public class UnitTest {
     //Pre-test setup
     //_____________________________________________________________________________
 
-    @BeforeClass
-    public static void DBSetup(){
-        //user input from command line maybe?
-        //
-        testDb = new DatabaseAccess(username, password, url);
-    }
-    @Before
+    @Before //resets the database before each connection
     public void resetDatabase() {
         try {
+            testDb = new DatabaseAccess(USERNAME, PASSWORD, URL);
             String query = "DROP DATABASE IF EXISTS INVENTORY;";
             PreparedStatement myStatement = testDb.getDbConnect().prepareStatement(query);
             myStatement.execute();
@@ -226,7 +221,7 @@ public class UnitTest {
             myStatement = testDb.getDbConnect().prepareStatement(query);
             myStatement.execute();
 
-        } catch (SQLException sqlException){
+        } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
     }
