@@ -277,7 +277,7 @@ public class UnitTest {
             myStmt.setString(4, drawers);
             myStmt.setString(5, cabinet);
             myStmt.setInt(6, price);
-            myStmt.setString(6, manuID);
+            myStmt.setString(7, manuID);
 
             myStmt.executeUpdate();
                 
