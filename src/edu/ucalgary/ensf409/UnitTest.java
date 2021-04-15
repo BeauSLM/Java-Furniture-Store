@@ -314,28 +314,6 @@ public class UnitTest {
             }
         }
         assertFalse("Chair was deleted as it was unable to be found.", foundItem);
-
-        // attempt to add the chair that was deleted back into database.
-        try {
-            String query = "INSERT INTO chair (id, type, legs, arms, seat, cushion, price, manuid) VALUES (?,?,?,?,?,?,?,?)";
-            PreparedStatement myStmt = testDb.getDbConnect().prepareStatement(query);
-                
-            myStmt.setString(1, id);
-            myStmt.setString(2, type);
-            myStmt.setString(3, legs);
-            myStmt.setString(4, arms);
-            myStmt.setString(5, seat);
-            myStmt.setString(6, cushion);
-            myStmt.setInt(7, price);
-            myStmt.setString(8, manuID);
-
-            myStmt.executeUpdate();
-                
-            myStmt.close();
-    
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
     }
 
     /**
@@ -362,27 +340,6 @@ public class UnitTest {
             }
         }
         assertFalse("Desk was deleted as it was unable to be found.", foundItem);
-
-        // attempt to add the chair that was deleted back into database.
-        try {
-            String query = "INSERT INTO desk (id, type, legs, top, drawer, price, manuid) VALUES (?,?,?,?,?,?,?)";
-            PreparedStatement myStmt = testDb.getDbConnect().prepareStatement(query);
-                
-            myStmt.setString(1, id);
-            myStmt.setString(2, type);
-            myStmt.setString(3, legs);
-            myStmt.setString(4, top);
-            myStmt.setString(5, drawer);
-            myStmt.setInt(6, price);
-            myStmt.setString(7, manuID);
-
-            myStmt.executeUpdate();
-                
-            myStmt.close();
-    
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
     }
 
     /**
@@ -408,26 +365,6 @@ public class UnitTest {
             }
         }
         assertFalse("Lamp was deleted as it was unable to be found.", foundItem);
-
-        // attempt to add the lamp that was deleted back into database.
-        try {
-            String query = "INSERT INTO lamp (id, type, base, bulb, price, manuid) VALUES (?,?,?,?,?,?)";
-            PreparedStatement myStmt = testDb.getDbConnect().prepareStatement(query);
-                
-            myStmt.setString(1, id);
-            myStmt.setString(2, type);
-            myStmt.setString(3, base);
-            myStmt.setString(4, bulb);
-            myStmt.setInt(5, price);
-            myStmt.setString(6, manuID);
-
-            myStmt.executeUpdate();
-                
-            myStmt.close();
-    
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
     }
 
     /**
@@ -454,27 +391,6 @@ public class UnitTest {
             }
         }
         assertFalse("Filing was deleted as it was unable to be found.", foundItem);
-
-        // attempt to add the filing that was deleted back into database.
-        try {
-            String query = "INSERT INTO filing (id, type, rails, drawers, cabinet, price, manuid) VALUES (?,?,?,?,?,?,?)";
-            PreparedStatement myStmt = testDb.getDbConnect().prepareStatement(query);
-                
-            myStmt.setString(1, id);
-            myStmt.setString(2, type);
-            myStmt.setString(3, rails);
-            myStmt.setString(4, drawers);
-            myStmt.setString(5, cabinet);
-            myStmt.setInt(6, price);
-            myStmt.setString(7, manuID);
-
-            myStmt.executeUpdate();
-                
-            myStmt.close();
-    
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
     }
 
     // OptionCalculation Tests
@@ -513,6 +429,4 @@ public class UnitTest {
         cheapestChair.calculateCheapestPrice(testDb.getChairList());
         assertEquals(cheapestChair.getTotalLowestPrice(), 200);
     }
-
-
 }
